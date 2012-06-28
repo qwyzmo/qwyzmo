@@ -2,8 +2,10 @@
 module ApplicationHelper
 
   def logo
-    #<% logo = image_tag("twin-galaxies.jpg", :alt => "Sample App", :class => "round", :width => "200") %>
-    return image_tag("twin-galaxies.jpg", :alt => "Qwyzmo", :class => "round", :width => "200")
+    #<% logo = image_tag("twin-galaxies.jpg", :alt => "Sample App", 
+    # =>        :class => "round", :width => "200") %>
+    return image_tag("twin-galaxies.jpg", :alt => "Qwyzmo", 
+                      :class => "round", :width => "200")
   end
   
   
