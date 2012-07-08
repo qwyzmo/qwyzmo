@@ -75,7 +75,7 @@ describe User do
       User.new(hash).should_not be_valid
     end
 
-  end
+  end # describe password validations
 
   describe "password encryption" do
 
@@ -103,7 +103,7 @@ describe User do
         @user.has_password?("invalid").should be_false
       end
     end
-  end
+  end # describe password encryption
   
   describe "authenticate method" do
     
@@ -121,9 +121,10 @@ describe User do
       matching_user = User.authenticate(@attr[:email], @attr[:password])
        matching_user.should == @user
      end
-      
-  end
-end
+  end # describe authenticate method
+end # describe user
+
+
 
 # == Schema Information
 #
