@@ -5,7 +5,7 @@
 }
 
 body {
-    background: #cfc;
+    background: #505;
 }
 
 header {
@@ -169,5 +169,18 @@ td.sidebar {
 	font-size: 12px;
 	list-style: square;
 }
+
+.debug_dump {
+  color: #fff
+}
+
+ul.users {
+  margin-top: 1em;
+}
+
+.users li {
+  list-style: none;
+}
+
 
 

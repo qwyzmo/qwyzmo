@@ -1,8 +1,10 @@
 
-    <h1>Qwyzmo</h1>
-    <p>
-      This is the home page for the Qwyzmo site. Powered by <a href="http://www.ubuntu.com">Ubuntu</a>
-    </p>
-    <%= link_to "Sign up now!", signup_path, :class => "signup_button round" %>
+<h1>Qwyzmo</h1>
+<p>
+	This is the home page for the Qwyzmo site. Powered by <a href="http://www.ubuntu.com">Ubuntu</a>
+</p>
+<% if !signed_in? %>
+	<%= link_to "Sign up now!", signup_path, :class => "signup_button round" %>
+<% end %>
 
 
