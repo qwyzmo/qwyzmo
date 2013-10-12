@@ -1,5 +1,9 @@
 
 <% if signed_in? %>
+  <span>You are signed in</span>
+  <% if current_user.admin? %>
+    <span>, as an admin</span>
+  <% end %>
 	<table class="front"	summary="For signed-in users">
 		<tr>
 			<td class="main">
@@ -15,7 +19,7 @@
 <% else %>
 	<h1>Qwyzmo</h1>
 	<p>
-		This is the home page for the Qwyzmo site. Powered by <a href="http://www.ubuntu.com">Ubuntu</a>
+		This is the home page for the Qwyzmo site.
 	</p>
 	<%= link_to "Sign up now!", signup_path, :class => "signup_button round" %>
 <% end %>
