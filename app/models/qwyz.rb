@@ -3,5 +3,5 @@ class Qwyz < ActiveRecord::Base
   
   belongs_to :user
   
-  # todo: add validations, like microposts
+  # todo: add validations, like microposts.
 end
