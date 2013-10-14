@@ -40,6 +40,10 @@ class User < ActiveRecord::Base
 		Micropost.where("user_id = ?", id)
 	end
 
+  # def get_qwyzs
+    # Qwyz.where("user_id = ?", id)
+  # end
+
 	private
 
 		def encrypt_password

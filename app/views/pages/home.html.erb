@@ -2,7 +2,7 @@
 <% if signed_in? %>
   <span>You are signed in</span>
   <% if current_user.admin? %>
-    <span>, as an admin</span>
+    <span>, as an admin.</span>
   <% end %>
 	<table class="front"	summary="For signed-in users">
 		<tr>
@@ -23,5 +23,3 @@
 	</p>
 	<%= link_to "Sign up now!", signup_path, :class => "signup_button round" %>
 <% end %>
-
-
