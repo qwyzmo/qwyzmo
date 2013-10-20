@@ -1,0 +1,20 @@
+
+<h1>Create a Qwyz</h1>
+<%= form_for(@qwyz) do |f| %>
+	<%= render 'shared/error_messages', :object => f.object %>
+	<div class="field">
+		<span>Name</span>
+		<%= f.text_area :name %>
+	</div>
+	<div class="field">
+		<span>Question</span>
+		<%= f.text_area :question %>
+	</div>
+	<div class="field">
+		<span>Description</span>
+		<%= f.text_area :description %>
+	</div>
+	<div class="actions">
+		<%= f.submit "Submit" %>
+	</div>
+<% end %>

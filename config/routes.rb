@@ -1,4 +1,4 @@
-SampleApp::Application.routes.draw do
+QwyzmoApp::Application.routes.draw do
 	#get "sessions/new"
 
 	#get "users/new"
@@ -7,6 +7,8 @@ SampleApp::Application.routes.draw do
 	resources :qwyzs
 	resources :sessions,			:only => [:new, :create, :destroy]
 	resources :microposts,		:only => [:create, :destroy]
+	
+	match '/addqwyz',		:to => 'qwyzs#add', :as => 'add_qwyz'
 	
 	match '/signup',		:to => 'users#new'
 	match '/signin',		:to => 'sessions#new'

@@ -11,6 +11,13 @@ class QwyzsController < ApplicationController
 		end
 	end
 
+	def add
+		@title = "Create a New Qwyz"
+		if signed_in?
+			@qwyz = Qwyz.new
+		end
+	end
+
 	def index
 		@title = "My Qwyzs"
 		@qwyzs = current_user.qwyzs.paginate(:page => params[:page])
