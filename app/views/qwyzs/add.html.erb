@@ -2,16 +2,16 @@
 <h1>Create a Qwyz</h1>
 <%= form_for(@qwyz) do |f| %>
 	<%= render 'shared/error_messages', :object => f.object %>
-	<div class="field">
-		<span>Name</span>
+	<span>Name</span>
+	<div id="qwyz_name">
 		<%= f.text_area :name %>
 	</div>
-	<div class="field">
-		<span>Question</span>
+	<span>Question</span>
+	<div id="qwyz_question">
 		<%= f.text_area :question %>
 	</div>
-	<div class="field">
-		<span>Description</span>
+	<span>Description</span>
+	<div id="qwyz_description">
 		<%= f.text_area :description %>
 	</div>
 	<div class="actions">

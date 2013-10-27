@@ -171,7 +171,7 @@ td.sidebar {
 }
 
 .debug_dump {
-  color: #fff
+  color: #aaf
 }
 
 ul.users {
@@ -233,11 +233,24 @@ form.new_micropost {
 }
 
 form.new_micropost textarea {
-  height: 4em;
+  height: 8em;
   margin-bottom: 0;
 }
 
+#qwyz_name textarea{
+  height: 2em;
+  width: 90%;
+}
 
+#qwyz_question textarea{
+  height: 6em;
+  width: 90%;
+}
+
+#qwyz_description textarea{
+  height: 8em;
+  width: 90%;
+}
 
 
 
