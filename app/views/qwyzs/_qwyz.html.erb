@@ -1,3 +1,5 @@
 <li>
-	<%= qwyz.name %>
+	<%= qwyz.name %>, 
+	<%= link_to "delete", qwyz, :method => :delete, :confirm => "You sure?", 
+			:name => qwyz.name %>
 </li>

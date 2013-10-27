@@ -16,3 +16,10 @@ Factory.define :micropost do |micropost|
 	micropost.content "test micropost content"
 	micropost.association :user
 end
+
+Factory.define :qwyz do |qwyz|
+	qwyz.name "test name"
+	qwyz.question "test question"
+	qwyz.description "test description"
+	qwyz.association :user
+end
