@@ -1,5 +1,6 @@
 <li>
 	<%= qwyz.name %>, 
+	<%= link_to "edit", edit_qwyz_path(qwyz) %>,
 	<%= link_to "delete", qwyz, :method => :delete, :confirm => "You sure?", 
 			:name => qwyz.name %>
 </li>

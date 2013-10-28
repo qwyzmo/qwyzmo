@@ -1,16 +1,29 @@
 class QwyzsController < ApplicationController
 	before_filter :authenticate
-  before_filter :correct_user,   only: :destroy
+  before_filter :correct_user,   only: [:destroy, :edit, :update]
 
 	def create
 		@qwyz = current_user.qwyzs.build(params[:qwyz])
 		if @qwyz.save
-			#flash[:success] = "Qwyz created!"
 			redirect_to qwyzs_path
 		else
-			#flash[:error] = "Missing Fields"
-			#flash.discard
 			render action: "add"
+		end
+	end
+
+	def edit
+		@title = "Edit Qwyz"
+		@qwyz = Qwyz.find(params[:id])
+	end
+	
+	def update
+		@qwyz = Qwyz.find(params[:id])
+		if @qwyz.update_attributes(params[:qwyz])
+			flash[:success] = "Qwyz updated."
+			redirect_to qwyzs_path
+		else
+			@title = "Edit Qwyz"
+			render 'edit'
 		end
 	end
 
