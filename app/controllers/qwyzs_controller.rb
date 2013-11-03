@@ -1,19 +1,22 @@
 class QwyzsController < ApplicationController
 	before_filter :authenticate
-  before_filter :correct_user,   only: [:destroy, :edit, :update]
+  before_filter :correct_user,   :only => [:destroy, :edit, :update]
 
 	def create
 		@qwyz = current_user.qwyzs.build(params[:qwyz])
 		if @qwyz.save
 			redirect_to qwyzs_path
 		else
-			render action: "add"
+			render :action => "add"
 		end
 	end
 
 	def edit
 		@title = "Edit Qwyz"
 		@qwyz = Qwyz.find(params[:id])
+		if @qwyz.nil?
+			render "qwyzs/index"
+		end
 	end
 	
 	def update

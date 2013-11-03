@@ -102,13 +102,15 @@ describe QwyzsController do
 		describe "for incorrect user" do
 			before(:each) do
 				@user = Factory(:user)
-				wrong_user = Factory(:user, :email => Factory.next(:email))
+				wrong_user = Factory(:user, email: Factory.next(:email))
 				test_sign_in(wrong_user)
 				@qwyz = Factory(:qwyz, :user => @user)
 			end
 			
 			it "should deny access, and redirect to qwyzs page" do
-				delete :destroy, :id => @qwyz
+				lambda do
+					delete :destroy, :id => @qwyz
+				end.should change(Qwyz, :count).by(0)
 				response.should redirect_to(qwyzs_path)
 			end
 		end
@@ -127,6 +129,62 @@ describe QwyzsController do
 			end
 		end
 	end
+	
+	describe "edit" do
+		
+		it "is successful" do
+			user = test_sign_in(Factory(:user))
+			qwyz = Factory(:qwyz, :user => user)
+			get :edit, id: qwyz
+			response.should be_success
+			response.should render_template('qwyzs/edit')
+		end
+
+		it "fails on wrong user" do
+			user = Factory(:user)
+			wrong_user = Factory(:user, email: Factory.next(:email))
+			test_sign_in(wrong_user)
+			qwyz = Factory(:qwyz, user: user)
+			get :edit, id: qwyz
+			response.should_not be_success
+			response.should redirect_to(qwyzs_url)
+		end
+	end
+
+	describe "update" do
+		before(:each) do
+			@qwyz_attr = { name: "new name", question: "new question",
+										 description: "new description"}
+		end
+		
+		it "success with correct user" do
+			user = test_sign_in(Factory(:user))
+			qwyz = Factory(:qwyz, user: user)
+			put :update, id: qwyz, qwyz: @qwyz_attr
+			qwyz.reload
+			qwyz.name.should 				== @qwyz_attr[:name]
+			qwyz.question.should 		== @qwyz_attr[:question]
+			qwyz.description.should	== @qwyz_attr[:description]
+			response.should redirect_to(qwyzs_path)
+			flash[:success].should =~ /updated/
+		end
+		
+		it "fails on wrong user" do
+			user = Factory(:user)
+			wrong_user = Factory(:user, email: Factory.next(:email))
+			test_sign_in(wrong_user)
+			qwyz = Factory(:qwyz, user: user)
+			put :update, id: qwyz, qwyz: @qwyz_attr
+			qwyz.reload
+			qwyz.name.should_not 				== @qwyz_attr[:name]
+			qwyz.question.should_not 		== @qwyz_attr[:question]
+			qwyz.description.should_not	== @qwyz_attr[:description]
+			response.should redirect_to(qwyzs_path)
+		end
+	end
 end
+
+
+
 
 
