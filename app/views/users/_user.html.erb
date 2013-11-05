@@ -1,7 +1,22 @@
-<li>
-	<%= gravatar_for user, :size => 30 %>
+<li class="user_row">
+	<%= gravatar_for user, size: 30 %>
 	<%= link_to user.name, user %>
-	<% if current_user.admin? && !current_user?(user) %>
-	| <%= link_to "delete", user, :method => :delete, :confirm => "You sure?", :title => "Delete #{user.name}" %>
+	<% if current_user.admin? && !current_user?(user) && !user.admin? %>
+		<%if user.deactivated? 
+				status = User::STATUS[:activated]
+				action_name = "Activate"
+				button_class = "activate_button"
+			else
+				status = User::STATUS[:deactivated]
+				action_name = "Deactivate"
+				button_class = "deactivate_button"
+			end
+		%>
+		<%= form_for(user) do |f| %>
+				<%= f.hidden_field :status, value: status %>
+				<div class="<%=button_class%>">
+					<%= f.submit action_name %>
+				</div>
+		<% end %>
 	<% end %>
 </li>

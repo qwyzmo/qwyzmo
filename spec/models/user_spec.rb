@@ -52,6 +52,13 @@ describe User do
 		user_with_duplicate_email = User.new(@attr)
 		user_with_duplicate_email.should_not be_valid
 	end
+	
+	it "rejects names identical up to case" do
+		upcased_name = @attr[:name].upcase
+		User.create!(@attr.merge(name: upcased_name, email: "u2@ex.com"))
+		user_with_duplicate_name = User.new(@attr)
+		user_with_duplicate_name.should_not be_valid
+	end
 
 	describe "password validations" do
 

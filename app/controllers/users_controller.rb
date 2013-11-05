@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-	before_filter :authenticate,		:only => [:index, :edit, :update, :destroy]
-	before_filter :correct_user,		:only => [:edit, :update]
-	before_filter :admin_user,			:only => :destroy
+	before_filter :authenticate,							only: [:index, :edit, :update]
+	before_filter :correct_user,							only: [:edit]
+	before_filter :admin_or_correct_user,	only: :update
 
 	def index
 		@title = "All users"
@@ -48,8 +48,15 @@ class UsersController < ApplicationController
 	end
 
 	def update
+		puts "-=-=-=-=-=->>> users controller update called, params user = #{params[:user].inspect}"
 		@user = User.find(params[:id])
-		if @user.update_attributes(params[:user])
+		puts "=======> @user = #{@user.inspect}"
+		if params[:user][:status] != @user.status
+			@user.status = params[:user][:status].to_i
+			result = @user.save(false)
+			puts "|||||||||||||||||||||||>> saving status, result = #{result}, @user = #{@user.inspect}"
+			redirect_to users_path
+		elsif @user.update_attributes(params[:user])
 			flash[:success] = "Profile updated."
 			redirect_to @user
 		else
@@ -57,18 +64,18 @@ class UsersController < ApplicationController
 			render 'edit'
 		end
 	end
-
-	def destroy 
-		user = User.find(params[:id])
-		if current_user? user
-			flash[:info] = "You cannot destroy the current user."
-			redirect_to users_path
-		else
-			user.destroy
-			flash[:success] = "User destroyed."
-			redirect_to users_path
-		end
-	end
+	
+	# def destroy 
+		# user = User.find(params[:id])
+		# if current_user? user
+			# flash[:info] = "You cannot destroy the current user."
+			# redirect_to users_path
+		# else
+			# user.destroy
+			# flash[:success] = "User destroyed."
+			# redirect_to users_path
+		# end
+	# end
 	
 	private
 	
@@ -79,6 +86,11 @@ class UsersController < ApplicationController
 		
 		def admin_user
 			redirect_to(root_path) unless current_user.admin?
+		end
+		
+		def admin_or_correct_user
+			@user = User.find(params[:id])
+			redirect_to(root_path) unless (current_user?(@user) || current_user.admin?)
 		end
 end
 

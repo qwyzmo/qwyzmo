@@ -2,21 +2,29 @@ class User < ActiveRecord::Base
 	attr_accessor :password
 	attr_accessible :name, :email, :password, :password_confirmation
 
+	STATUS = {
+		activated: 101,
+		deactivated: 100,
+	}
+
+
+	# todo: remove microposts
 	has_many :microposts, :dependent => :destroy
 	has_many :qwyzs
 
 	email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
-	validates :name, :presence => true,
-						:length	 => { :maximum => 50 }
-	validates :email, :presence => true,
-						:format	 => { :with => email_regex },
-						:uniqueness => { :case_sensitive => false }
+	validates :name,		presence: 	true,
+											length: 		{ maximum: 50 },
+											uniqueness: { case_sensitive: false}
+	validates :email, 	presence: 	true,
+											format: 		{ with: email_regex },
+											uniqueness: { case_sensitive: false }
 
 	# Automatically create the virtual attribute password_confirmation.
-	validates :password, :presence	=> true,
-						:confirmation					=> true,
-						:length									=> { :within => 6..40 }
+	validates :password, presence: 			true,
+												confirmation:		true,
+												length:					{ within: 6..40 }
 
 	before_save :encrypt_password
 	# Return true if the user's password matches the submitted password.
@@ -28,6 +36,9 @@ class User < ActiveRecord::Base
 	def self.authenticate email, submitted_password
 		user = find_by_email email
 		return nil if user.nil?
+		puts "---> user not nil"
+		return nil if user.deactivated?
+		puts "--> user not deactivated"
 		return user if user.has_password? submitted_password
 	end
 
@@ -40,6 +51,10 @@ class User < ActiveRecord::Base
 		Micropost.where("user_id = ?", id)
 	end
 
+	def deactivated?
+		self.status == STATUS[:deactivated]
+	end
+	
 	# def get_qwyzs
 		# Qwyz.where("user_id = ?", id)
 	# end

@@ -180,6 +180,20 @@ ul.users {
 
 .users li {
   list-style: none;
+  border-bottom: 1px solid gray;
+}
+
+li.user_row form {
+  float: right;
+  display: inline-block;
+}
+
+.activate_button {
+  background: red;
+}
+
+.deactivate_button {
+  background: green;
 }
 
 h1.micropost {
