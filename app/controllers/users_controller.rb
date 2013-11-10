@@ -48,13 +48,8 @@ class UsersController < ApplicationController
 	end
 
 	def update
-		puts "-=-=-=-=-=->>> users controller update called, params user = #{params[:user].inspect}"
 		@user = User.find(params[:id])
-		puts "=======> @user = #{@user.inspect}"
-		if params[:user][:status] != @user.status
-			@user.status = params[:user][:status].to_i
-			result = @user.save(false)
-			puts "|||||||||||||||||||||||>> saving status, result = #{result}, @user = #{@user.inspect}"
+		if @user.update_status(params[:user][:status].to_i)
 			redirect_to users_path
 		elsif @user.update_attributes(params[:user])
 			flash[:success] = "Profile updated."

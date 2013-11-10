@@ -5,8 +5,9 @@ class SessionsController < ApplicationController
 
 	def create
 		user = User.authenticate(params[:session][:email],params[:session][:password])
-		if user.nil?
-			flash.now[:error] = "Invalid email/password combination."
+		if user.nil? || user.deactivated?
+			flash.now[:error] = user.nil? ? "Invalid email/password combination." 
+				: "Your account has been deactivated."
 			@title = "Sign in"
 			render 'new'
 		else

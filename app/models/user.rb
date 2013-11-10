@@ -36,9 +36,6 @@ class User < ActiveRecord::Base
 	def self.authenticate email, submitted_password
 		user = find_by_email email
 		return nil if user.nil?
-		puts "---> user not nil"
-		return nil if user.deactivated?
-		puts "--> user not deactivated"
 		return user if user.has_password? submitted_password
 	end
 
@@ -55,6 +52,20 @@ class User < ActiveRecord::Base
 		self.status == STATUS[:deactivated]
 	end
 	
+	# return true if the status was changed
+	def update_status new_status
+		puts "----> update_status, new status = #{new_status}, self status = #{self.status}"
+		if new_status != self.status
+			@skip_encrypt = true
+			self.status = new_status
+			result = self.save false
+			puts "===> result=#{result}, user = #{self.inspect}"
+			return true
+		else
+			return false
+		end
+	end
+	
 	# def get_qwyzs
 		# Qwyz.where("user_id = ?", id)
 	# end
@@ -62,8 +73,10 @@ class User < ActiveRecord::Base
 	private
 
 		def encrypt_password
-			self.salt = make_salt if new_record?
-			self.encrypted_password = encrypt(@password)
+			if !@skip_encrypt
+				self.salt = make_salt if new_record?
+				self.encrypted_password = encrypt(@password)
+			end
 		end
 	
 		def encrypt(string)
