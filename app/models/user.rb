@@ -61,10 +61,6 @@ class User < ActiveRecord::Base
 		result = self.save(validate: false)
 		@skip_encrypt = false
 	end
-	
-	# def get_qwyzs
-		# Qwyz.where("user_id = ?", id)
-	# end
 
 	private
 
@@ -86,7 +82,6 @@ class User < ActiveRecord::Base
 		def secure_hash(string)
 			Digest::SHA2.hexdigest(string)
 		end
-
 end
 
 # == Schema Information

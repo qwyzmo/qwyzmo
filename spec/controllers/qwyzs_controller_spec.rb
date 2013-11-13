@@ -102,7 +102,8 @@ describe QwyzsController do
 		describe "for incorrect user" do
 			before(:each) do
 				@user = Factory(:user)
-				wrong_user = Factory(:user, email: Factory.next(:email))
+				wrong_user = Factory(:user, name: Factory.next(:name), 
+						email: Factory.next(:email))
 				test_sign_in(wrong_user)
 				@qwyz = Factory(:qwyz, :user => @user)
 			end
@@ -142,7 +143,8 @@ describe QwyzsController do
 
 		it "fails on wrong user" do
 			user = Factory(:user)
-			wrong_user = Factory(:user, email: Factory.next(:email))
+			wrong_user = Factory(:user, name: Factory.next(:name), 
+					email: Factory.next(:email))
 			test_sign_in(wrong_user)
 			qwyz = Factory(:qwyz, user: user)
 			get :edit, id: qwyz
@@ -171,7 +173,8 @@ describe QwyzsController do
 		
 		it "fails on wrong user" do
 			user = Factory(:user)
-			wrong_user = Factory(:user, email: Factory.next(:email))
+			wrong_user = Factory(:user, name: Factory.next(:name), 
+					email: Factory.next(:email))
 			test_sign_in(wrong_user)
 			qwyz = Factory(:qwyz, user: user)
 			put :update, id: qwyz, qwyz: @qwyz_attr

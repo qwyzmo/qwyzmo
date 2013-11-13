@@ -15,11 +15,12 @@ describe UsersController do
 		describe "for signed-in users" do
 			before(:each) do
 				@user 	= test_sign_in(Factory(:user))
-				second 	= Factory(:user, :email => "another@example.com")
-				third 	= Factory(:user, :email => "another@example.net")
+				second 	= Factory(:user, name: "t1", email: "another@example.com")
+				third 	= Factory(:user, name: "t2", email: "another@example.net")
 				@users = [@user, second, third]
 				30.times do
-					@users << Factory(:user, :email => Factory.next(:email))
+					@users << Factory(:user, name: Factory.next(:name), 
+							email: Factory.next(:email))
 				end
 			end
 			
@@ -30,22 +31,22 @@ describe UsersController do
 			
 			it "should have the right title" do
 				get :index
-				response.should have_selector("title", :content => "All users")
+				response.should have_selector("title", content: "All users")
 			end
 			
 			it "should have an element for each user" do
 				get :index
 				@users[0..2].each do |user|
-					response.should have_selector("li", :content => user.name)
+					response.should have_selector("li", content: user.name)
 				end
 			end
 			
 			it "should paginate users" do
 				get :index
 				response.should have_selector("div.pagination")
-				response.should have_selector("span.disabled", :content => "Previous")
-				response.should have_selector("a", :href => "/users?page=2", :content => "2")
-				response.should have_selector("a", :href => "/users?page=2", :content => "Next")
+				response.should have_selector("span.disabled", content: "Previous")
+				response.should have_selector("a", href: "/users?page=2", content: "2")
+				response.should have_selector("a", href: "/users?page=2", content: "Next")
 			end
 		end # describe for signed in users
 	end # describe get index
@@ -223,7 +224,7 @@ describe UsersController do
 					target_user = Factory(:user, name: "test823", email: "test823@example.net")
 					admin_user.admin = true
 					put :update, id: target_user, 
-						user: {status: "100"}
+						user: {status: User::STATUS[:deactivated].to_s}
 					response.should redirect_to(users_path)
 				end
 			end
@@ -233,18 +234,11 @@ describe UsersController do
 					admin_user = @user
 					target_user = Factory(:user, name: "test823", email: "test823@example.net")
 					put :update, id: target_user, 
-						user: {status: User::STATUS[:deactivate].to_s}
+						user: {status: User::STATUS[:deactivated].to_s}
 					response.should redirect_to(root_path)
 				end
 			end
-			
-			it "redirects to users page" do
-				put :update, id: @user, user: {status: User::STATUS[:deactivate].to_s}
-				response.should redirect_to(users_path)
-			end
-			
 		end
-		
 		
 		describe "failure" do
 			before(:each) do
@@ -294,67 +288,21 @@ describe UsersController do
 		
 		describe "for non-signed-in users" do
 			before(:each) do
-				wrong_user = Factory(:user, :email => "user@example.net")
+				wrong_user = Factory(:user, name: "foo234", email: "user@example.net")
 				test_sign_in(wrong_user)
 			end
 			
 			it "should deny access to 'edit'" do
-				get :edit, :id => @user
+				get :edit, id: @user
 				response.should redirect_to(root_path)
 			end
 			
 			it "should deny access to 'update'" do
-				put :update, :id => @user, :user => {}
+				put :update, id: @user, :user => {}
 				response.should redirect_to(root_path)
 			end
 		end
 	end # describe authentication of edit/update pages
-
-	describe "delete destroy" do
-		before(:each) do
-			@user = Factory(:user)
-		end
-		
-		describe "as a non signed in user" do
-			it "should deny access" do
-				delete :destroy, :id => @user
-				response.should redirect_to(signin_path)
-			end
-		end
-
-		describe "as a non admin in user" do
-			it "should protect the page" do
-				test_sign_in(@user)
-				delete :destroy, :id => @user
-				response.should redirect_to(root_path)
-			end
-		end
-
-		describe "as an admin user" do
-			before(:each) do
-				@admin = Factory(:user, :email => "admin@example.com", :admin => true)
-				test_sign_in(@admin)
-			end
-
-			it "should destroy the user if user is not the one signed in" do
-				lambda do
-					# since the admin is the one signed in, this should work.
-					delete :destroy, :id => @user
-				end.should change(User, :count).by(-1)
-			end
-
-			it "should not destroy the user if user is the one signed in"	do
-				lambda do
-					delete :destroy, :id => @admin
-				end.should change(User, :count).by(0)
-			end
-
-			it "should redirect to the users page" do
-				delete :destroy, :id => @user
-				response.should redirect_to(users_path)
-			end
-		end # describbe as an admin user
-	end # describe delete destroy
 end # describe user controller
 
 
