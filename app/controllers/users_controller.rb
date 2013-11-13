@@ -49,8 +49,8 @@ class UsersController < ApplicationController
 
 	def update
 		@user = User.find(params[:id])
-		if @user.update_status(params[:user][:status].to_i)
-			redirect_to users_path
+		if update_status( @user, params[:user][:status] )
+			return
 		elsif @user.update_attributes(params[:user])
 			flash[:success] = "Profile updated."
 			redirect_to @user
@@ -60,19 +60,25 @@ class UsersController < ApplicationController
 		end
 	end
 	
-	# def destroy 
-		# user = User.find(params[:id])
-		# if current_user? user
-			# flash[:info] = "You cannot destroy the current user."
-			# redirect_to users_path
-		# else
-			# user.destroy
-			# flash[:success] = "User destroyed."
-			# redirect_to users_path
-		# end
-	# end
+	# check if status should be updated, if so update and redirect
+	# and return true else return false.
+	def update_status user, new_status
+		# first check if status is being changed at all
+		if new_status.nil? || new_status.to_i == user.status
+			return false
+		end
+		if !current_user.admin?
+			flash[:error] = "Only admins may change a user's status"
+			redirect_to root_path
+		else 
+			user.update_status(new_status.to_i)
+			redirect_to users_path
+		end
+		return true
+	end
 	
 	private
+	
 	
 		def correct_user
 			@user = User.find(params[:id])

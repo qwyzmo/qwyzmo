@@ -215,19 +215,50 @@ describe UsersController do
 			test_sign_in @user
 		end
 		
+		describe "#update_status" do
+			
+			describe "as admin" do
+				it "should change status and redirect to users page" do
+					admin_user = @user
+					target_user = Factory(:user, name: "test823", email: "test823@example.net")
+					admin_user.admin = true
+					put :update, id: target_user, 
+						user: {status: "100"}
+					response.should redirect_to(users_path)
+				end
+			end
+			
+			describe "as non admin" do
+				it "should not change status and redirect to users page, and flash error" do
+					admin_user = @user
+					target_user = Factory(:user, name: "test823", email: "test823@example.net")
+					put :update, id: target_user, 
+						user: {status: User::STATUS[:deactivate].to_s}
+					response.should redirect_to(root_path)
+				end
+			end
+			
+			it "redirects to users page" do
+				put :update, id: @user, user: {status: User::STATUS[:deactivate].to_s}
+				response.should redirect_to(users_path)
+			end
+			
+		end
+		
+		
 		describe "failure" do
 			before(:each) do
-				@attr = { :email => "", :name => "", :password => "", :password_confirmation => "" }
+				@attr = {email: "", name: "", password: "", password_confirmation: "" }
 			end
 			
 			it "should render the 'edit' page" do
-				put :update, :id => @user, :user => @attr
+				put :update, id: @user, user: @attr
 				response.should render_template('edit')
 			end
 			
 			it "should have the right title" do
-				put :update, :id => @user, :user => @attr
-				response.should have_selector("title", :content => "Edit user")
+				put :update, id: @user, user: @attr
+				response.should have_selector("title", content: "Edit user")
 			end
 		end # describe failure
 		

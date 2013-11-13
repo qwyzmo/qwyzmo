@@ -52,18 +52,14 @@ class User < ActiveRecord::Base
 		self.status == STATUS[:deactivated]
 	end
 	
-	# return true if the status was changed
+	# for status change, need to disable the password encryption,
+	# this is because admins will change status and not be entering
+	# the given users password.
 	def update_status new_status
-		puts "----> update_status, new status = #{new_status}, self status = #{self.status}"
-		if new_status != self.status
-			@skip_encrypt = true
-			self.status = new_status
-			result = self.save false
-			puts "===> result=#{result}, user = #{self.inspect}"
-			return true
-		else
-			return false
-		end
+		@skip_encrypt = true
+		self.status = new_status
+		result = self.save(validate: false)
+		@skip_encrypt = false
 	end
 	
 	# def get_qwyzs

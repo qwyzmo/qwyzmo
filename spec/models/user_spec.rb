@@ -94,8 +94,6 @@ describe User do
 		end
 
 		it "should set the encrypted password" do
-		#puts ""
-		#puts "---------- encrypted_password = #{@user.encrypted_password}."
 			@user.encrypted_password.should_not be_blank
 		end
 
@@ -147,6 +145,45 @@ describe User do
 			@user.should be_admin
 		end
 	end # describe admin attribute
+	
+	describe "#deactivated" do
+		before(:each) do
+			@user = User.create!(@attr)
+		end
+
+		it "is deactivated if status is deactivated" do
+			@user.status = User::STATUS[:deactivated]
+			@user.deactivated?.should == true
+		end
+		
+		it "defaults to not deactivated" do
+			@user.deactivated?.should == false
+		end
+	end
+	
+	describe "#update_status" do
+		before(:each) do
+			@user = User.create!(@attr)
+		end
+		
+		it "updates status if status is changed" do
+			result = @user.update_status User::STATUS[:deactivated]
+			@user.deactivated?.should == true
+		end
+		
+		it "leaves status active" do
+			result = @user.update_status nil
+			@user.deactivated?.should == false
+		end
+		
+		it "skips encrypting password, leaving password and salt unchanged" do
+			old_password = @user.password
+			old_salt = @user.salt
+			result = @user.update_status User::STATUS[:deactivated]
+			@user.salt.should == old_salt
+			@user.password.should == old_password
+		end
+	end
 	
 	describe "micropost associations" do
 		before(:each) do
