@@ -9,7 +9,10 @@ describe "friendly forwardings" do
 		fill_in :password,		:with => user.password
 		click_button
 		# the test follows the redirect again, this time to users/edit.
-		response.should render_template('users/edit')
+#		response.should render_template('edit')
+		sleep 3
+		response.should have_selector("title", :content => "Edit Account Info")
+#		expect(page).to have_title('Edit user')
 	end
 end
 

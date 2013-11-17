@@ -181,6 +181,7 @@ ul.users {
 .users li {
   list-style: none;
   border-bottom: 1px solid gray;
+  height: 30px;
 }
 
 li.user_row form {

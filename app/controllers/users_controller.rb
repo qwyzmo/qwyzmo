@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-	before_filter :authenticate,							only: [:index, :edit, :update]
-	before_filter :correct_user,							only: [:edit]
-	before_filter :admin_or_correct_user,	only: :update
+	before_filter :authenticate,		only: [:index, :edit, :update, :change_status]
+	before_filter :correct_user,		only: [:edit, :update]
+	before_filter :admin_user,			only: :change_status
 
 	def index
 		@title = "All users"
@@ -12,6 +12,16 @@ class UsersController < ApplicationController
 		@user = User.find(params[:id])
 		@microposts = @user.microposts.paginate(:page => params[:page])
 		@title = @user.name
+	end
+	
+	def change_password
+		puts ")_)_)_)_)>> change password called. params=#{params.inspect}"
+		# if two new passwords dont match, redirect to change passwords page with error.
+		if params[:new_password] != params[:new_password_confirm]
+			flash[:error] = "New password and confirmation must match"
+			redirect change_password_path
+			return
+		end
 	end
 
 	def new
@@ -30,7 +40,7 @@ class UsersController < ApplicationController
 			redirect_to root_path
 		else
 			@user = User.new(params[:user])
-			if @user.save
+			if @user.save_new
 				sign_in @user
 				flash[:success] = "Welcome to Qwyzmo!"
 				redirect_to @user
@@ -44,14 +54,12 @@ class UsersController < ApplicationController
 	end
 
 	def edit
-		@title= "Edit user"
+		@title= "Edit Account Info"
 	end
 
 	def update
 		@user = User.find(params[:id])
-		if update_status( @user, params[:user][:status] )
-			return
-		elsif @user.update_attributes(params[:user])
+		if @user.update_attributes(params[:user])
 			flash[:success] = "Profile updated."
 			redirect_to @user
 		else
@@ -59,23 +67,27 @@ class UsersController < ApplicationController
 			render 'edit'
 		end
 	end
-	
+
+	def change_status
+		@user = User.find(params[:user][:id])
+		@user.update_status(params[:user][:status].to_i)
+		redirect_to users_path
+	end
+
 	# check if status should be updated, if so update and redirect
 	# and return true else return false.
-	def update_status user, new_status
-		# first check if status is being changed at all
-		if new_status.nil? || new_status.to_i == user.status
-			return false
-		end
-		if !current_user.admin?
-			flash[:error] = "Only admins may change a user's status"
-			redirect_to root_path
-		else 
-			user.update_status(new_status.to_i)
-			redirect_to users_path
-		end
-		return true
-	end
+	# def update_status user, new_status
+		# # first check if status is being changed at all
+		# if new_status.nil? || new_status.to_i == user.status
+			# return false
+		# end
+		# if !current_user.admin?
+			# flash[:error] = "Only admins may change a user's status"
+			# redirect_to root_path
+		# else 
+		# end
+		# return true
+	# end
 	
 	private
 	
@@ -86,11 +98,6 @@ class UsersController < ApplicationController
 		
 		def admin_user
 			redirect_to(root_path) unless current_user.admin?
-		end
-		
-		def admin_or_correct_user
-			@user = User.find(params[:id])
-			redirect_to(root_path) unless (current_user?(@user) || current_user.admin?)
 		end
 end
 

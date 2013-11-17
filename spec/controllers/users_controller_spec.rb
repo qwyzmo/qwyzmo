@@ -75,11 +75,6 @@ describe UsersController do
 			get :show, :id => @user
 			response.should have_selector('h1', :content => @user.name)
 		end
-
-		it 'should have a profile image' do
-			get :show, :id => @user
-			response.should have_selector("h1>img", :class => "gravatar")
-		end
 		
 		it "should show the users microposts" do
 			mp1 = Factory(:micropost, :user => @user, :content => "test2342 content")
@@ -201,12 +196,6 @@ describe UsersController do
 		it "should have the right title" do
 			get :edit, :id => @user
 			response.should have_selector("title", :content => "Edit user")
-		end
-
-		it "should have a link to change the gravatar" do
-			get :edit, :id => @user
-			gravatar_url = "http://gravatar.com/emails"
-			response.should have_selector("a", :href => gravatar_url, :content => "change")
 		end
 	end # describe get edit
 
