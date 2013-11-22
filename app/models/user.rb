@@ -1,24 +1,19 @@
 class User < ActiveRecord::Base
 	attr_accessor :password
-	attr_accessible :name, :email, :password, :password_confirmation
-
-	STATUS = {
-		activated: 101,
-		deactivated: 100,
-	}
-
+	attr_accessible :name, :email, :password, 
+			:password_confirmation, :status
 
 	# todo: remove microposts
 	has_many :microposts, :dependent => :destroy
 	has_many :qwyzs
 
-	email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+	EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
 	validates :name,		presence: 	true,
-											length: 		{ maximum: 50 },
+											length: 		{ within: 1..50 },
 											uniqueness: { case_sensitive: false}
 	validates :email, 	presence: 	true,
-											format: 		{ with: email_regex },
+											format: 		{ with: EMAIL_REGEX },
 											uniqueness: { case_sensitive: false }
 
 	# Automatically create the virtual attribute password_confirmation.
@@ -26,9 +21,10 @@ class User < ActiveRecord::Base
 												confirmation:		true,
 												length:					{ within: 6..40 }
 
-
-	# before_save :encrypt_password
-
+	STATUS = {
+		deactivated: 100,
+		activated: 101,
+	}
 
 	# Return true if the user's password matches the submitted password.
 	def has_password?(submitted_password)
@@ -55,17 +51,7 @@ class User < ActiveRecord::Base
 		self.status == STATUS[:deactivated]
 	end
 	
-	# for status change, need to disable the password encryption,
-	# this is because admins will change status and not be entering
-	# the given users password.
-	def update_status new_status
-		@skip_encrypt = true
-		self.status = new_status
-		result = self.save(validate: false)
-		@skip_encrypt = false
-	end
-	
-	def save_new
+	def encrypt_save
 		encrypt_password
 		self.save
 	end
@@ -73,11 +59,8 @@ class User < ActiveRecord::Base
 	private
 
 		def encrypt_password
-			# puts "+++++++>> encrypt password called. self = #{self.inspect}"
-			if !@skip_encrypt
-				self.salt = make_salt if new_record?
-				self.encrypted_password = encrypt(@password)
-			end
+			self.salt = make_salt if new_record?
+			self.encrypted_password = encrypt(@password)
 		end
 	
 		def encrypt(string)
@@ -92,15 +75,4 @@ class User < ActiveRecord::Base
 			Digest::SHA2.hexdigest(string)
 		end
 end
-
-# == Schema Information
-#
-# Table name: users
-#
-#	id				 :integer				 not null, primary key
-#	name			 :string(255)
-#	email			:string(255)
-#	created_at :datetime
-#	updated_at :datetime
-#
 

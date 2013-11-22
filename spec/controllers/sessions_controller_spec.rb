@@ -40,6 +40,7 @@ describe SessionsController do
 			
 			before(:each) do
 				@user = Factory(:user)
+				@user.encrypt_save
 				@attr = { :email => @user.email, :password => @user.password }
 			end
 			

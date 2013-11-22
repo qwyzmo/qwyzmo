@@ -9,8 +9,10 @@ QwyzmoApp::Application.routes.draw do
 	resources :microposts,		:only => [:create, :destroy]
 	
 	match '/addqwyz',		to: 'qwyzs#add', as: 'add_qwyz'
-	match '/changepassword', to: 'users#change_password', as: 'change_password'
-	match '/change_status', to: 'users#change_status', as: 'change_status'
+	
+	match '/edit_password', 	to: 'users#edit_password', 		as: 'edit_password'
+	match '/changepassword', 	to: 'users#change_password', 	as: 'change_password'
+	match '/change_status', 	to: 'users#change_status', 		as: 'change_status'
 	
 	match '/signup',		to: 'users#new'
 	match '/signin',		to: 'sessions#new'

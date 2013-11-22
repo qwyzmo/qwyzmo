@@ -195,11 +195,11 @@ describe UsersController do
 
 		it "should have the right title" do
 			get :edit, :id => @user
-			response.should have_selector("title", :content => "Edit user")
+			response.should have_selector("title", :content => "Edit Account Info")
 		end
 	end # describe get edit
 
-	describe "put update" do
+	describe "put change_status" do
 		before(:each) do
 			@user = Factory :user
 			test_sign_in @user
@@ -212,8 +212,8 @@ describe UsersController do
 					admin_user = @user
 					target_user = Factory(:user, name: "test823", email: "test823@example.net")
 					admin_user.admin = true
-					put :update, id: target_user, 
-						user: {status: User::STATUS[:deactivated].to_s}
+					put :change_status,
+						user: {status: User::STATUS[:deactivated].to_s, id: target_user.id}
 					response.should redirect_to(users_path)
 				end
 			end
@@ -222,11 +222,18 @@ describe UsersController do
 				it "should not change status and redirect to users page, and flash error" do
 					admin_user = @user
 					target_user = Factory(:user, name: "test823", email: "test823@example.net")
-					put :update, id: target_user, 
-						user: {status: User::STATUS[:deactivated].to_s}
+					put :change_status,
+						user: {status: User::STATUS[:deactivated].to_s, id: target_user.id}
 					response.should redirect_to(root_path)
 				end
 			end
+		end
+	end
+
+	describe "put update" do
+		before(:each) do
+			@user = Factory :user
+			test_sign_in @user
 		end
 		
 		describe "failure" do

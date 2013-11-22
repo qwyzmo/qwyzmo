@@ -49,6 +49,7 @@ describe "LayoutLinks" do
 	describe "when signed in" do
 		before(:each) do
 			@user = Factory(:user)
+			@user.encrypt_save
 			integration_sign_in @user
 		end
 		

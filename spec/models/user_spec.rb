@@ -87,6 +87,7 @@ describe User do
 
 		before(:each) do
 			@user = User.create!(@attr)
+			@user.encrypt_save
 		end
 
 		it "should have an encrypted password attribute" do
@@ -183,6 +184,19 @@ describe User do
 			@user.salt.should == old_salt
 			@user.password.should == old_password
 		end
+	end
+	
+	describe "#initialize" do
+		# TODO
+	end
+	
+	describe "#encrypt_save" do
+		# TODO: 
+		pending ""
+	end
+	
+	describe "#update_without_password" do
+		
 	end
 	
 	describe "micropost associations" do

@@ -14,16 +14,6 @@ class UsersController < ApplicationController
 		@title = @user.name
 	end
 	
-	def change_password
-		puts ")_)_)_)_)>> change password called. params=#{params.inspect}"
-		# if two new passwords dont match, redirect to change passwords page with error.
-		if params[:new_password] != params[:new_password_confirm]
-			flash[:error] = "New password and confirmation must match"
-			redirect change_password_path
-			return
-		end
-	end
-
 	def new
 		if signed_in?
 			flash[:info] = "You are already logged in, so you cannot create a new account."
@@ -40,7 +30,7 @@ class UsersController < ApplicationController
 			redirect_to root_path
 		else
 			@user = User.new(params[:user])
-			if @user.save_new
+			if @user.encrypt_save
 				sign_in @user
 				flash[:success] = "Welcome to Qwyzmo!"
 				redirect_to @user
@@ -58,36 +48,58 @@ class UsersController < ApplicationController
 	end
 
 	def update
-		@user = User.find(params[:id])
-		if @user.update_attributes(params[:user])
-			flash[:success] = "Profile updated."
-			redirect_to @user
-		else
-			@title = "Edit user"
+		original = User.find(params[:id])
+		@user = User.authenticate( original.email, 
+				params[:user][:password])
+		if @user.nil?
+			original.attributes= params[:user]
+			@user = original
+			@user.password = nil
+			@user.errors[:password] = "is incorrect."
 			render 'edit'
+		else
+			@user.attributes= params[:user]
+			if @user.save
+				redirect_to root_path
+			else
+				@user.password = nil
+				render 'edit'
+			end
+		end
+	end
+	
+	def edit_password
+		@title = "Change Password"
+	end
+	
+	def change_password
+		if params[:new_password] != params[:new_password_confirm]
+			flash[:error] = "New password and confirmation must match"
+			redirect change_password_path
+			return
+		else
+			# validate that the password is correct.
+			original = User.find(params[:user][:id])
+			@user = User.authenticate(original.email, 
+					params[:user][:password])
+			if @user.nil? 
+				flash[:error] = "Wrong password"
+				redirect change_password_path
+			else
+				@user.password = params[:new_password]
+				@user.encrypt_save
+				@user.password = nil
+				render 'edit'
+			end
+			
 		end
 	end
 
 	def change_status
 		@user = User.find(params[:user][:id])
-		@user.update_status(params[:user][:status].to_i)
+		@user.update_attribute('status', params[:user][:status].to_i )
 		redirect_to users_path
 	end
-
-	# check if status should be updated, if so update and redirect
-	# and return true else return false.
-	# def update_status user, new_status
-		# # first check if status is being changed at all
-		# if new_status.nil? || new_status.to_i == user.status
-			# return false
-		# end
-		# if !current_user.admin?
-			# flash[:error] = "Only admins may change a user's status"
-			# redirect_to root_path
-		# else 
-		# end
-		# return true
-	# end
 	
 	private
 	
