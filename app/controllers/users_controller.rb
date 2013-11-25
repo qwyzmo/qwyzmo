@@ -56,13 +56,16 @@ class UsersController < ApplicationController
 			@user = original
 			@user.password = nil
 			@user.errors[:password] = "is incorrect."
-			render 'edit'
+			edit
+			render'edit'
 		else
 			@user.attributes= params[:user]
 			if @user.save
-				redirect_to root_path
+				flash[:success] = "Account updated."
+				render 'show'
 			else
 				@user.password = nil
+				edit
 				render 'edit'
 			end
 		end

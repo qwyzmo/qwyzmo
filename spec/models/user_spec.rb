@@ -161,44 +161,24 @@ describe User do
 			@user.deactivated?.should == false
 		end
 	end
-	
-	describe "#update_status" do
-		before(:each) do
-			@user = User.create!(@attr)
-		end
-		
-		it "updates status if status is changed" do
-			result = @user.update_status User::STATUS[:deactivated]
-			@user.deactivated?.should == true
-		end
-		
-		it "leaves status active" do
-			result = @user.update_status nil
-			@user.deactivated?.should == false
-		end
-		
-		it "skips encrypting password, leaving password and salt unchanged" do
-			old_password = @user.password
-			old_salt = @user.salt
-			result = @user.update_status User::STATUS[:deactivated]
-			@user.salt.should == old_salt
-			@user.password.should == old_password
-		end
-	end
-	
-	describe "#initialize" do
-		# TODO
-	end
-	
+
 	describe "#encrypt_save" do
-		# TODO: 
-		pending ""
+		it "should change encrypted_password field" do
+			@user = User.new(@attr)
+			new_name = "testtest234"
+			@user.name = new_name
+			before_count = User.count
+			result = @user.encrypt_save
+			after_count = User.count
+			result.should == true
+			@user.encrypted_password.should_not be_nil
+			@user.salt.should_not be_nil
+			saved = User.find @user.id
+			saved.name.should == new_name
+		end
 	end
-	
-	describe "#update_without_password" do
-		
-	end
-	
+
+	# TODO remove microposts
 	describe "micropost associations" do
 		before(:each) do
 			@user = User.create(@attr)
@@ -233,24 +213,12 @@ describe User do
 			end
 			
 			it "should not include a different users microposts" do
-				mp3 = Factory(:micropost, :user => Factory(:user, :email => Factory.next(:email)))
-				@user.feed.include?(mp3).should be_false
+				# mp3 = Factory(:micropost, :user => Factory(:user, :email => Factory.next(:email)))
+				# @user.feed.include?(mp3).should be_false
 			end
 			
 		end # status feed
 	end #describe micropost associations
 end # describe user
 
-
-
-# == Schema Information
-#
-# Table name: users
-#
-#	id				 :integer				 not null, primary key
-#	name			 :string(255)
-#	email			:string(255)
-#	created_at :datetime
-#	updated_at :datetime
-#
 

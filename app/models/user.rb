@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
 	attr_accessible :name, :email, :password, 
 			:password_confirmation, :status
 
-	# todo: remove microposts
+	# TODO: remove microposts
 	has_many :microposts, :dependent => :destroy
 	has_many :qwyzs
 
