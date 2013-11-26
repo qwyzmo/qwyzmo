@@ -148,8 +148,8 @@ describe UsersController do
 
 		describe "success" do
 			before(:each) do
-				@attr = {:name => "New User", :email => "user@example.com", :password => "foobar", 
-								:password_confirmation => "foobar" }
+				@attr = {:name => "New User", :email => "user@example.com", :password => "foobar33", 
+								:password_confirmation => "foobar33" }
 			end
 
 			it "should redirect to root path if user signed in" do
@@ -257,8 +257,8 @@ describe UsersController do
 		before(:each) do
 			@attr = { :name 										=> "New Name", 
 								:email 										=> "user@example.org", 
-								:password 								=> "barbaz",
-								:password_confirmation => "barbaz"}
+								:password 								=> "qqqqwwww",
+								:password_confirmation => "qqqqwwww"}
 			@user = User.new @attr
 			@user.encrypt_save
 			test_sign_in(@user)

@@ -33,6 +33,7 @@ class UsersController < ApplicationController
 			if @user.encrypt_save
 				sign_in @user
 				flash[:success] = "Welcome to Qwyzmo!"
+				UserMailer.confirm_email(@user).deliver
 				redirect_to @user
 			else
 				@title = "Sign up"

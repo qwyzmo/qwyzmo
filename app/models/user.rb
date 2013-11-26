@@ -19,11 +19,12 @@ class User < ActiveRecord::Base
 	# Automatically create the virtual attribute password_confirmation.
 	validates :password, presence: 			true,
 												confirmation:		true,
-												length:					{ within: 6..40 }
+												length:					{ within: 8..40 }
 
 	STATUS = {
-		deactivated: 100,
-		activated: 101,
+		pending_email: 	1,
+		activated: 			50,
+		deactivated: 		200,
 	}
 
 	# Return true if the user's password matches the submitted password.
@@ -54,6 +55,23 @@ class User < ActiveRecord::Base
 	def encrypt_save
 		encrypt_password
 		self.save
+	end
+	
+	def encrypt_save!
+		encrypt_password
+		self.save!
+	end
+	
+	def self.create attr
+		user = User.new attr
+		user.encrypt_save
+		user
+	end
+	
+	def self.create! attr
+		user = User.new attr
+		user.encrypt_save!
+		user
 	end
 
 	private
