@@ -5,12 +5,11 @@ class UsersController < ApplicationController
 
 	def index
 		@title = "All users"
-		@users = User.paginate(:page => params[:page])
+		@users = User.all
 	end
 
 	def show
 		@user = User.find(params[:id])
-		@microposts = @user.microposts.paginate(:page => params[:page])
 		@title = @user.name
 	end
 	
@@ -49,6 +48,7 @@ class UsersController < ApplicationController
 	end
 
 	def update
+		puts "9933-----------> update"
 		original = User.find(params[:id])
 		@user = User.authenticate( original.email, 
 				params[:user][:password])
@@ -100,6 +100,7 @@ class UsersController < ApplicationController
 	end
 
 	def change_status
+		puts "319-------->> change status"
 		@user = User.find(params[:user][:id])
 		@user.update_attribute('status', params[:user][:status].to_i )
 		redirect_to users_path

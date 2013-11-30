@@ -39,7 +39,7 @@ class QwyzsController < ApplicationController
 
 	def index
 		@title = "My Qwyzs"
-		@qwyzs = current_user.qwyzs.paginate(:page => params[:page])
+		@qwyzs = current_user.qwyzs
 	end
 
 	def destroy

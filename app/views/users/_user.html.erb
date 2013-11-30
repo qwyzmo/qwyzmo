@@ -1,5 +1,5 @@
 <li class="user_row">
-	<%= link_to user.name, user %>
+	<%= link_to user[:name], user %>
 	<% if current_user.admin? && !current_user?(user) && !user.admin? %>
 		<%if user.deactivated? 
 				status = User::STATUS[:activated]
@@ -11,9 +11,9 @@
 				button_class = "deactivate_button"
 			end
 		%>
-		<%= form_for(user, url: {action: "change_status"}) do |f| %>
+		<%= form_for(user, action: "update") do |f| %>
 				<%= f.hidden_field :status, value: status %>
-				<%= f.hidden_field :id, value: user.id %>
+				<%= f.hidden_field :id, value: user[:id] %>
 				<div class="<%=button_class%>">
 					<%= f.submit action_name %>
 				</div>

@@ -1,5 +1,5 @@
 class Qwyz < ActiveRecord::Base
-	attr_accessible :name, :question, :description
+	attr_accessor :name, :question, :description
 
 	belongs_to :user
 
