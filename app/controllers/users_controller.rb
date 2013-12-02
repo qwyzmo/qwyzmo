@@ -24,15 +24,21 @@ class UsersController < ApplicationController
 	end
 
 	def create
+		puts "+++++++>> params = #{params.inspect}"
 		if signed_in?
 			flash[:info] = "You are already loggin in, so you cannot create a new account."
 			redirect_to root_path
 		else
-			@user = User.new(params[:user])
+			@user = User.new
+			@user.init_from_params(user_params)
+			u2 = User.new({name: "u2", email: "u2@q.com"})
+			puts "-=-=-=-=->>> user = #{@user.inspect}"
+			# puts "~~~~~~> activerecord version = " + 
+					# "#{Gem.loaded_specs["activerecord"].version}"
 			if @user.encrypt_save
 				sign_in @user
 				flash[:success] = "Welcome to Qwyzmo!"
-				UserMailer.confirm_email(@user).deliver
+#				UserMailer.confirm_email(@user).deliver
 				redirect_to @user
 			else
 				@title = "Sign up"
@@ -106,7 +112,13 @@ class UsersController < ApplicationController
 		redirect_to users_path
 	end
 	
+###########################################################	
 	private
+	
+	  def user_params
+	    params.require(:user).permit(:name, :email, :password,
+	    	:password_confirmation)
+	  end
 	
 		def correct_user
 			@user = User.find(params[:id])

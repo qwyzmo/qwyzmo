@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-	attr_accessor :password
 	attr_accessor :name, :email, :password, 
 			:password_confirmation, :status
 
@@ -15,8 +14,6 @@ class User < ActiveRecord::Base
 	validates :email, 	presence: 	true,
 											format: 		{ with: EMAIL_REGEX },
 											uniqueness: { case_sensitive: false }
-
-	# Automatically create the virtual attribute password_confirmation.
 	validates :password, presence: 			true,
 												confirmation:		true,
 												length:					{ within: 8..40 }
@@ -26,6 +23,16 @@ class User < ActiveRecord::Base
 		activated: 			50,
 		deactivated: 		200,
 	}
+
+	# this hacky bullshit is the best i got until i figure out why
+	#    activerecord is so jacked up.
+	def init_from_params params
+		self[:name]			= params["name"]
+		self[:email]		= params["email"]
+		self.password 	= params["password"]
+		self.password_confirmation = params["password_confirmation"]
+		self[:status]  = User::STATUS[:pending_email]
+	end
 
 	# Return true if the user's password matches the submitted password.
 	def has_password?(submitted_password)
