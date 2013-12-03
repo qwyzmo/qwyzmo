@@ -29,7 +29,8 @@ class UsersController < ApplicationController
 			flash[:info] = "You are already loggin in, so you cannot create a new account."
 			redirect_to root_path
 		else
-			@user = User.new
+			require 'pry'; binding.pry
+			@user = User.new(user_params)
 			@user.init_from_params(user_params)
 			u2 = User.new({name: "u2", email: "u2@q.com"})
 			puts "-=-=-=-=->>> user = #{@user.inspect}"

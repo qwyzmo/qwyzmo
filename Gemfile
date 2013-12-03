@@ -17,6 +17,8 @@ group :development do
 	gem 'faker', 							'0.3.1'
 	gem 'annotate'
 	gem 'pry'
+	gem 'pry-doc'
+	gem 'pry-debugger'
 end
 
 group :test do
