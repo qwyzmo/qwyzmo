@@ -1,22 +1,19 @@
 class User < ActiveRecord::Base
-	attr_accessor :name, :email, :password, 
-			:password_confirmation, :status
-
-	# TODO: remove microposts
-	has_many :microposts, :dependent => :destroy
+	# attr_accessor :name, :email, :password, 
+			# :password_confirmation, :status
 	has_many :qwyzs
 
 	EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
-	validates :name,		presence: 	true,
-											length: 		{ within: 1..50 },
-											uniqueness: { case_sensitive: false}
-	validates :email, 	presence: 	true,
-											format: 		{ with: EMAIL_REGEX },
-											uniqueness: { case_sensitive: false }
-	validates :password, presence: 			true,
-												confirmation:		true,
-												length:					{ within: 8..40 }
+	# validates :name,		presence: 	true,
+											# length: 		{ within: 1..50 },
+											# uniqueness: { case_sensitive: false}
+	# validates :email, 	presence: 	true,
+											# format: 		{ with: EMAIL_REGEX },
+											# uniqueness: { case_sensitive: false }
+	# validates :password, length:					{ within: 8..40 }
+
+  # has_secure_password
 
 	STATUS = {
 		pending_email: 	1,
@@ -69,17 +66,17 @@ class User < ActiveRecord::Base
 		self.save!
 	end
 	
-	def self.create attr
-		user = User.new attr
-		user.encrypt_save
-		user
-	end
-	
-	def self.create! attr
-		user = User.new attr
-		user.encrypt_save!
-		user
-	end
+	# def self.create attr
+		# user = User.new attr
+		# user.encrypt_save
+		# user
+	# end
+# 	
+	# def self.create! attr
+		# user = User.new attr
+		# user.encrypt_save!
+		# user
+	# end
 
 	private
 
