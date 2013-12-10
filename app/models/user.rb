@@ -1,35 +1,35 @@
 class User < ActiveRecord::Base
+	
+	# fields: id, name, email, qwyzs, 
+	#  				last_login_at, create_at, updated_at, email_confirmed_at,
+	
 	# attr_accessor :name, :email, :password, 
 			# :password_confirmation, :status
+
 	has_many :qwyzs
 
 	EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
-	# validates :name,		presence: 	true,
-											# length: 		{ within: 1..50 },
-											# uniqueness: { case_sensitive: false}
-	# validates :email, 	presence: 	true,
-											# format: 		{ with: EMAIL_REGEX },
-											# uniqueness: { case_sensitive: false }
+	validates :name,		presence: 	true,
+											length: 		{ maximum: 50 },
+											uniqueness: { case_sensitive: false}
+	validates :email, 	presence: 	true,
+											format: 		{ with: EMAIL_REGEX },
+											uniqueness: { case_sensitive: false }
 	# validates :password, length:					{ within: 8..40 }
 
   # has_secure_password
+  
+  before_save do 
+  	self.email = email.downcase
+  	self.name  = name.downcase
+  end
 
 	STATUS = {
 		pending_email: 	1,
 		activated: 			50,
 		deactivated: 		200,
 	}
-
-	# this hacky bullshit is the best i got until i figure out why
-	#    activerecord is so jacked up.
-	def init_from_params params
-		self[:name]			= params["name"]
-		self[:email]		= params["email"]
-		self.password 	= params["password"]
-		self.password_confirmation = params["password_confirmation"]
-		self[:status]  = User::STATUS[:pending_email]
-	end
 
 	# Return true if the user's password matches the submitted password.
 	def has_password?(submitted_password)
