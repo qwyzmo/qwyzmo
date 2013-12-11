@@ -16,9 +16,9 @@ class User < ActiveRecord::Base
 	validates :email, 	presence: 	true,
 											format: 		{ with: EMAIL_REGEX },
 											uniqueness: { case_sensitive: false }
-	# validates :password, length:					{ within: 8..40 }
+	validates :password, length:   { within: 8..40 }
 
-  # has_secure_password
+  has_secure_password
   
   before_save do 
   	self.email = email.downcase

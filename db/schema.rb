@@ -29,9 +29,8 @@ ActiveRecord::Schema.define(version: 20131209054504) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "encrypted_password"
-    t.string   "salt"
-    t.boolean  "admin",              default: false
+    t.string   "password_digest"
+    t.boolean  "admin",           default: false
     t.integer  "status"
   end
 

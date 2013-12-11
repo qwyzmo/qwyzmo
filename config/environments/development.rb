@@ -27,6 +27,5 @@ QwyzmoApp::Application.configure do
 	config.action_dispatch.best_standards_support = :builtin
 	
 	config.action_dispatch.rescue_responses["ActionController::RoutingError"] = :not_found
-
 end
 

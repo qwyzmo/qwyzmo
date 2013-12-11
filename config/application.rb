@@ -40,6 +40,6 @@ module QwyzmoApp
 		config.filter_parameters += [:password]
 		
 		config.action_dispatch.rescue_responses["ActionController::RoutingError"] = :not_found
-
+		I18n.enforce_available_locales = true
 	end
 end
