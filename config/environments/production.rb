@@ -49,6 +49,8 @@ QwyzmoApp::Application.configure do
 	
 	config.eager_load = true
 	
+	config.assets.precompile += ['static_pages.css']
+
   # Force all access to the app over SSL, use Strict-Transport-Security,
   # and use secure cookies.
   config.force_ssl = true
