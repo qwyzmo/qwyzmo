@@ -49,7 +49,9 @@ QwyzmoApp::Application.configure do
 	
 	config.eager_load = true
 	
-	config.assets.precompile += ['static_pages.css']
+	# config.assets.precompile += %w( *.css *.js )
+	config.assets.precompile += ['*/custom.css', 
+		'*/screen.css', '*/print.css']
 
   # Force all access to the app over SSL, use Strict-Transport-Security,
   # and use secure cookies.
