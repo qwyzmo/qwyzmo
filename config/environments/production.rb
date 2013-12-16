@@ -48,10 +48,6 @@ QwyzmoApp::Application.configure do
 	config.active_support.deprecation = :notify
 	
 	config.eager_load = true
-	
-	# config.assets.precompile += %w( *.css *.js )
-	config.assets.precompile += ['*/custom.css', 
-		'*/screen.css', '*/print.css']
 
   # Force all access to the app over SSL, use Strict-Transport-Security,
   # and use secure cookies.
