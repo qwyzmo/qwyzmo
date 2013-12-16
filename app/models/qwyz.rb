@@ -8,5 +8,6 @@ class Qwyz < ActiveRecord::Base
 	validates :question,	:presence => true, :length => {:maximum => 200}
 	validates :user_id,	 :presence => true
 	
-	default_scope :order => 'qwyzs.created_at DESC'
+	# TODO fix this
+	# default_scope :order => 'qwyzs.created_at DESC'
 end
