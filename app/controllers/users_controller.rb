@@ -55,36 +55,32 @@ class UsersController < ApplicationController
 	# end
 
 	def edit
-		@title= "Edit Account Info"
+		@title = "Edit Account Info"
+		@user  = User.find(params[:id])
 	end
 
 	def update
-		puts "9933-----------> update"
-		original = User.find(params[:id])
-		@user = User.authenticate( original.email, 
-				params[:user][:password])
-		if @user.nil?
-			original.attributes= params[:user]
-			@user = original
-			@user.password = nil
-			@user.errors[:password] = "is incorrect."
-			edit
-			render'edit'
-		else
-			@user.attributes= params[:user]
-			if @user.save
-				flash[:success] = "Account updated."
-				render 'show'
+		updated_user = User.find_by(email: @user.email)
+		if updated_user && updated_user.authenticate(user_params[:password])
+			updated_params = user_params
+			updated_params[:password_confirmation] = updated_params[:password]
+			if @user.update_attributes(updated_params)
+				flash[:success] = "Profile updated"
+				redirect_to @user
 			else
-				@user.password = nil
-				edit
+				@title = "Edit Account Info"
 				render 'edit'
 			end
+		else
+			flash[:error] = "Incorrect password."
+			edit
+			render'edit'
 		end
 	end
 	
 	def edit_password
 		@title = "Change Password"
+		
 	end
 	
 	def change_password
