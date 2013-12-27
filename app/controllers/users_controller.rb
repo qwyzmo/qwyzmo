@@ -1,8 +1,11 @@
 class UsersController < ApplicationController
-	before_filter :authenticate,		only: [:index, :edit, :update, :change_status]
-	before_filter :correct_user,		only: [:edit, :update]
-	before_filter :admin_user,			only: :change_status
-
+	# before_filter :authenticate,		only: [:index, :edit, :update, :change_status]
+	# before_filter :admin_user,			only: :change_status
+	
+	before_action :signed_in_user, only: [:edit, :update]
+	before_action :correct_user,   only: [:edit, :update]
+	
+	
 	def index
 		@title = "All users"
 		@users = User.all
@@ -56,7 +59,6 @@ class UsersController < ApplicationController
 
 	def edit
 		@title = "Edit Account Info"
-		@user  = User.find(params[:id])
 	end
 
 	def update
@@ -125,9 +127,16 @@ class UsersController < ApplicationController
 			@user = User.find(params[:id])
 			redirect_to(root_path) unless current_user?(@user)
 		end
-		
+
 		def admin_user
 			redirect_to(root_path) unless current_user.admin?
+		end
+		
+		def signed_in_user
+			unless signed_in?
+				flash[:notice] = "Please sign in."
+				redirect_to signin_url
+			end
 		end
 end
 
