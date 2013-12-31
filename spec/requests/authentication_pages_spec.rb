@@ -80,10 +80,87 @@ describe "Authentication" do
 		end
 	end # edit
 
+	describe "edit password" do
+		let(:user) { FactoryGirl.create(:user) }
+		before do 
+			sign_in(user)
+			visit edit_password_path(user)
+		end
+
+		describe "page" do
+			it { should have_content("Change Password")}
+			it { should have_title("Change Password")}
+		end
+
+		describe "with valid information" do
+			before do
+				fill_in "Current password",				with: user.password
+				fill_in "New password",						with: "newpassword"
+				fill_in "Confirm new password",		with: "newpassword"
+				click_button "Change Password"
+			end
+
+			it { should have_title(user.name) }
+			it { should have_selector('div.success') }
+		end
+		
+		describe "with wrong password" do
+			before do
+				fill_in "Current password",				with: "wrongpass"
+				fill_in "New password",						with: "newpassword"
+				fill_in "Confirm new password",		with: "newpassword"
+				click_button "Change Password"
+			end
+
+			it { should have_title("Change Password") }
+			it { should have_css('div#error_explanation') }
+		end
+		
+		describe "with new password too short" do
+			before do
+				fill_in "Current password",				with: user.password
+				fill_in "New password",						with: "short"
+				fill_in "Confirm new password",		with: "short"
+				click_button "Change Password"
+			end
+
+			it { should have_title("Change Password") }
+			it { should have_css('div#error_explanation') }
+		end
+		
+		describe "with new password confirm mismatch" do
+			before do
+				fill_in "Current password",				with: user.password
+				fill_in "New password",						with: "newpassword"
+				fill_in "Confirm new password",		with: "mismatched"
+				click_button "Change Password"
+			end
+
+			it { should have_title("Change Password") }
+			it { should have_css('div#error_explanation') }
+		end
+	end
+
 	describe "authorization" do
 
 		describe "for non-signed-in users" do
 			let(:user) { FactoryGirl.create(:user) }
+
+			describe "when attempting to visit a protected page" do
+				before do
+					visit edit_user_path(user)
+					fill_in "Email",		with: user.email
+					fill_in "Password", with: user.password
+					click_button "Sign in"
+				end
+
+				describe "after signing in" do
+
+					it "should render the desired protected page" do
+						expect(page).to have_title('Edit Account')
+					end
+				end
+			end
 
 			describe "in the Users controller" do
 

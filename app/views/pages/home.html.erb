@@ -1,9 +1,7 @@
 
+	<h1>Qwyzmo</h1>
 <% if signed_in? %>
 	<span>You are signed in</span>
-	<% if current_user.admin? %>
-		<span>, as an admin.</span>
-	<% end %>
 	<table class="front"	summary="For signed-in users">
 		<tr>
 			<td class="main">
@@ -14,7 +12,6 @@
 		</tr>
 	</table>
 <% else %>
-	<h1>Qwyzmo</h1>
 	<p>
 		Please sign in or register.
 	</p>

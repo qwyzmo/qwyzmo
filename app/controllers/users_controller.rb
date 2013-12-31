@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 	# before_filter :admin_user,			only: :change_status
 	
 	before_action :signed_in_user, only: [:edit, :update]
-	before_action :correct_user,   only: [:edit, :update]
+	before_action :correct_user,	 only: [:edit, :update]
 	
 	
 	def index
@@ -62,65 +62,70 @@ class UsersController < ApplicationController
 	end
 
 	def update
+		if params[:change_password]
+			change_password
+			return
+		end
 		updated_user = User.find_by(email: @user.email)
 		if updated_user && updated_user.authenticate(user_params[:password])
 			updated_params = user_params
 			updated_params[:password_confirmation] = updated_params[:password]
 			if @user.update_attributes(updated_params)
-				flash[:success] = "Profile updated"
+				flash[:success] = "Profile updated" 
 				redirect_to @user
 			else
-				@title = "Edit Account Info"
+				edit
 				render 'edit'
 			end
 		else
-			flash[:error] = "Incorrect password."
+			# flash[:error] = "Incorrect password."
+			@user.errors.add(:password, "is incorrect.")
 			edit
-			render'edit'
+			render 'edit'
 		end
 	end
 	
 	def edit_password
 		@title = "Change Password"
-		
+		@user ||= User.find(params[:id])
 	end
-	
+
 	def change_password
-		if params[:new_password] != params[:new_password_confirm]
-			flash[:error] = "New password and confirmation must match"
-			redirect change_password_path
-			return
-		else
-			# validate that the password is correct.
-			original = User.find(params[:user][:id])
-			@user = User.authenticate(original.email, 
-					params[:user][:password])
-			if @user.nil? 
-				flash[:error] = "Wrong password"
-				redirect change_password_path
+		updated_user = User.find_by(email: @user.email)
+		if updated_user && updated_user.authenticate(user_params[:password])
+			updated_params = user_params
+			updated_params[:password] = params[:new_password]
+			updated_params[:password_confirmation] = 
+						params[:new_password_confirm]
+			if @user.update_attributes(updated_params)
+				flash[:success] = "Password Changed"
+				redirect_to @user
 			else
-				@user.password = params[:new_password]
-				@user.encrypt_save
-				@user.password = nil
-				render 'edit'
+				@user.errors.delete(:password)
+				@user.errors.delete(:password_confirmation)
+				if params[:new_password].length < 8
+					@user.errors.add(:new_password, "must be at least 8 characters")
+				end
+				if params[:new_password].to_s != params[:new_password_confirm]
+					@user.errors.add(:new_password, "must match confirmation")
+				end
+				edit_password
+				render 'edit_password'
 			end
-			
+		else
+			# flash[:error] = "Incorrect password."
+			@user.errors.add(:password, "is incorrect.")
+			edit_password
+			render 'edit_password'
 		end
 	end
 
-	def change_status
-		puts "319-------->> change status"
-		@user = User.find(params[:user][:id])
-		@user.update_attribute('status', params[:user][:status].to_i )
-		redirect_to users_path
-	end
-	
 ###########################################################	
 	private
 	
 		def user_params
 			params.require(:user).permit(:name, :email, :password,
-				:password_confirmation)
+				:password_confirmation )
 		end
 	
 		def correct_user
@@ -134,8 +139,8 @@ class UsersController < ApplicationController
 		
 		def signed_in_user
 			unless signed_in?
-				flash[:notice] = "Please sign in."
-				redirect_to signin_url
+				store_location
+				redirect_to signin_url, notice: "Please sign in."
 			end
 		end
 end

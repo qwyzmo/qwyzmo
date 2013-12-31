@@ -13,7 +13,8 @@ QwyzmoApp::Application.routes.draw do
 	get		'/signout',					to:	'sessions#destroy'
 	root													'pages#home'
 	
-	# get '/edit_password', 	to: 'users#edit_password', 		as: 'edit_password'
+	get '/users/:id/edit_password', 	to: 'users#edit_password', 		as: 'edit_password'
+	
 	# get '/changepassword', 	to: 'users#change_password', 	as: 'change_password'
 	# match '/change_status',	to: 'users#change_status', 		as: 'change_status', via: [:get, :post]
 	
