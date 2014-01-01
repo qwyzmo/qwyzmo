@@ -1,15 +1,7 @@
 class UsersController < ApplicationController
-	# before_filter :authenticate,		only: [:index, :edit, :update, :change_status]
-	# before_filter :admin_user,			only: :change_status
-	
+
 	before_action :signed_in_user, only: [:edit, :update]
 	before_action :correct_user,	 only: [:edit, :update]
-	
-	
-	def index
-		@title = "All users"
-		@users = User.all
-	end
 
 	def show
 		@user = User.find(params[:id])
@@ -78,7 +70,6 @@ class UsersController < ApplicationController
 				render 'edit'
 			end
 		else
-			# flash[:error] = "Incorrect password."
 			@user.errors.add(:password, "is incorrect.")
 			edit
 			render 'edit'
@@ -103,7 +94,7 @@ class UsersController < ApplicationController
 			else
 				@user.errors.delete(:password)
 				@user.errors.delete(:password_confirmation)
-				if params[:new_password].length < 8
+				if params[:new_password].length < User::MIN_PASS_LENGTH
 					@user.errors.add(:new_password, "must be at least 8 characters")
 				end
 				if params[:new_password].to_s != params[:new_password_confirm]
@@ -113,7 +104,6 @@ class UsersController < ApplicationController
 				render 'edit_password'
 			end
 		else
-			# flash[:error] = "Incorrect password."
 			@user.errors.add(:password, "is incorrect.")
 			edit_password
 			render 'edit_password'
@@ -131,10 +121,6 @@ class UsersController < ApplicationController
 		def correct_user
 			@user = User.find(params[:id])
 			redirect_to(root_path) unless current_user?(@user)
-		end
-
-		def admin_user
-			redirect_to(root_path) unless current_user.admin?
 		end
 		
 		def signed_in_user

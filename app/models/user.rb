@@ -5,11 +5,13 @@ class User < ActiveRecord::Base
 	
 	# attr_accessor :name, :email, :password, 
 			# :password_confirmation, :status
+	MIN_PASS_LENGTH = 8
 
 	has_many :qwyzs
 	before_save do 
 		self.email = email.downcase
 		self.name	= name.downcase
+		# self.status ||= STATUS[:pending_email]
 	end
 	before_create :create_remember_token
 	validates :name,		presence: 	true,
@@ -20,7 +22,7 @@ class User < ActiveRecord::Base
 											format: 		{ with: EMAIL_REGEX },
 											uniqueness: { case_sensitive: false }
 	has_secure_password
-	validates :password, length:	 { within: 8..40 }
+	validates :password, length:	 { within: MIN_PASS_LENGTH..40 }
 
 	STATUS = {
 		pending_email: 	1,
@@ -36,9 +38,9 @@ class User < ActiveRecord::Base
 		Digest::SHA1.hexdigest(token.to_s)
 	end
 
-	def deactivated?
-		self.status == STATUS[:deactivated]
-	end
+	# def deactivated?
+		# self.status == STATUS[:deactivated]
+	# end
 
 	private
 	

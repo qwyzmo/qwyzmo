@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20131218053922) do
     t.datetime "updated_at"
     t.string   "password_digest"
     t.boolean  "admin",           default: false
-    t.integer  "status"
+    t.integer  "status",          default: 1
     t.string   "remember_token"
   end
 
