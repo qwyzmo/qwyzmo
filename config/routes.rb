@@ -1,4 +1,6 @@
 QwyzmoApp::Application.routes.draw do
+	get '/users/check_email', 				to: 'users#check_email',			as: 'check_email'
+
 	resources :users
 	resources :qwyzs
 	resources :sessions,			:only => [:new, :create, :destroy]
@@ -14,12 +16,5 @@ QwyzmoApp::Application.routes.draw do
 	root													'pages#home'
 	
 	get '/users/:id/edit_password', 	to: 'users#edit_password', 		as: 'edit_password'
-	
-	# get '/changepassword', 	to: 'users#change_password', 	as: 'change_password'
-	# match '/change_status',	to: 'users#change_status', 		as: 'change_status', via: [:get, :post]
-	
-	# get '/contact',					to: 'pages#contact'
-	# get '/about',						to: 'pages#about'
-	# get '/help',						to: 'pages#help'
 
 end

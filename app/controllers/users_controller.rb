@@ -16,38 +16,17 @@ class UsersController < ApplicationController
 	def create
 		@user = User.new(user_params)
 		if @user.save
-			sign_in @user
-			flash[:success] = "Welcome to the Sample App!"
-			redirect_to @user
+			# TODO: send email here.
+# 		UserMailer.confirm_email(@user).deliver
+			@title = "Check Email"
+			render check_email_path
 		else
 			render 'new'
 		end
 	end
 
-	# def create
-		# puts "+++++++>> params = #{params.inspect}"
-		# if signed_in?
-			# flash[:info] = "You are already loggin in, so you cannot create a new account."
-			# redirect_to root_path
-		# else
-			# # require 'pry'; binding.pry
-			# @user = User.new(user_params)
-			# puts "-=-=-=-=->>> user = #{@user.inspect}"
-			# # puts "~~~~~~> activerecord version = " + 
-					# # "#{Gem.loaded_specs["activerecord"].version}"
-			# if @user.encrypt_save
-				# sign_in @user
-				# flash[:success] = "Welcome to Qwyzmo!"
-# #				UserMailer.confirm_email(@user).deliver
-				# redirect_to @user
-			# else
-				# @title = "Sign up"
-				# @user.password = ""
-				# @user.password_confirmation = ""
-				# render 'new'
-			# end
-		# end
-	# end
+	def check_email
+	end
 
 	def edit
 		@title = "Edit Account Info"
