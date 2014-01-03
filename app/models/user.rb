@@ -38,9 +38,17 @@ class User < ActiveRecord::Base
 		Digest::SHA1.hexdigest(token.to_s)
 	end
 
-	# def deactivated?
-		# self.status == STATUS[:deactivated]
-	# end
+	def deactivated?
+		self.status == STATUS[:deactivated]
+	end
+	
+	def activated?
+		self.status == STATUS[:activated]
+	end
+	
+	def pending_email?
+		self.status == STATUS[:pending_email]
+	end
 
 	private
 	

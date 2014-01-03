@@ -1,10 +1,11 @@
 	
 FactoryGirl.define do
 	factory :user do
-		name		 							"FactGirl Username"
-		email									"fg@q.com"
-		password							"asdfasdf"
-		password_confirmation	"asdfasdf"
+		name		 								"FactGirl Username"
+		email										"fg@q.com"
+		password								"asdfasdf"
+		password_confirmation		"asdfasdf"
+		status									User::STATUS[:activated]
 	end
 end
 

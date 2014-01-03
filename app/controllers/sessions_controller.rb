@@ -5,28 +5,26 @@ class SessionsController < ApplicationController
 
 	def create
 		user = User.find_by(email: params[:session][:email].downcase)
-		if user && user.authenticate(params[:session][:password])
+		authenticated = user && user.authenticate(params[:session][:password])
+		if authenticated && user.activated?
 			sign_in user
 			redirect_back_or user
 		else
-			flash.now[:error] = 'Invalid email/password combination'
-			@title = "Sign in"
+			if !authenticated
+				flash.now[:error] = 'Invalid email/password combination'
+			elsif user.pending_email?
+				@title = "Check Email"
+				@user = user
+				render check_email_path
+				return
+			elsif user.deactivated?
+				flash.now[:error] = 'Your account has been deactivated.'
+			else
+			end
+			new
 			render 'new'
 		end
 	end
-
-	# def create
-		# user = User.authenticate(params[:session][:email],params[:session][:password])
-		# if user.nil? || user.deactivated?
-			# flash.now[:error] = user.nil? ? "Invalid email/password combination." 
-				# : "Your account has been deactivated."
-			# @title = "Sign in"
-			# render 'new'
-		# else
-			# sign_in user
-			# redirect_back_or user
-		# end
-	# end
 
 	def destroy
 		sign_out
