@@ -3,6 +3,12 @@ class UsersController < ApplicationController
 	before_action :signed_in_user, only: [:edit, :update]
 	before_action :correct_user,	 only: [:edit, :update]
 
+	def testemail
+		user_params = {email: 'qwyzmo@yahoo.com', name: 'test7353'}
+		user = User.new(user_params)
+		UserMailer.confirm_email(user).deliver
+	end
+
 	def show
 		@user = User.find(params[:id])
 		@title = @user.name

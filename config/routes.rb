@@ -12,5 +12,7 @@ QwyzmoApp::Application.routes.draw do
 	match '/signup',				to:	'users#new',						via: 	'get'
 	get 	'/editpass/:id',	to: 'users#edit_password', 	as: 	'edit_password'
 
+	get '/testemail', to: 'users#testemail'
+
 	root										'pages#home'
 end
