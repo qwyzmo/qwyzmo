@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
 			elsif user.pending_email?
 				@title = "Check Email"
 				@user = user
-				render check_email_path
+				render 'users/checkemail'
 				return
 			elsif user.deactivated?
 				flash.now[:error] = 'Your account has been deactivated.'

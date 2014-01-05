@@ -17,15 +17,12 @@ class UsersController < ApplicationController
 		@user = User.new(user_params)
 		if @user.save
 			# TODO: send email here.
-# 		UserMailer.confirm_email(@user).deliver
+			UserMailer.confirm_email(@user).deliver
 			@title = "Check Email"
-			render check_email_path
+			render 'users/checkemail'
 		else
 			render 'new'
 		end
-	end
-
-	def check_email
 	end
 
 	def edit
@@ -74,7 +71,8 @@ class UsersController < ApplicationController
 				@user.errors.delete(:password)
 				@user.errors.delete(:password_confirmation)
 				if params[:new_password].length < User::MIN_PASS_LENGTH
-					@user.errors.add(:new_password, "must be at least 8 characters")
+					@user.errors.add(:new_password, 
+							"must be at least #{User::MIN_PASS_LENGTH} characters")
 				end
 				if params[:new_password].to_s != params[:new_password_confirm]
 					@user.errors.add(:new_password, "must match confirmation")
