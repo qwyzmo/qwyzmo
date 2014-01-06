@@ -3,10 +3,17 @@ class UsersController < ApplicationController
 	before_action :signed_in_user, only: [:edit, :update]
 	before_action :correct_user,	 only: [:edit, :update]
 
+	# TODO: remove this soon, temp for testing.
 	def testemail
 		user_params = {email: 'qwyzmo@yahoo.com', name: 'test7353'}
 		user = User.new(user_params)
 		UserMailer.confirm_email(user).deliver
+	end
+	
+	def activate
+		# TODO: get the evkey and validate it. activate user
+		puts "========== evkey = #{params[:evkey]}"
+		
 	end
 
 	def show
@@ -21,8 +28,8 @@ class UsersController < ApplicationController
 
 	def create
 		@user = User.new(user_params)
+		# TODO: create the activate key
 		if @user.save
-			# TODO: send email here.
 			UserMailer.confirm_email(@user).deliver
 			@title = "Check Email"
 			render 'users/checkemail'

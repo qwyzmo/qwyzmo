@@ -3,7 +3,8 @@ class UserMailer < ActionMailer::Base
   
   def confirm_email(user)
     @user = user
-    @url  = 'http://www.qwyzmo.com/confirm?h=12345'
-    mail(to: @user.email, subject: 'Please confirm your email.')
+    domain = ActionMailer::Base.default_url_options[:host]
+    @url  = "http://#{domain}/activate?evkey=12345"
+    mail(to: @user.email, subject: 'Please activate your Qwyzmo account')
   end
 end
