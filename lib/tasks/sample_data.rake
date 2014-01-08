@@ -12,7 +12,7 @@ def make_users
 											 password: 							"asdfasdf",
 											 password_confirmation: "asdfasdf",
 											 admin: true,
-											 status: User::STATUS[:activated]
+											 status: User::STATUS[:activated],
 											 )
 	10.times do |n|
 		name	= Faker::Name.name

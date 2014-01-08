@@ -11,9 +11,9 @@ class User < ActiveRecord::Base
 	before_save do 
 		self.email = email.downcase
 		self.name	= name.downcase
-		# self.status ||= STATUS[:pending_email]
 	end
-	before_create :create_remember_token
+	
+	before_create :create_tokens
 	validates :name,		presence: 	true,
 											length: 		{ maximum: 50 },
 											uniqueness: { case_sensitive: false}
@@ -51,9 +51,10 @@ class User < ActiveRecord::Base
 	end
 
 	private
-	
-		def create_remember_token
+
+		def create_tokens
 			self.remember_token = User.encrypt(User.new_remember_token)
+			self.activation_token = SecureRandom.uuid
 		end
 
 end

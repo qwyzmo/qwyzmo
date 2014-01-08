@@ -3,24 +3,32 @@ class UsersController < ApplicationController
 	before_action :signed_in_user, only: [:edit, :update]
 	before_action :correct_user,	 only: [:edit, :update]
 
-	# TODO: remove this soon, temp for testing.
+	ACTIVATION_TOKEN_NAME = "atok"
+
+	# TODO: remove this soon, temporary for testing.
 	def testemail
 		user_params = {email: 'qwyzmo@yahoo.com', name: 'test7353'}
 		user = User.new(user_params)
 		UserMailer.confirm_email(user).deliver
 	end
-	
+
 	def activate
-		# TODO: get the evkey and validate it. activate user
-		puts "========== evkey = #{params[:evkey]}"
-		
+		@user = User.find_by(
+				activation_token: params[ACTIVATION_TOKEN_NAME])
+		if @user && @user.pending_email?
+			if @user.update_attribute(:status, User::STATUS[:activated])
+				render 'users/activated'
+				return
+			end
+		end
+		render 'users/activation_failed'
 	end
 
 	def show
 		@user = User.find(params[:id])
 		@title = @user.name
 	end
-	
+
 	def new
 		@user = User.new
 		@title = "Sign up"
@@ -28,7 +36,6 @@ class UsersController < ApplicationController
 
 	def create
 		@user = User.new(user_params)
-		# TODO: create the activate key
 		if @user.save
 			UserMailer.confirm_email(@user).deliver
 			@title = "Check Email"
