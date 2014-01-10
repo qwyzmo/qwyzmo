@@ -2,11 +2,12 @@ require 'spec_helper'
 
 describe User do
 	before do 
-		@user = User.new(
+		@user_params = {
 				name: 									"testname", 
 				email: 									"u@q.com",
 				password: 							"asdfasdf", 
-				password_confirmation: 	"asdfasdf") 
+				password_confirmation: 	"asdfasdf"}
+		@user = User.new(@user_params)
 	end
 
 	subject { @user }
@@ -93,11 +94,11 @@ describe User do
 		it { should_not be_valid }
 	end
 	
-  describe "with a password that's too short" do
-    before { @user.password = @user.password_confirmation = 
-    	"a" * 7 }
-    it { should be_invalid }
-  end
+	describe "with a password that's too short" do
+		before { @user.password = @user.password_confirmation = 
+			"a" * 7 }
+		it { should be_invalid }
+	end
 	
 	describe "return value of authenticate method" do
 		before { @user.save }
@@ -114,15 +115,80 @@ describe User do
 			specify { expect(user_for_invalid_password).to be_false }
 		end
 	end
+
+	describe "remember token" do
+		before { @user.save }
+		its(:remember_token) { should_not be_blank }
+	end
 	
-  describe "remember token" do
-    before { @user.save }
-    its(:remember_token) { should_not be_blank }
-  end
-  
-  describe "activation token" do
-  	before { @user.save }
-  	its(:activation_token) { should_not be_blank }
-  end
+	describe "activation token" do
+		before { @user.save }
+		its(:activation_token) { should_not be_blank }
+	end
+	
+	describe "#change_password" do
+		before { @user.save }
+		
+		describe "new password valid" do
+			it "returns true" do
+				is_changed = @user.change_password(@user_params,
+							"qwerqwer", "qwerqwer")
+				expect(is_changed).to be_true
+			end
+			
+			it "updates the users password" do
+				old_digest = @user.password_digest
+				@user.change_password(@user_params, "qwerqwer", 
+						"qwerqwer")
+				user = User.find(@user.id)
+				expect(old_digest).to_not eq user.password_digest
+			end
+		end
+
+		describe "new password invalid" do
+			
+			it "returns false" do
+				is_changed = @user.change_password(@user_params, 
+						"qwerqwer", "zxc")
+				expect(is_changed).to be_false
+			end
+			
+			it "sets errors for password too short" do
+				@user.change_password(@user_params, "zxc", "zxc")
+				expect(@user.errors[:new_password][0]
+						).to eq "must be at least 8 characters"
+				expect(@user.errors[:new_password][1]
+						).to be_nil
+			end
+			
+			it "sets errors for password/confirm mismatch" do
+				@user.change_password(@user_params, "qwerqwer", "zxcv1234")
+				expect(@user.errors[:new_password][0]
+						).to eq "must match confirmation"
+			end
+			
+			it "leaves password unchanged" do
+				old_digest = @user.password_digest
+				@user.change_password(@user_params, "qwerqwer", 
+						"zxc")
+				user = User.find(@user.id)
+				expect(old_digest.to_s
+						).to eq (user.password_digest.to_s)
+			end
+		end
+		
+	end
 end
+
+
+
+
+
+
+
+
+
+
+
+
 

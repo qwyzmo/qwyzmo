@@ -50,6 +50,28 @@ class User < ActiveRecord::Base
 		self.status == STATUS[:pending_email]
 	end
 
+	def change_password(user_params, new_password, 
+				new_password_confirm)
+		updated_params = user_params
+		updated_params[:password] = new_password
+		updated_params[:password_confirmation] = 
+				new_password_confirm
+		if self.update_attributes(updated_params)
+			return true
+		else
+			self.errors.delete(:password)
+			self.errors.delete(:password_confirmation)
+			if new_password.length < User::MIN_PASS_LENGTH
+				self.errors.add(:new_password, 
+						"must be at least #{User::MIN_PASS_LENGTH} characters")
+			end
+			if new_password.to_s != new_password_confirm
+				self.errors.add(:new_password, "must match confirmation")
+			end
+			return false
+		end
+	end
+
 	private
 
 		def create_tokens

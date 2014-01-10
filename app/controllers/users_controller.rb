@@ -61,15 +61,13 @@ class UsersController < ApplicationController
 			if @user.update_attributes(updated_params)
 				flash[:success] = "Profile updated" 
 				redirect_to @user
-			else
-				edit
-				render 'edit'
+				return
 			end
 		else
 			@user.errors.add(:password, "is incorrect.")
-			edit
-			render 'edit'
 		end
+		edit
+		render 'edit'
 	end
 	
 	def edit_password
@@ -80,31 +78,21 @@ class UsersController < ApplicationController
 	def change_password
 		updated_user = User.find_by(email: @user.email)
 		if updated_user && updated_user.authenticate(user_params[:password])
-			updated_params = user_params
-			updated_params[:password] = params[:new_password]
-			updated_params[:password_confirmation] = 
-						params[:new_password_confirm]
-			if @user.update_attributes(updated_params)
-				flash[:success] = "Password Changed"
+			if @user.change_password(user_params, params[:new_password],
+					params[:new_password_confirm])
+				flash[:success] = "Password changed"
 				redirect_to @user
-			else
-				@user.errors.delete(:password)
-				@user.errors.delete(:password_confirmation)
-				if params[:new_password].length < User::MIN_PASS_LENGTH
-					@user.errors.add(:new_password, 
-							"must be at least #{User::MIN_PASS_LENGTH} characters")
-				end
-				if params[:new_password].to_s != params[:new_password_confirm]
-					@user.errors.add(:new_password, "must match confirmation")
-				end
-				edit_password
-				render 'edit_password'
+				return
 			end
 		else
 			@user.errors.add(:password, "is incorrect.")
-			edit_password
-			render 'edit_password'
 		end
+		edit_password
+		render 'edit_password'
+	end
+
+	def forgot_password
+		@title = "Reset password"
 	end
 
 ###########################################################	
