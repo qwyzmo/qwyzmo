@@ -71,6 +71,59 @@ class User < ActiveRecord::Base
 			return false
 		end
 	end
+	
+	def self.create_password_reset_token(email)
+		user = User.find_by(email: email.downcase)
+		if user
+			user.update_attribute(
+					:password_reset_token, SecureRandom.uuid)
+			user.update_attribute(
+					:password_reset_token_date, DateTime.now)
+		end
+		return user
+	end
+
+	def self.find_by_password_reset_token_if_valid(password_token)
+		user = User.find_by(password_reset_token: password_token)
+		if user && user.password_reset_token_recent?
+			return user
+		else
+			return nil
+		end
+	end
+	
+	def password_reset_token_recent?
+		password_reset_token_date > DateTime.now - 0.05
+	end
+	
+	def self.reset_password(	name, password, password_confirmation, 
+												password_reset_token)
+		db_user = User.find_by(name: name)
+		user = User.new({name: name, password_reset_token: password_reset_token})
+		if !db_user
+			user.errors.add(:name, 'is not found')
+			return user
+		end
+		if db_user.password_reset_token != password_reset_token
+			user.errors.add(:password_reset_token, 'is incorrect')
+			return user
+		end
+		if db_user.password_reset_token.empty?
+			user.errors.add(:password_reset_token, "is invalid")
+			return user
+		end
+		if !db_user.password_reset_token_recent?
+			user.errors.add(:password_reset_token, "is expired")
+			return user
+		end
+		db_user.password = password
+		db_user.password_confirmation = password_confirmation
+		db_user.password_reset_token = nil
+		db_user.password_reset_token_date = nil
+		# TODO add tests for clearing the password token and date
+		db_user.save
+		return db_user
+	end
 
 	private
 
@@ -80,4 +133,10 @@ class User < ActiveRecord::Base
 		end
 
 end
+
+
+
+
+
+
 

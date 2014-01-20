@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140107205350) do
+ActiveRecord::Schema.define(version: 20140112055636) do
 
   create_table "qwyzs", force: true do |t|
     t.integer  "user_id"
@@ -30,15 +30,18 @@ ActiveRecord::Schema.define(version: 20140107205350) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "password_digest"
-    t.boolean  "admin",            default: false
-    t.integer  "status",           default: 1
+    t.boolean  "admin",                     default: false
+    t.integer  "status",                    default: 1
     t.string   "remember_token"
     t.string   "activation_token"
+    t.string   "password_reset_token"
+    t.datetime "password_reset_token_date"
   end
 
   add_index "users", ["activation_token"], name: "index_users_on_activation_token"
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["name"], name: "index_users_on_name", unique: true
+  add_index "users", ["password_reset_token"], name: "index_users_on_password_reset_token"
   add_index "users", ["remember_token"], name: "index_users_on_remember_token"
 
 end

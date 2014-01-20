@@ -4,13 +4,7 @@ class UsersController < ApplicationController
 	before_action :correct_user,	 only: [:edit, :update]
 
 	ACTIVATION_TOKEN_NAME = "atok"
-
-	# TODO: remove this soon, temporary for testing.
-	def testemail
-		user_params = {email: 'qwyzmo@yahoo.com', name: 'test7353'}
-		user = User.new(user_params)
-		UserMailer.confirm_email(user).deliver
-	end
+	RESET_PASS_TOKEN_NAME = "ptok"
 
 	def activate
 		@user = User.find_by(
@@ -91,8 +85,45 @@ class UsersController < ApplicationController
 		render 'edit_password'
 	end
 
+	###################  password reset actions
 	def forgot_password
-		@title = "Reset password"
+		@title = "Get reset password link"
+	end
+	
+	def send_reset_link
+		@user = User.create_password_reset_token(params[:email])
+		if @user
+			UserMailer.password_reset_email(@user).deliver
+			@title = 'Password reset link sent'
+			render '/users/reset_sent'
+		else
+			flash[:error] = "Email not found."
+			redirect_to forgot_password_path
+		end
+	end
+	
+	def get_reset_password
+		@user = User.find_by_password_reset_token_if_valid(
+				params[RESET_PASS_TOKEN_NAME])
+		if !@user
+			@title = "Invalid reset password link"
+			render "users/pass_token_invalid"
+			return
+		end
+		@title = "Enter new password"
+	end
+	
+	def reset_password
+		puts "$$$$$$$$$$$$$  params = #{params.inspect}"
+		@user = User.reset_password(params[:name], params[:password],
+				params[:password_confirmation], 
+				params[:password_reset_token])
+		if @user.errors.empty?
+			flash[:success] = "Your password has been saved."
+			render 'show'
+		else
+			render 'users/get_reset_password'
+		end
 	end
 
 ###########################################################	

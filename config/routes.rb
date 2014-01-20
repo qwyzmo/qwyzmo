@@ -10,10 +10,23 @@ QwyzmoApp::Application.routes.draw do
   match '/signout',				to:	'sessions#destroy',			via: 	'delete'
 	
 	match '/signup',				to:	'users#new',						via: 	'get'
+	
+	# TODO refactor these into restful resources
 	get 	'/editpass/:id',	to: 'users#edit_password', 	as: 	'editpass'
-	get 	'/forgotpass',		to: 'users#forgot_password'
 	get 	'/activate',			to: 'users#activate'
-	get		'/testemail',			to: 'users#testemail'
+		
+	# #####################  password change routes
+	# enter email for reset
+	get 	'/forgot_password',		to: 'users#forgot_password'
+	# send link with pass token
+	get 	'/send_reset_link',	to: 'users#send_reset_link'
+	# enter uname and new pass
+	get		'/get_reset_password',	to: 'users#get_reset_password'
+	# reset the password
+	post	'/reset_pass', 		to: 'users#reset_password'
+
+	# This route is for testing email sending only
+	# get		'/testemail',			to: 'users#testemail'
 
 	root										'pages#home'
 end

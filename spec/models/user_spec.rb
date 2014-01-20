@@ -11,6 +11,7 @@ describe User do
 	end
 
 	subject { @user }
+	
 
 	it { should respond_to(:name) }
 	it { should respond_to(:email) }
@@ -20,6 +21,8 @@ describe User do
 	it { should respond_to(:authenticate) }
 	it { should respond_to(:remember_token) }
 	it { should respond_to(:activation_token) }
+	it { should respond_to(:password_reset_token) }
+	it { should respond_to(:password_reset_token_date) }
 	
 	it { should be_valid }
 
@@ -99,7 +102,7 @@ describe User do
 			"a" * 7 }
 		it { should be_invalid }
 	end
-	
+
 	describe "return value of authenticate method" do
 		before { @user.save }
 		let(:found_user) { User.find_by(email: @user.email) }
@@ -176,8 +179,164 @@ describe User do
 						).to eq (user.password_digest.to_s)
 			end
 		end
-		
+	end # change password
+
+	describe "User.create_password_reset_token" do
+		before { @user.save }
+
+		it "returns user, sets token and date, with valid email" do
+			test_time = DateTime.now - 5
+			reset_user = User.create_password_reset_token(@user.email)
+			expect(reset_user).to_not be_nil
+			db_user = User.find(@user.id)
+			expect(db_user.password_reset_token
+						).to_not eq @user.password_reset_token
+			expect(db_user.password_reset_token_date).to be > test_time
+		end
+
+		it "returns nil, doesnt set token and date with INVALID email" do
+			test_time = DateTime.now - 5
+			reset_user = User.create_password_reset_token("invalid@email.xxx")
+			expect(reset_user).to be_nil
+			db_user = User.find(@user.id)
+			expect(db_user.password_reset_token
+						).to eq @user.password_reset_token
+			expect(db_user.password_reset_token_date
+						).to eq @user.password_reset_token_date
+		end
 	end
+	
+	describe "User.find_by_password_reset_token_if_valid" do
+		before do
+			@user.save
+		end
+		
+		it "returns nil if token is invalid" do
+			user = User.find_by_password_reset_token_if_valid("invalid_token")
+			expect(user).to be_nil
+		end
+		
+		it "returns nil if token is older than 0.05 of a day" do
+			@user.update_attribute(:password_reset_token_date, 
+					DateTime.now - 0.3)
+			@user.update_attribute(:password_reset_token, SecureRandom.uuid)
+			user = User.find_by_password_reset_token_if_valid(
+					@user.password_reset_token)
+			expect(user).to be_nil
+		end
+		
+		it "returns user if token is valid and recent" do
+			@user.update_attribute(:password_reset_token_date, 
+					DateTime.now - 0.02)
+			@user.update_attribute(:password_reset_token, 
+					SecureRandom.uuid.to_s)
+			user = User.find_by_password_reset_token_if_valid(
+					@user.password_reset_token)
+			expect(user).to_not be_nil
+		end
+	end
+	
+	describe "#password_reset_token_recent?" do
+		it "returns false when password reset token to old" do
+			user = User.new
+			user.password_reset_token_date = DateTime.now - 0.1
+			expect(user.password_reset_token_recent?).to be_false
+		end
+		
+		it "returns true when password reset token recent enough" do
+			user = User.new
+			user.password_reset_token_date = DateTime.now - 0.01
+			expect(user.password_reset_token_recent?).to be_true
+		end
+	end
+	
+	describe "User.reset_password" do
+		let(:valid_pass) { "validpassword"}
+		
+		before do
+			@user.save
+			@user = User.create_password_reset_token(@user.email)
+		end
+
+		describe "failure produces user with errors, pass unchanged" do
+			it "fails with invalid name" do
+				user = User.reset_password( "invalid name", valid_pass,
+						valid_pass, @user.password_reset_token)
+				expect(user.errors[:name][0]).to eq "is not found" 
+				check_errorcount_and_db_reset_token(user)
+			end
+
+			it "fails with wrong token" do
+				user = User.reset_password( @user.name, valid_pass,
+						valid_pass, "invalid token")
+				expect(user.errors[:password_reset_token][0]).to eq "is incorrect"
+				check_errorcount_and_db_reset_token(user)
+			end
+			
+			it "fails if token is empty" do
+				@user.update_attribute(:password_reset_token, "")
+				user = User.reset_password( @user.name, valid_pass, valid_pass, "")
+				expect(user.errors[:password_reset_token][0]).to eq "is invalid"
+				check_errorcount_and_db_reset_token(user)
+			end
+			
+			it "fails with invalid password" do
+				user = User.reset_password( @user.name, "2short",
+						"2short", @user.password_reset_token)
+				expect(user.errors[:password][0]
+						).to eq "is too short (minimum is 8 characters)"
+				check_errorcount_and_db_reset_token(user)
+			end
+			
+			it "fails with password and confirmation mismatch" do
+				user = User.reset_password( @user.name, valid_pass,
+						"mismatched", @user.password_reset_token)
+				expect(user.errors[:password_confirmation][0]
+						).to eq "doesn't match Password"
+				check_errorcount_and_db_reset_token(user)
+			end
+			
+			it "fails with expired token" do
+				@user.update_attribute(:password_reset_token_date, 
+						DateTime.now - 1)
+				user = User.reset_password( @user.name, valid_pass,
+						valid_pass, @user.password_reset_token)
+				expect(user.errors[:password_reset_token][0]).to eq "is expired"
+				check_errorcount_and_db_reset_token(user)
+			end
+		end
+		
+		it "updates password on success and returns err free user" do
+			user = User.reset_password( @user.name, valid_pass,
+					valid_pass, @user.password_reset_token)
+			expect(user.errors.messages.count).to eq 0
+			db_user = User.find(@user.id)
+			expect(db_user.password_digest).to_not eq @user.password_digest
+		end
+	end
+
+	def check_errorcount_and_db_reset_token(user)
+		expect(user.errors.messages.count).to eq 1
+		db_user = User.find(@user.id)
+		expect(db_user.password_digest).to eq @user.password_digest
+	end
+	
+	describe "#create_tokens" do
+		class User
+			def call_create_tokens
+				create_tokens
+			end
+		end
+		
+		it "sets activation and remember token" do
+			user = User.new
+			user.status = 23424
+			user.call_create_tokens
+			expect(user.remember_token).to_not be_nil
+			expect(user.activation_token).to_not be_nil
+		end
+	end
+	
 end
 
 

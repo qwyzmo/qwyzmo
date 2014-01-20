@@ -15,7 +15,7 @@ describe "signin pages" do
 		describe "clicking forgot password link" do
 			before { click_link "Forgot password?" }
 				
-			it { should have_title 'Reset password'}
+			it { should have_title 'Get reset password link'}
 		end
 	end
 	

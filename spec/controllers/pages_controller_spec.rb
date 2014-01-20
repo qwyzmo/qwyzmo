@@ -7,7 +7,7 @@ describe PagesController do
 		@base_title = "Qwyzmo | "
 	end
 
-	# TODO
+	# TODO fix pages controller tests
 
 	# describe "GET 'home'" do
 		# it "should be successful" do
