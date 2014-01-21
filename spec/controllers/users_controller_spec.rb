@@ -107,7 +107,7 @@ describe UsersController do
 				@original_pass_digest = reset_user.password_digest
 				@user = User.create_password_reset_token(reset_user.email)
 			end
-			
+
 			def expect_err_no_reset
 				expect(response).to render_template('users/get_reset_password')
 				expect(response.body).to have_css("div#error_explanation")
@@ -116,59 +116,66 @@ describe UsersController do
 			end
 			
 			it "fails if username not found" do
-				post :reset_password, name: 									"invalid", 
-																password: 							reset_user.password, 
-																password_confirmation:	reset_user.password,
-																password_reset_token:		@user.password_reset_token
+				post	:reset_password, user: {
+							name: 									"invalid",
+							password: 							reset_user.password,
+							password_confirmation: 	reset_user.password,
+							password_reset_token:		@user.password_reset_token }
 				expect_err_no_reset
 			end
-			
+
 			it "fails if token doesnt match database" do
-				post :reset_password, name: 									@user.name, 
-																password: 							reset_user.password, 
-																password_confirmation:	reset_user.password,
-																password_reset_token:		"invalid"
+				post	:reset_password, user: {
+							name: 									@user.name,
+							password: 							reset_user.password,
+							password_confirmation: 	reset_user.password,
+							password_reset_token:		"invalid" }
 				expect_err_no_reset
 			end
-			
+
 			it "fails if token is expired" do
 				@user.update_attribute(:password_reset_token_date, DateTime.now - 1)
-				post :reset_password, name: 									@user.name, 
-																password: 							reset_user.password, 
-																password_confirmation:	reset_user.password,
-																password_reset_token:		@user.password_reset_token
+				post	:reset_password, user: {
+							name: 									@user.name,
+							password: 							reset_user.password,
+							password_confirmation: 	reset_user.password,
+							password_reset_token:		@user.password_reset_token }
 				expect_err_no_reset
 			end
-			
+
 			it "fails if password and password confirmation do not match" do
-				post :reset_password, name: 									@user.name, 
-																password: 							reset_user.password, 
-																password_confirmation:	"mismatched",
-																password_reset_token:		@user.password_reset_token
+				post	:reset_password, user: {
+							name: 									@user.name,
+							password: 							reset_user.password,
+							password_confirmation: 	"mismatched",
+							password_reset_token:		@user.password_reset_token }
 				expect_err_no_reset
 			end
 			
 			it "fails if password invalid" do
-				post :reset_password, name: 									@user.name, 
-																password: 							"2short", 
-																password_confirmation:	"2short",
-																password_reset_token:		@user.password_reset_token
+				post	:reset_password, user: {
+							name: 									@user.name,
+							password: 							"2short",
+							password_confirmation: 	"2short",
+							password_reset_token:		@user.password_reset_token }
 				expect_err_no_reset
 			end
 			
 			it "on success: renders show, saves pass, shows reset message" do
-				post :reset_password, name: 									@user.name, 
-																password: 							reset_user.password, 
-																password_confirmation:	reset_user.password,
-																password_reset_token:		@user.password_reset_token
+				post	:reset_password, user: {
+							name: 									@user.name,
+							password: 							reset_user.password,
+							password_confirmation: 	reset_user.password,
+							password_reset_token:		@user.password_reset_token }
 				expect(response).to render_template('users/show')
 				expect(response.body).to have_content("Your password has been saved")
 				db_user = User.find(reset_user.id)
 				expect(db_user.password_digest).to_not eq(@original_pass_digest)
 				# TODO test that the user is signed in also, and page title is correct
+				expect(response.body).to have_content("Sign out")
+				expect(response.body).to have_title(@user.name)
 			end
 		end # #reset password
-		
 	end # password reset actions
 end # users controller
 

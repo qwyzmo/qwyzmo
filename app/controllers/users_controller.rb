@@ -110,6 +110,7 @@ class UsersController < ApplicationController
 			render "users/pass_token_invalid"
 			return
 		end
+		@user.name = ""
 		@title = "Enter new password"
 	end
 	
