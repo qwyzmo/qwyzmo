@@ -114,14 +114,17 @@ class UsersController < ApplicationController
 	end
 	
 	def reset_password
-		puts "$$$$$$$$$$$$$  params = #{params.inspect}"
-		@user = User.reset_password(params[:name], params[:password],
-				params[:password_confirmation], 
-				params[:password_reset_token])
+		@user = User.reset_password(	params[:user][:name], 
+																	params[:user][:password],
+																	params[:user][:password_confirmation], 
+																	params[:user][:password_reset_token])
 		if @user.errors.empty?
 			flash[:success] = "Your password has been saved."
+			sign_in(@user)
+			@title = @user.name
 			render 'show'
 		else
+			@title = "Enter new password"
 			render 'users/get_reset_password'
 		end
 	end

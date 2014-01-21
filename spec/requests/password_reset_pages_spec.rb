@@ -2,6 +2,7 @@
 require 'spec_helper'
 
 describe 'password reset pages' do
+	include SessionsHelper
 
 	subject { page }
 
@@ -32,12 +33,12 @@ describe 'password reset pages' do
 			it "sends an email" do
 				email = ActionMailer::Base.deliveries.last
 				expect(email).to_not be_nil
-				ActionMailer::Base.deliveries.clear
 			end
 		end
 		
 		describe "for an email not in database" do
 			before do
+				ActionMailer::Base.deliveries.clear
 				fill_in :email, with: "wrong@email.address"
 				click_button "Send reset password link"
 			end
@@ -64,8 +65,9 @@ describe 'password reset pages' do
 			@original_pass_digest = @user.password_digest
 			User.create_password_reset_token(@user.email)
 			@user = User.find(@user.id)
-			visit get_reset_password_path + "?" + RESET_PASS_TOKEN_NAME +
-					"=" + @user.password_reset_token
+			visit get_reset_password_path(
+					UsersController::RESET_PASS_TOKEN_NAME => 
+					@user.password_reset_token)
 		end
 		
 		it "has the correct title" do
@@ -74,23 +76,48 @@ describe 'password reset pages' do
 		
 		describe "user enters correct username" do
 			before do
-				fill_in :name, 											with: @user.name
-				fill_in :password,									with: "aabbccdd"
-				fill_in :password_confirmation,	with: "aabbccdd"
+				fill_in "Name", 						with: @user.name
+				fill_in "Password",					with: "aabbccdd"
+				fill_in "Confirm password",	with: "aabbccdd"
 				click_button "Save new password"
 			end
 			
-			it "sends you to the show page" do
-				
+			it "sends you to the show page with success message" do
+				should have_title(@user.name)
+				should have_content("Your password has been saved")
 			end
 			
 			it "updates the users password" do
-				
+				db_user = User.find(@user.id)
+				expect(db_user.password_digest).to_not eq @original_pass_digest
+			end
+			
+			it "signs the user in" do
+				should have_content("Sign out")
 			end
 		end
 		
 		describe "user enters wrong username" do
+			before do
+				fill_in "Name", 						with: "wrong name"
+				fill_in "Password",					with: "aabbccdd"
+				fill_in "Confirm password",	with: "aabbccdd"
+				click_button "Save new password"
+			end
 			
+			it "sends user back to get_reset_password, with error" do
+				should have_title("Enter new password")
+				should have_css("div#error_explanation")
+			end
+			
+			it "does not update the password" do
+				db_user = User.find(@user.id)
+				expect(db_user.password_digest).to eq @original_pass_digest
+			end
+			
+			it "does not sign the user in" do
+				should_not have_content("Sign out")
+			end
 		end
 	end
 	

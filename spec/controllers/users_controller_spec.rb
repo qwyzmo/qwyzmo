@@ -165,6 +165,7 @@ describe UsersController do
 				expect(response.body).to have_content("Your password has been saved")
 				db_user = User.find(reset_user.id)
 				expect(db_user.password_digest).to_not eq(@original_pass_digest)
+				# TODO test that the user is signed in also, and page title is correct
 			end
 		end # #reset password
 		
