@@ -99,30 +99,26 @@ class User < ActiveRecord::Base
 	def self.reset_password(	name, password, password_confirmation, 
 												password_reset_token)
 		db_user = User.find_by(name: name)
-		user = User.new({name: name, password_reset_token: password_reset_token})
 		if !db_user
+			user = User.new
 			user.errors.add(:name, 'is not found')
 			return user
 		end
-		if db_user.password_reset_token != password_reset_token
-			user.errors.add(:password_reset_token, 'is incorrect')
-			return user
+		if !db_user.password_reset_token_valid?(password_reset_token)
+			return nil
 		end
-		if db_user.password_reset_token.empty?
-			user.errors.add(:password_reset_token, "is invalid")
-			return user
-		end
-		if !db_user.password_reset_token_recent?
-			user.errors.add(:password_reset_token, "is expired")
-			return user
-		end
-		db_user.password = password
-		db_user.password_confirmation = password_confirmation
-		db_user.password_reset_token = nil
-		db_user.password_reset_token_date = nil
-		# TODO add tests for clearing the password token and date
+		db_user.password 									= password
+		db_user.password_confirmation 		= password_confirmation
+		db_user.password_reset_token 			= nil
+		db_user.password_reset_token_date	= nil
 		db_user.save
 		return db_user
+	end
+	
+	def password_reset_token_valid?(token)
+		return password_reset_token == token &&
+						!password_reset_token.empty? &&
+						password_reset_token_recent?
 	end
 
 	private

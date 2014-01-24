@@ -3,10 +3,7 @@ class UserMailer < ActionMailer::Base
 	
 	def confirm_email(user)
 		@user = user
-		domain = ActionMailer::Base.default_url_options[:host]
-		# @url	= "http://#{domain}/activate?" + 
-			# UsersController::ACTIVATION_TOKEN_NAME + "=" +
-			# @user.activation_token
+		domain = ActionMailer::Base.default_url_options[:host] 
 		@url = activate_url(
 				UsersController::ACTIVATION_TOKEN_NAME => @user.activation_token)
 		mail(to: @user.email, subject: 'Please activate your Qwyzmo account')
@@ -15,9 +12,6 @@ class UserMailer < ActionMailer::Base
 	def password_reset_email(user)
 		@user = user
 		domain = ActionMailer::Base.default_url_options[:host]
-		# @url	= "http://#{domain}/getresetpass?" + 
-			# UsersController::RESET_PASS_TOKEN_NAME + "=" +
-			# @user.password_reset_token
 		@url = get_reset_password_url( 
 				UsersController::RESET_PASS_TOKEN_NAME => @user.password_reset_token)
 		mail(to: @user.email, subject: 'Reset your password')

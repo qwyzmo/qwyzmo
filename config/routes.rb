@@ -23,10 +23,7 @@ QwyzmoApp::Application.routes.draw do
 	# enter uname and new pass
 	get		'/get_reset_password',	to: 'users#get_reset_password'
 	# reset the password
-	patch	'/reset_pass', 		to: 'users#reset_password'
-
-	# This route is for testing email sending only
-	# get		'/testemail',			to: 'users#testemail'
+	match	'/reset_pass', 		to: 'users#reset_password', via: [:patch,:post]
 
 	root										'pages#home'
 end

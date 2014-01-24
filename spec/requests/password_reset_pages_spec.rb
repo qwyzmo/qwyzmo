@@ -95,7 +95,7 @@ describe 'password reset pages' do
 				should have_content("Sign out")
 			end
 		end
-		
+
 		describe "user enters wrong username" do
 			before do
 				fill_in "Name", 						with: "wrong name"
@@ -117,6 +117,14 @@ describe 'password reset pages' do
 			it "does not sign the user in" do
 				should_not have_content("Sign out")
 			end
+			
+			it "has the right reset token in the form" do
+				# TODO test for reset token
+			end
+		end
+		
+		describe "password reset token invalid" do
+			# TODO test that we go to the right page with right message.
 		end
 	end
 	

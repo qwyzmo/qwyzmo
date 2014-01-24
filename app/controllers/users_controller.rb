@@ -119,12 +119,17 @@ class UsersController < ApplicationController
 																	params[:user][:password],
 																	params[:user][:password_confirmation], 
 																	params[:user][:password_reset_token])
-		if @user.errors.empty?
+		if @user.nil?
+			flash[:error] = "Password reset token invalid"
+			forgot_password
+			render "users/forgot_password"
+		elsif @user.errors.empty?
 			flash[:success] = "Your password has been saved."
 			sign_in(@user)
 			@title = @user.name
 			render 'show'
 		else
+			@user.password_reset_token = params[:user][:password_reset_token]
 			@title = "Enter new password"
 			render 'users/get_reset_password'
 		end

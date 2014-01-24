@@ -269,15 +269,13 @@ describe User do
 			it "fails with wrong token" do
 				user = User.reset_password( @user.name, valid_pass,
 						valid_pass, "invalid token")
-				expect(user.errors[:password_reset_token][0]).to eq "is incorrect"
-				check_errorcount_and_db_reset_token(user)
+				expect(user).to be_nil
 			end
 			
 			it "fails if token is empty" do
 				@user.update_attribute(:password_reset_token, "")
 				user = User.reset_password( @user.name, valid_pass, valid_pass, "")
-				expect(user.errors[:password_reset_token][0]).to eq "is invalid"
-				check_errorcount_and_db_reset_token(user)
+				expect(user).to be_nil
 			end
 			
 			it "fails with invalid password" do
@@ -301,26 +299,21 @@ describe User do
 						DateTime.now - 1)
 				user = User.reset_password( @user.name, valid_pass,
 						valid_pass, @user.password_reset_token)
-				expect(user.errors[:password_reset_token][0]).to eq "is expired"
-				check_errorcount_and_db_reset_token(user)
+				expect(user).to be_nil
 			end
 		end
-		
+
 		it "updates password on success and returns err free user" do
 			user = User.reset_password( @user.name, valid_pass,
 					valid_pass, @user.password_reset_token)
 			expect(user.errors.messages.count).to eq 0
 			db_user = User.find(@user.id)
 			expect(db_user.password_digest).to_not eq @user.password_digest
+			expect(db_user.password_reset_token).to be_nil
+			expect(db_user.password_reset_token_date).to be_nil
 		end
 	end
 
-	def check_errorcount_and_db_reset_token(user)
-		expect(user.errors.messages.count).to eq 1
-		db_user = User.find(@user.id)
-		expect(db_user.password_digest).to eq @user.password_digest
-	end
-	
 	describe "#create_tokens" do
 		class User
 			def call_create_tokens
@@ -335,6 +328,44 @@ describe User do
 			expect(user.remember_token).to_not be_nil
 			expect(user.activation_token).to_not be_nil
 		end
+	end
+	
+	describe "#password_reset_token_valid?" do
+		it "returns true when tokens are equal, not empty, and recent" do
+			user = User.new
+			user.password_reset_token = "tok"
+			user.password_reset_token_date = DateTime.now
+			expect(user.password_reset_token_valid?("tok")).to be_true
+		end
+		
+		it "returns false when tokens are empty" do
+			user = User.new
+			user.password_reset_token = ""
+			user.password_reset_token_date = DateTime.now
+			expect(user.password_reset_token_valid?("")).to be_false
+		end
+		
+		it "returns false when tokens are not equal" do
+			user = User.new
+			user.password_reset_token = "token"
+			user.password_reset_token_date = DateTime.now
+			expect(user.password_reset_token_valid?("mismatched")).to be_false
+		end
+		
+		it "returns false when token is old" do
+			user = User.new
+			user.password_reset_token = "valid"
+			user.password_reset_token_date = DateTime.now - 1
+			expect(user.password_reset_token_valid?("valid")).to be_false
+		end
+	end
+	
+################################ helper methods
+	
+	def check_errorcount_and_db_reset_token(user)
+		expect(user.errors.messages.count).to eq 1
+		db_user = User.find(@user.id)
+		expect(db_user.password_digest).to eq @user.password_digest
 	end
 	
 end
