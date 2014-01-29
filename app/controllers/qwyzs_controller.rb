@@ -1,9 +1,10 @@
+
 class QwyzsController < ApplicationController
 	before_filter :authenticate
   before_filter :correct_user,   :only => [:destroy, :edit, :update]
 
 	def create
-		@qwyz = current_user.qwyzs.build(params[:qwyz])
+		@qwyz = current_user.qwyzs.build(qwyz_params)
 		if @qwyz.save
 			redirect_to qwyzs_path
 		else
@@ -21,7 +22,7 @@ class QwyzsController < ApplicationController
 	
 	def update
 		@qwyz = Qwyz.find(params[:id])
-		if @qwyz.update_attributes(params[:qwyz])
+		if @qwyz.update_attributes(qwyz_params)
 			flash[:success] = "Qwyz updated."
 			redirect_to qwyzs_path
 		else
@@ -30,7 +31,7 @@ class QwyzsController < ApplicationController
 		end
 	end
 
-	def add
+	def new
 		@title = "Create a New Qwyz"
 		if signed_in?
 			@qwyz = Qwyz.new
@@ -49,6 +50,11 @@ class QwyzsController < ApplicationController
 	end
 
 	private
+	
+		def qwyz_params
+			params.require(:qwyz).permit(:user_id, :name, :question, 
+					:description )
+		end
 
 		def correct_user
 			begin

@@ -10,4 +10,7 @@ class Qwyz < ActiveRecord::Base
 	# TODO fix default ordering of qwyzs
 	
 	# default_scope :order => 'qwyzs.created_at DESC'
+	
+	
+
 end

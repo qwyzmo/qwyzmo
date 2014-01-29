@@ -2,6 +2,65 @@ require 'spec_helper'
 
 describe UsersController do
 	render_views
+	
+	describe "access control" do
+		
+		describe "when not logged in" do
+			it "denies access to show" do
+				get :show, id: 1
+				expect(response).to redirect_to(signin_path)
+			end
+			
+			it "denies access to edit" do
+				get :edit, id: 1
+				expect(response).to redirect_to(signin_path)
+			end
+			
+			it "denies acces to update" do
+				get :update, id: 1
+				expect(response).to redirect_to(signin_path)
+			end
+			
+			it "denies access to edit_password" do
+				get :edit_password, id: 1
+				expect(response).to redirect_to(signin_path)
+			end
+		end
+		
+		describe "when logged in as wrong user" do
+			before do
+				@right_user = FactoryGirl.create(:user)
+				@wrong_user = User.new
+				
+				@wrong_user.name 									= "wrong user"
+				@wrong_user.email 								= "wronguser@q.com"
+				@wrong_user.password 							= "passpass"
+				@wrong_user.password_confirmation	= "passpass"
+				@wrong_user.save!
+				test_sign_in(@right_user)
+			end
+			
+			it "denies access to show" do
+				get :show, id: 2
+				expect(response).to redirect_to(root_path)
+			end
+			
+			it "denies access to edit" do
+				get :edit, id: 2
+				expect(response).to redirect_to(root_path)
+			end
+			
+			it "denies access to update" do
+				get :update, id: 2
+				expect(response).to redirect_to(root_path)
+			end
+			
+			it "denies access to edit_password" do
+				get :edit_password, id: 2
+				expect(response).to redirect_to(root_path)
+			end
+		end
+	end # access control
 
 	describe "#activate" do
 		let(:pending_user) do
@@ -32,13 +91,182 @@ describe UsersController do
 			expect(saved_user.pending_email?).to be_true 
 		end
 	end # activate
+
+	describe "actions that require a signed in user" do
+		before do
+			@user = FactoryGirl.create(:user)
+			test_sign_in(@user)
+		end
+		
+		describe "#show" do
+			it "renders correct template and title" do
+				get :show, id: 1
+				expect(response).to render_template(:show)
+				expect(response.body).to have_title(@user.name)
+			end
+		end
+		
+		describe "#edit" do
+			it "render correct template and title" do
+				get :edit, id: 1
+				expect(response).to render_template(:edit)
+				expect(response.body).to have_title("Edit Account Info")
+			end
+		end
+		
+		describe "#update" do
+			describe "change password" do
+				it "errors if password wrong" do
+					new_name = "new name"
+					patch :update, {id: 1, 
+													user: {	change_password: true, 
+													password: 							"wrongpass",
+													password_confirmation: 	"wrongpass", 
+													name: 									new_name}}
+					expect(response).to render_template(:edit)
+					expect(response.body).to have_content("Password is incorrect")
+					db_user = User.find_by(email: @user.email)
+					expect(db_user.name).to_not eq new_name
+				end
+				
+				it "changes password if successful" do
+					new_name = "new name"
+					patch :update, {id: 1, 
+													user: {	change_password: true, 
+													password: 							@user.password,
+													password_confirmation: 	@user.password, 
+													name: 									new_name}}
+					expect(response).to redirect_to(user_path)
+					db_user = User.find_by(email: @user.email)
+					expect(db_user.name).to eq new_name
+				end
+			end
+			
+			it "errors if password wrong" do
+				new_name = "new name"
+				patch :update, {id: 1,
+												user: {	change_password: false, 
+												password: 							"wrongpass",
+												password_confirmation: 	"wrongpass", 
+												name: 									new_name}}
+				expect(response).to render_template(:edit)
+				expect(response.body).to have_content("Password is incorrect")
+				db_user = User.find_by(email: @user.email)
+				expect(db_user.name).to_not eq new_name
+			end
+			
+			describe "in conflict with another user" do
+				before do
+					@other_user = User.new
+					@other_user.name 									= "other name"
+					@other_user.email 									= "wronguser@q.com"
+					@other_user.password 							= "passpass"
+					@other_user.password_confirmation	= "passpass"
+					@other_user.save!
+				end
+					
+				it "fails if name taken" do
+					patch :update, {id: 1,
+													user: {	change_password: false, 
+													email:									@user.email,
+													password: 							@user.password,
+													password_confirmation: 	@user.password, 
+													name: 									@other_user.name}}
+					expect(response).to render_template(:edit)
+					expect(response.body).to have_content("Name has already been taken")
+					db_user = User.find_by(email: @user.email)
+					expect(db_user.name).to_not eq @other_user.name
+				end
+				
+				it "fails if email taken" do
+					patch :update, {id: 1,
+													user: {	change_password: false, 
+													email:									@other_user.email,
+													password: 							@user.password,
+													password_confirmation: 	@user.password, 
+													name: 									@user.name}}
+					expect(response).to render_template(:edit)
+					expect(response.body).to have_content("Email has already been taken")
+					db_user = User.find_by(email: @user.email)
+					expect(db_user.email).to_not eq @other_user.email
+				end
+			end
+
+			it "renders correct template and message on success" do
+				new_email = "new.email@q.com"
+				new_name  = "new name"
+				patch :update, {id: 1,
+												user: {	change_password: false, 
+												email:									new_email,
+												password: 							@user.password,
+												password_confirmation: 	@user.password, 
+												name: 									new_name}}
+				expect(response).to redirect_to(@user)
+				db_user = User.find(1)
+				expect(db_user.email).to eq new_email
+				expect(db_user.name).to eq new_name
+			end
+		end # update
+	end # actions that require signed in user
 	
-	describe "password reset actions" do
+	describe "#create" do
+		it "on failure, render new with errors" do
+			count = User.count
+			get :create, { user: {
+												email:									"new@q.com",
+												password: 							"passpass",
+												password_confirmation: 	"passpass", 
+												name: 									""}}
+			expect(response).to render_template(:new)
+			expect(response.body).to have_content("Name can't be blank")
+			expect(User.count).to eq(count)
+		end
+		
+		it "on success, render checkemail" do
+			count = User.count
+			get :create, { user: {
+												email:									"new@q.com",
+												password: 							"passpass",
+												password_confirmation: 	"passpass", 
+												name: 									"new name"}}
+			expect(response).to render_template(:checkemail)
+			expect(response.body).to have_content("Please check your email")
+			expect(User.count).to eq(count + 1)
+		end
+	end # create
+
+	describe "#new" do
+		it "render correct template and title" do
+			get :new
+			expect(response).to render_template(:new)
+			expect(response.body).to have_title("Sign up")
+		end
+	end
+	
+	describe "password actions" do
 		let(:reset_user) do
 			User.new(	{	email: 'reset@me.now', 
 									name: 'reset me now', 
 									password: "asdfasdf", 
 									password_confirmation: "asdfasdf"})
+		end
+		
+		describe "#forgot_password" do
+			it "renders correct template and title" do
+				get :forgot_password
+				expect(response).to render_template(:forgot_password)
+				expect(response.body).to have_title("Get reset password link")
+			end
+		end
+		
+		describe "#edit_password" do
+			it "renders correct template and title" do
+				user =  FactoryGirl.create(:user)
+				test_sign_in(user)
+				get :edit_password, id: 1
+				expect(response).to render_template(:edit_password)
+				expect(response.body).to have_title("Change Password")
+			end
 		end
 		
 		describe "#send_reset_link" do

@@ -1,37 +1,45 @@
 
-# TODO
+# TODO fix all the qwyz controller tests
 
 require "spec_helper"
 
 describe QwyzsController do
+	render_views
 	
-	pending
+	describe "when not logged in" do
+		it "denies access to create" do
+			post :create
+			expect(response).to redirect_to(signin_path)
+		end
+		
+		it "denies access to new" do
+			get :new
+			expect(response).to redirect_to(signin_path)
+		end
+		
+		it "denies access to index" do
+			get :index
+			expect(response).to redirect_to(signin_path)
+		end
+		
+		it "denies access to destroy" do
+			delete :destroy, id: 1
+			expect(response).to redirect_to(signin_path)
+		end
+	end
+	
+	describe "logged in as wrong user" do
+		it "denies access to index" do
+			pending
+		end
+		
+		
+	end
+	
+	
 end
-	# render_views
 # 	
-	# describe "access control" do
-		# it "denies access to create" do
-			# post :create
-			# response.should redirect_to(signin_path)
-		# end
 # 		
-		# it "denies access to add" do
-			# get :add
-			# response.should redirect_to(signin_path)
-			# flash[:notice].should =~ /sign in/i
-		# end
-# 		
-		# it "denies access to index" do
-			# get :index
-			# response.should redirect_to(signin_path)
-			# flash[:notice].should =~ /sign in/i
-		# end
-# 		
-		# it "denies access to destroy" do
-			# delete :destroy, :id => 1
-			# response.should redirect_to(signin_path)
-		# end
-	# end
 # 	
 	# describe "create" do
 		# before(:each) do

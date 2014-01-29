@@ -1,7 +1,9 @@
 class UsersController < ApplicationController
 
-	before_action :signed_in_user, only: [:edit, :update]
-	before_action :correct_user,	 only: [:edit, :update]
+	before_action :signed_in_user, 
+						only: [:show, :edit, :update, :edit_password]
+	before_action :correct_user,	 
+						only: [:show, :edit, :update, :edit_password]
 
 	ACTIVATION_TOKEN_NAME = "atok"
 	RESET_PASS_TOKEN_NAME = "ptok"
@@ -64,32 +66,20 @@ class UsersController < ApplicationController
 		render 'edit'
 	end
 	
+	# TODO refactor all password methods into a password controller
 	def edit_password
 		@title = "Change Password"
 		@user ||= User.find(params[:id])
 	end
 
-	def change_password
-		updated_user = User.find_by(email: @user.email)
-		if updated_user && updated_user.authenticate(user_params[:password])
-			if @user.change_password(user_params, params[:new_password],
-					params[:new_password_confirm])
-				flash[:success] = "Password changed"
-				redirect_to @user
-				return
-			end
-		else
-			@user.errors.add(:password, "is incorrect.")
-		end
-		edit_password
-		render 'edit_password'
-	end
 
 	###################  password reset actions
+	# TODO lets rename this to request_passreset
 	def forgot_password
 		@title = "Get reset password link"
 	end
 	
+	# TODO lets rename this to email_passreset_link
 	def send_reset_link
 		@user = User.create_password_reset_token(params[:email])
 		if @user
@@ -153,6 +143,22 @@ class UsersController < ApplicationController
 				store_location
 				redirect_to signin_url, notice: "Please sign in."
 			end
+		end
+
+		def change_password
+			updated_user = User.find_by(email: @user.email)
+			if updated_user && updated_user.authenticate(user_params[:password])
+				if @user.change_password(user_params, params[:new_password],
+						params[:new_password_confirm])
+					flash[:success] = "Password changed"
+					redirect_to @user
+					return
+				end
+			else
+				@user.errors.add(:password, "is incorrect.")
+			end
+			edit_password
+			render 'edit_password'
 		end
 end
 

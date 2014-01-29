@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+# TODO fix test for qwyz spec
+
 describe Qwyz do
 	pending
 end

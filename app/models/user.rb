@@ -1,10 +1,5 @@
 class User < ActiveRecord::Base
 	
-	# fields: id, name, email, qwyzs, 
-	#					last_login_at, create_at, updated_at, email_confirmed_at,
-	
-	# attr_accessor :name, :email, :password, 
-			# :password_confirmation, :status
 	MIN_PASS_LENGTH = 8
 
 	has_many :qwyzs
