@@ -3,7 +3,27 @@ require 'spec_helper'
 # TODO fix test for qwyz spec
 
 describe Qwyz do
-	pending
+	describe "validations" do
+		it "fails to save if name empty" do
+			pending
+		end
+		
+		it "fails to save if question empty" do
+			pending
+		end
+		
+		it "fails to save if user_id nil" do
+			pending
+		end
+		
+		it "fails to save if user_id invalid" do
+			pending
+		end
+		
+		it "saves with correct fields" do
+			pending
+		end
+	end
 end
 
 	# before(:each) do

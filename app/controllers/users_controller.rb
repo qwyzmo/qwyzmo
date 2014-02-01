@@ -66,7 +66,6 @@ class UsersController < ApplicationController
 		render 'edit'
 	end
 	
-	# TODO refactor all password methods into a password controller
 	def edit_password
 		@title = "Change Password"
 		@user ||= User.find(params[:id])
@@ -74,12 +73,10 @@ class UsersController < ApplicationController
 
 
 	###################  password reset actions
-	# TODO lets rename this to request_passreset
 	def forgot_password
 		@title = "Get reset password link"
 	end
 	
-	# TODO lets rename this to email_passreset_link
 	def send_reset_link
 		@user = User.create_password_reset_token(params[:email])
 		if @user

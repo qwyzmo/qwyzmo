@@ -30,6 +30,7 @@ describe UsersController do
 		describe "when logged in as wrong user" do
 			before do
 				@right_user = FactoryGirl.create(:user)
+				# TODO replace this with create_test_user
 				@wrong_user = User.new
 				
 				@wrong_user.name 									= "wrong user"
@@ -157,6 +158,7 @@ describe UsersController do
 			
 			describe "in conflict with another user" do
 				before do
+					# TODO replace this with create_test_user
 					@other_user = User.new
 					@other_user.name 									= "other name"
 					@other_user.email 									= "wronguser@q.com"

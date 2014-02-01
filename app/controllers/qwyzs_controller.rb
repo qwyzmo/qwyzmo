@@ -1,14 +1,22 @@
 
 class QwyzsController < ApplicationController
 	before_filter :authenticate
-  before_filter :correct_user,   :only => [:destroy, :edit, :update]
+	before_filter :correct_user,
+								:only => [:destroy, :edit, :update]
 
+	def new
+		@title = "Create a New Qwyz"
+		@qwyz = Qwyz.new
+	end
+	
 	def create
 		@qwyz = current_user.qwyzs.build(qwyz_params)
 		if @qwyz.save
-			redirect_to qwyzs_path
+			# redirect_to qwyzs_path
+			index
+			render :index
 		else
-			render :action => "add"
+			render :new
 		end
 	end
 
@@ -16,7 +24,8 @@ class QwyzsController < ApplicationController
 		@title = "Edit Qwyz"
 		@qwyz = Qwyz.find(params[:id])
 		if @qwyz.nil?
-			render "qwyzs/index"
+			index
+			render :index
 		end
 	end
 	
@@ -24,20 +33,18 @@ class QwyzsController < ApplicationController
 		@qwyz = Qwyz.find(params[:id])
 		if @qwyz.update_attributes(qwyz_params)
 			flash[:success] = "Qwyz updated."
-			redirect_to qwyzs_path
+			index
+			render :index
 		else
-			@title = "Edit Qwyz"
-			render 'edit'
+			edit
+			render :edit
 		end
 	end
 
-	def new
-		@title = "Create a New Qwyz"
-		if signed_in?
-			@qwyz = Qwyz.new
-		end
+	def show
+		# TODO implement show
 	end
-
+	
 	def index
 		@title = "My Qwyzs"
 		@qwyzs = current_user.qwyzs
@@ -45,8 +52,8 @@ class QwyzsController < ApplicationController
 
 	def destroy
 		@qwyz.destroy
-		# index
-		redirect_to qwyzs_url
+		index
+		render :index
 	end
 
 	private

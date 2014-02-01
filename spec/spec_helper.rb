@@ -49,7 +49,6 @@ Spork.prefork do
       c.syntax = :expect
     end
     
-    # TODO make sure this works
     def test_sign_in(user)
       controller.sign_in(user)
     end
@@ -58,5 +57,37 @@ end
 
 Spork.each_run do
   # This code will be run each time you run your specs.
-
 end
+
+#   TODO replace all uses of factorygirl with this.
+def create_test_user(name, email, pass, passconf)
+	test_user 											= User.new
+	test_user.name 									= name
+	test_user.email 								= email
+	test_user.password 							= pass
+	test_user.password_confirmation	= passconf
+	test_user.status								= User::STATUS[:activated]
+	test_user.save!
+	test_user
+end
+
+def create_test_qwyz(user_id, name, question, description)
+	test_qwyz 						= Qwyz.new
+	test_qwyz.user_id 		= user_id
+	test_qwyz.name 				= name
+	test_qwyz.question 		= question
+	test_qwyz.description = description
+	test_qwyz.save!
+	test_qwyz
+end
+
+
+
+
+
+
+
+
+
+
+

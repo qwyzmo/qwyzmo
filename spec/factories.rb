@@ -1,4 +1,6 @@
 	
+	
+# TODO remove factory girl. can use spec_helper.rb methods instead.
 FactoryGirl.define do
 	factory :user do
 		name		 								"FactGirl Username"
