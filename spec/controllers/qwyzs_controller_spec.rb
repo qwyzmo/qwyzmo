@@ -102,23 +102,57 @@ describe QwyzsController do
 		
 		describe "#update" do
 			it "on success gives message, renders :index, and updates record" do
-				pending
+				count = Qwyz.count
+				qname = "test name"
+				qquest = "test question"
+				qdescr = "test description"
+				post :update, { id: @qwyz.id, qwyz: {
+															name: 				qname,
+															question: 		qquest,
+															description: 	qdescr,
+											}}
+				expect(response).to render_template :index
+				expect(response.body).to have_content "Qwyz updated."
+				expect(Qwyz.count).to eq count
+				db_qwyz = Qwyz.find(@qwyz.id)
+				expect(db_qwyz.name).to 				eq qname
+				expect(db_qwyz.question).to 		eq qquest
+				expect(db_qwyz.description).to 	eq qdescr
 			end
 			
-			it "on failure, gives err msg, renders :edit, and record unchanged" do
-				pending
+			it "on failure, gives err msg, renders :edit, and db unchanged" do
+				count = Qwyz.count
+				qname = ""
+				qquest = "test question"
+				qdescr = "test description"
+				post :update, { id: @qwyz.id, qwyz: {
+															name: 				qname,
+															question: 		qquest,
+															description: 	qdescr,
+											}}
+				expect(response).to render_template :edit
+				expect(response.body).to_not have_content "Qwyz updated."
+				expect(Qwyz.count).to eq count
+				db_qwyz = Qwyz.find(@qwyz.id)
+				expect(db_qwyz.name).to_not					eq qname
+				expect(db_qwyz.question).to_not 		eq qquest
+				expect(db_qwyz.description).to_not 	eq qdescr
 			end
 			
-		end
-		
-		describe "#show" do
-			# TODO implement show tests when show is implemented
 		end
 		
 		describe "#index" do
-			pending
+			it "renders index template and has correct title" do
+				get :index
+				expect(response).to render_template :index
+				expect(response.body).to have_title "My Qwyzs"
+			end
 		end
-		
+
+		describe "#show" do
+			# TODO implement show tests when show is implemented
+		end
+
 		describe "#destroy" do
 			# TODO implement destroy tests when destroy is implemented fully
 		end

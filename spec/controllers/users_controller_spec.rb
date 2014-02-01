@@ -246,7 +246,7 @@ describe UsersController do
 	end
 	
 	describe "password actions" do
-		let(:reset_user) do
+		let!(:reset_user) do
 			User.new(	{	email: 'reset@me.now', 
 									name: 'reset me now', 
 									password: "asdfasdf", 
@@ -277,6 +277,7 @@ describe UsersController do
 			end
 	
 			it "fails for the wrong email address" do
+				ActionMailer::Base.deliveries.clear
 				get :send_reset_link, email: 'wrong@email.address'
 				email = ActionMailer::Base.deliveries.last
 				expect(email).to be_nil
@@ -288,6 +289,7 @@ describe UsersController do
 			end
 			
 			it "sends you to reset notification page with valid email" do
+				ActionMailer::Base.deliveries.clear
 				get :send_reset_link, email: reset_user.email
 				email = ActionMailer::Base.deliveries.last
 				expect(email).to_not be_nil

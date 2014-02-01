@@ -12,7 +12,6 @@ class QwyzsController < ApplicationController
 	def create
 		@qwyz = current_user.qwyzs.build(qwyz_params)
 		if @qwyz.save
-			# redirect_to qwyzs_path
 			index
 			render :index
 		else
@@ -59,8 +58,8 @@ class QwyzsController < ApplicationController
 	private
 	
 		def qwyz_params
-			params.require(:qwyz).permit(:user_id, :name, :question, 
-					:description )
+			params.require(:qwyz).permit(:user_id, :name, 
+					:question, :description )
 		end
 
 		def correct_user
