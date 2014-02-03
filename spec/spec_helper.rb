@@ -59,7 +59,6 @@ Spork.each_run do
   # This code will be run each time you run your specs.
 end
 
-#   TODO replace all uses of factorygirl with this.
 def create_test_user(name, email, pass, passconf)
 	test_user 											= User.new
 	test_user.name 									= name

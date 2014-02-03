@@ -3,72 +3,53 @@ require 'spec_helper'
 # TODO fix test for qwyz spec
 
 describe Qwyz do
+	before do
+		@user = create_test_user("n", "e@q.com", "passpass", "passpass")
+	end
+	
 	describe "validations" do
-		it "fails to save if name empty" do
-			pending
-		end
-		
-		it "fails to save if question empty" do
-			pending
+		before do
+			@qcount = Qwyz.count
 		end
 		
 		it "fails to save if user_id nil" do
-			pending
+			qwyz = newqwyz(nil, "n", "q", "d")
+			check_save_failed qwyz
+		end
+
+		it "fails to save if name empty" do
+			qwyz = newqwyz(@user.id, "", "q", "d")
+			check_save_failed qwyz
+		end
+		
+		it "fails to save if question empty" do
+			qwyz = newqwyz(@user.id, "n", "", "d")
+			check_save_failed qwyz
 		end
 		
 		it "fails to save if user_id invalid" do
-			pending
+			qwyz = newqwyz(9999, "n", "q", "d")
+			check_save_failed qwyz
 		end
 		
-		it "saves with correct fields" do
-			pending
+		it "saves with valid fields" do
+			qwyz = newqwyz(@user.id, "n", "q", "d")
+			save_result = qwyz.save
+			expect(save_result).to be_true
+			expect(Qwyz.count).to eq @qcount + 1
 		end
+	end
+	
+	def check_save_failed(qwyz)
+		save_result = qwyz.save
+		expect(save_result).to be_false
+		expect(Qwyz.count).to eq @qcount
+	end
+	
+	def newqwyz(user_id, name, question, description)
+		Qwyz.new(user_id: user_id, name: name, 
+				question: question, description: description)
 	end
 end
 
-	# before(:each) do
-		# @user = Factory(:user)
-		# @attr = {
-			# :name					 => "test qwyz",
-			# :description		=> "test description",
-			# :question			 => "test question",
-		# }
-	# end
-# 	
-	# it "creates a new instance given valid attributes" do
-		# @user.qwyzs.create!(@attr)
-	# end
-# 	
-	# describe "user associations" do
-		# before(:each) do
-			# @qwyz = @user.qwyzs.create(@attr)
-		# end
-# 		
-		# it "has a user attribute" do
-			# @qwyz.should respond_to(:user)
-		# end
-# 		
-		# it "has the correct user" do
-			# @qwyz.user_id.should == @user.id
-			# @qwyz.user.should == @user
-		# end
-# 		
-	# end # user associations
-# 	
-	# describe "validations" do
-# 		
-		# it "requires a user id" do
-			# Qwyz.new(@attr).should_not be_valid
-		# end
-# 		
-		# it "requires nonblank name and question" do
-			# @user.qwyzs.build(:name			 => "").should_not be_valid
-			# @user.qwyzs.build(:question => "").should_not be_valid
-		# end
-# 		
-		# it "rejects long names and questions" do
-			# @user.qwyzs.build(:name	 => "a" * 101).should_not be_valid
-			# @user.qwyzs.build(:question => "a" * 201).should_not be_valid
-		# end
-	# end
-# end
+

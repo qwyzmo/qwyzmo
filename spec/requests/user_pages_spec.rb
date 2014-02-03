@@ -3,19 +3,14 @@ require 'spec_helper'
 describe "User pages" do
 
 	subject { page }
-
-	describe "signup page" do
-		before { visit signup_path }
-
-		it { should have_content('Sign up') }
-		it { should have_title(title) }
-	end
 	
 	describe "signup" do
-
 		before { visit signup_path }
 
 		let(:submit) { "Sign up" }
+
+		it { should have_content('Sign up') }
+		it { should have_title(title) }
 
 		describe "with invalid information" do
 			it "should not create a user" do
@@ -44,6 +39,8 @@ describe "User pages" do
 			end
 		end
 	end # signup
+	
+	# TODO write tests for sign in, and sign out.
 end
 
 

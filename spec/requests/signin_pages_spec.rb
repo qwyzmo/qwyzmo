@@ -20,6 +20,10 @@ describe "signin pages" do
 	end
 	
 	describe "signin" do
+		before do
+			@user = create_test_user("FactGirl Username", "fg@q.com", 
+					"asdfasdf", "asdfasdf")
+		end
 		before { visit signin_path }
 
 		describe "with invalid information" do
@@ -35,31 +39,29 @@ describe "signin pages" do
 		end
 
 		describe "with valid information for activated user" do
-			let(:user) { FactoryGirl.create(:user) }
 			before do
-				fill_in "Email",		with: user.email
-				fill_in "Password", with: user.password
+				fill_in "Email",		with: @user.email
+				fill_in "Password", with: @user.password
 				click_button "Sign in"
 			end
 
-			it { should have_title(user.name) }
+			it { should have_title(@user.name) }
 			it { should have_link('Sign out',		href: signout_path) }
 			it { should_not have_link('Sign in', href: signin_path) }
-			it { should have_link('Edit Account',		href: edit_user_path(user)) }
+			it { should have_link('Edit Account',		href: edit_user_path(@user)) }
 
 			describe "followed by signout" do
 				before { click_link "Sign out" }
 				it { should have_link('Sign in') }
 			end
-		end # valid active user
+		end # valid active @user
 		
-		describe "with valid information for pending_email user" do
-			let(:user) { FactoryGirl.create(:user) }
+		describe "with valid information for pending_email @user" do
 			before do
-				user.status = User::STATUS[:pending_email]
-				user.save!
-				fill_in "Email",		with: user.email
-				fill_in "Password", with: user.password
+				@user.status = User::STATUS[:pending_email]
+				@user.save!
+				fill_in "Email",		with: @user.email
+				fill_in "Password", with: @user.password
 				click_button "Sign in"
 			end
 
@@ -70,13 +72,12 @@ describe "signin pages" do
 			it { should 		have_link('Home',				href: root_path) }
 		end
 
-		describe "with valid information for deactivated user" do
-			let(:user) { FactoryGirl.create(:user) }
+		describe "with valid information for deactivated @user" do
 			before do
-				user.status = User::STATUS[:deactivated]
-				user.save!
-				fill_in "Email",		with: user.email
-				fill_in "Password", with: user.password
+				@user.status = User::STATUS[:deactivated]
+				@user.save!
+				fill_in "Email",		with: @user.email
+				fill_in "Password", with: @user.password
 				click_button "Sign in"
 			end
 

@@ -12,9 +12,11 @@ class QwyzsController < ApplicationController
 	def create
 		@qwyz = current_user.qwyzs.build(qwyz_params)
 		if @qwyz.save
+			flash[:success] = "Qwyz created."
 			index
 			render :index
 		else
+			@title = "Create a New Qwyz"
 			render :new
 		end
 	end
@@ -35,7 +37,7 @@ class QwyzsController < ApplicationController
 			index
 			render :index
 		else
-			edit
+			@title = "Edit Qwyz"
 			render :edit
 		end
 	end

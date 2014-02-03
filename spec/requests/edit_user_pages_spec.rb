@@ -2,14 +2,17 @@
 require 'spec_helper'
 
 describe "edit pages" do
+	before do
+		@user = create_test_user("FactGirl Username", "fg@q.com", 
+				"asdfasdf", "asdfasdf")
+	end
 
 	subject { page }
 
 	describe "edit" do
-		let(:user) { FactoryGirl.create(:user) }
 		before do 
-			sign_in(user)
-			visit edit_user_path(user)
+			sign_in(@user)
+			visit edit_user_path(@user)
 		end
 
 		describe "page" do
@@ -23,24 +26,22 @@ describe "edit pages" do
 			before do
 				fill_in "Name",						 with: new_name
 				fill_in "Email",						with: new_email
-				fill_in "Password",		with: user.password
-				# fill_in "Confirm Password", with: user.password
+				fill_in "Password",		with: @user.password
 				click_button "Save changes"
 			end
 
 			it { should have_title(new_name) }
 			it { should have_selector('div.success') }
 			it { should have_link('Sign out', href: signout_path) }
-			specify { expect(user.reload.name).to	eq new_name }
-			specify { expect(user.reload.email).to eq new_email }
+			specify { expect(@user.reload.name).to	eq new_name }
+			specify { expect(@user.reload.email).to eq new_email }
 		end
 	end # edit
 
 	describe "edit password" do
-		let(:user) { FactoryGirl.create(:user) }
 		before do 
-			sign_in(user)
-			visit editpass_path(user)
+			sign_in(@user)
+			visit editpass_path(@user)
 		end
 
 		describe "page" do
@@ -50,13 +51,13 @@ describe "edit pages" do
 
 		describe "with valid information" do
 			before do
-				fill_in "Current password",				with: user.password
+				fill_in "Current password",				with: @user.password
 				fill_in "New password",						with: "newpassword"
 				fill_in "Confirm new password",		with: "newpassword"
 				click_button "Change Password"
 			end
 
-			it { should have_title(user.name) }
+			it { should have_title(@user.name) }
 			it { should have_selector('div.success') }
 		end
 		
@@ -74,7 +75,7 @@ describe "edit pages" do
 		
 		describe "with new password too short" do
 			before do
-				fill_in "Current password",				with: user.password
+				fill_in "Current password",				with: @user.password
 				fill_in "New password",						with: "short"
 				fill_in "Confirm new password",		with: "short"
 				click_button "Change Password"
@@ -86,7 +87,7 @@ describe "edit pages" do
 		
 		describe "with new password confirm mismatch" do
 			before do
-				fill_in "Current password",				with: user.password
+				fill_in "Current password",				with: @user.password
 				fill_in "New password",						with: "newpassword"
 				fill_in "Confirm new password",		with: "mismatched"
 				click_button "Change Password"

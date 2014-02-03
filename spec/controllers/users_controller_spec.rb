@@ -29,15 +29,10 @@ describe UsersController do
 		
 		describe "when logged in as wrong user" do
 			before do
-				@right_user = FactoryGirl.create(:user)
-				# TODO replace this with create_test_user
-				@wrong_user = User.new
-				
-				@wrong_user.name 									= "wrong user"
-				@wrong_user.email 								= "wronguser@q.com"
-				@wrong_user.password 							= "passpass"
-				@wrong_user.password_confirmation	= "passpass"
-				@wrong_user.save!
+				@right_user = create_test_user("FactGirl Username", "fg@q.com", 
+						"asdfasdf", "asdfasdf")
+				@wrong_user = create_test_user("wrong user", "wronguser@q.com", 
+						"passpass", "passpass")
 				test_sign_in(@right_user)
 			end
 			
@@ -64,8 +59,8 @@ describe UsersController do
 	end # access control
 
 	describe "#activate" do
-		let(:pending_user) do
-			User.new(	{	email: 'pend@q.c', 
+		before do
+			@pending_user = User.new(	{	email: 'pend@q.c', 
 									name: 'pending user', 
 									password: "asdfasdf", 
 									password_confirmation: "asdfasdf",
@@ -73,14 +68,14 @@ describe UsersController do
 		end
 	
 		before do
-			pending_user.save!
+			@pending_user.save!
 		end
 	
 		it "is successful for valid user" do
-			get :activate, atok: pending_user.activation_token
+			get :activate, atok: @pending_user.activation_token
 			expect(response).to render_template("users/activated")
 	
-			saved_user = User.find(pending_user.id)
+			saved_user = User.find(@pending_user.id)
 			expect(saved_user.activated?).to be_true 
 		end
 	
@@ -88,14 +83,15 @@ describe UsersController do
 			get :activate, atok: "xxxxxxx"
 			expect(response).to render_template("users/activation_failed")
 	
-			saved_user = User.find(pending_user.id)
+			saved_user = User.find(@pending_user.id)
 			expect(saved_user.pending_email?).to be_true 
 		end
 	end # activate
 
 	describe "actions that require a signed in user" do
 		before do
-			@user = FactoryGirl.create(:user)
+			@user = create_test_user("FactGirl Username", "fg@q.com", 
+					"asdfasdf", "asdfasdf")
 			test_sign_in(@user)
 		end
 		
@@ -158,13 +154,8 @@ describe UsersController do
 			
 			describe "in conflict with another user" do
 				before do
-					# TODO replace this with create_test_user
-					@other_user = User.new
-					@other_user.name 									= "other name"
-					@other_user.email 									= "wronguser@q.com"
-					@other_user.password 							= "passpass"
-					@other_user.password_confirmation	= "passpass"
-					@other_user.save!
+					@other_user = create_test_user("other name", "wronguser@q.com", 
+								"passpass", "passpass")
 				end
 					
 				it "fails if name taken" do
@@ -263,7 +254,8 @@ describe UsersController do
 		
 		describe "#edit_password" do
 			it "renders correct template and title" do
-				user =  FactoryGirl.create(:user)
+				user = create_test_user("FactGirl Username", "fg@q.com", 
+							"asdfasdf", "asdfasdf")
 				test_sign_in(user)
 				get :edit_password, id: 1
 				expect(response).to render_template(:edit_password)

@@ -2,11 +2,14 @@
 require 'spec_helper'
 
 describe 'password reset pages' do
+	before do
+		@user = create_test_user("FactGirl Username", "fg@q.com", 
+				"asdfasdf", "asdfasdf")		
+	end
 
 	subject { page }
 
 	describe "send reset password link page" do
-		let(:user) { FactoryGirl.create(:user) }
 		before do
 			visit forgot_password_path
 		end
@@ -17,7 +20,7 @@ describe 'password reset pages' do
 		
 		describe "valid email address sends to 'pass reset sent' page" do
 			before do
-				fill_in :email, with: user.email
+				fill_in :email, with: @user.email
 				click_button "Send reset password link"
 			end
 
@@ -60,7 +63,6 @@ describe 'password reset pages' do
 	describe "get reset pass page" do
 		describe "with valid password reset token" do
 			before do
-				@user = FactoryGirl.create(:user)
 				@original_pass_digest = @user.password_digest
 				User.create_password_reset_token(@user.email)
 				@user = User.find(@user.id)
@@ -127,7 +129,6 @@ describe 'password reset pages' do
 		
 		describe "password reset token invalid" do
 			before do
-				@user = FactoryGirl.create(:user)
 				User.create_password_reset_token(@user.email)
 				visit get_reset_password_path(
 						UsersController::RESET_PASS_TOKEN_NAME => 

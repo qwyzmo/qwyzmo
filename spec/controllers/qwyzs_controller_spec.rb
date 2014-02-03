@@ -1,6 +1,3 @@
-
-# TODO fix all the qwyz controller tests
-
 require "spec_helper"
 
 describe QwyzsController do

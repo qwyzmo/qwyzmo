@@ -2,7 +2,8 @@ require "spec_helper"
 
 describe UserMailer do
 	before do
-		@user = FactoryGirl.create(:user)
+		@user = create_test_user("FactGirl Username", "fg@q.com", 
+				"asdfasdf", "asdfasdf")
 	end
 	
 	describe "#confirm_email" do
