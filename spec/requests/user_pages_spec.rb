@@ -40,7 +40,42 @@ describe "User pages" do
 		end
 	end # signup
 	
-	# TODO write tests for sign in, and sign out.
+	describe "sign in" do
+		before do
+			@user = create_test_user("n", "e@q.c", "p" * 8, "p" * 8)
+			visit signin_path
+		end
+
+		describe "with valid info" do
+			before do
+				fill_in "Email",						with: @user.email
+				fill_in "Password",		 			with: "p" * 8
+				click_button "Sign in"
+			end
+			it { should have_title @user.name }
+			it { should have_content "Name #{@user.name}" }
+		end
+		
+		describe "with invalid info" do
+			before do
+				fill_in "Email",						with: @user.email
+				fill_in "Password",		 			with: "wrong password"
+				click_button "Sign in"
+			end
+			it { should have_title "Sign in" }
+			it { should have_content "Invalid email/password combination" }
+		end
+	end
+
+	describe "sign out" do
+		before do
+			@user = create_test_user("n", "e@q.c", "p" * 8, "p" * 8)
+			sign_in(@user)
+			visit signout_path
+		end
+		it { should have_title "Home" }
+		it { should have_content "Please sign in or register" }
+	end
 end
 
 

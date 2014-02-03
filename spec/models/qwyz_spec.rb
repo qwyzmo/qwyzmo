@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-# TODO fix test for qwyz spec
-
 describe Qwyz do
 	before do
 		@user = create_test_user("n", "e@q.com", "passpass", "passpass")
