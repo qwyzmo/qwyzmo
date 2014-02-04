@@ -37,7 +37,8 @@ end
 
 def make_qwyzs(user)
 	5.times do |n|
-		Qwyz.create!(	name: 				"test name #{n}",
+		Qwyz.create!(	user_id:			user.id,
+									name: 				"test name #{n}",
 									question: 		"test question #{n}",
 									description:	"test description #{n}")
 	end
