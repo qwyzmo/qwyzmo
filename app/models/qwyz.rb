@@ -1,6 +1,7 @@
 class Qwyz < ActiveRecord::Base
 
 	belongs_to :user
+	has_many :qwyz_items
 
 	validates :name,			:presence => true, :length => {:maximum => 100}
 	validates :question,	:presence => true, :length => {:maximum => 200}

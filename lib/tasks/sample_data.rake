@@ -42,4 +42,5 @@ def make_qwyzs(user)
 									question: 		"test question #{n}",
 									description:	"test description #{n}")
 	end
+	# TODO: create qwyz_items for first qwyz.
 end

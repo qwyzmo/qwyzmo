@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140112055636) do
+ActiveRecord::Schema.define(version: 20140205060819) do
+
+  create_table "qwyz_items", force: true do |t|
+    t.integer  "qwyz_id"
+    t.string   "description"
+    t.string   "image"
+    t.integer  "type"
+    t.integer  "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "qwyz_items", ["qwyz_id"], name: "index_qwyz_items_on_qwyz_id"
 
   create_table "qwyzs", force: true do |t|
     t.integer  "user_id"

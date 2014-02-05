@@ -43,7 +43,7 @@ class QwyzsController < ApplicationController
 	end
 
 	def show
-		# TODO implement show
+		@title = "View Qwyz"
 	end
 	
 	def index

@@ -1,0 +1,18 @@
+development:
+  cloud_name: qwyzmo
+  api_key: '334924963429636'
+  api_secret: hfXONCuIrXZsjPeJ4cVLVMAnCAU
+  enhance_image_tag: true
+  static_image_support: false
+production:
+  cloud_name: qwyzmo
+  api_key: '334924963429636'
+  api_secret: hfXONCuIrXZsjPeJ4cVLVMAnCAU
+  enhance_image_tag: true
+  static_image_support: true
+test:
+  cloud_name: qwyzmo
+  api_key: '334924963429636'
+  api_secret: hfXONCuIrXZsjPeJ4cVLVMAnCAU
+  enhance_image_tag: true
+  static_image_support: false
