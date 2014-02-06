@@ -1,4 +1,21 @@
 
-<!-- TODO: list all qwyz details -->
-
 <h2>View Qwyz</h2>
+<div>
+	Name: <%=@qwyz.name%>
+</div>
+<div>
+	Question: <%=@qwyz.question%>
+</div>
+<div>
+	Description: <%=@qwyz.description%>
+</div>
+<hr>
+<h3>Qwyz Items:</h3>
+(<%= link_to "Add a new item", new_qwyz_qwyz_item_path(@qwyz) %>)
+<br/>
+<% @qwyz.qwyz_items.each_with_index do |item, n| %>
+	<%=n+1%>. Description:<%=item.description%><br/>
+<% end %>
+
+
+

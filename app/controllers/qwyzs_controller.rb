@@ -44,6 +44,7 @@ class QwyzsController < ApplicationController
 
 	def show
 		@title = "View Qwyz"
+		@qwyz = Qwyz.find(params[:id])
 	end
 	
 	def index

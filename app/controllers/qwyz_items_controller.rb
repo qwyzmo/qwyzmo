@@ -7,11 +7,21 @@ class QwyzItemsController < ApplicationController
 	
 	
 	def new
-		
+		@title = "Add a new Qwyz item"
+		@qwyz = Qwyz.find(params[:qwyz_id])
+		@qwyz_item = QwyzItem.new
 	end
 	
 	def create
-		
+		@qwyz = Qwyz.find(params[:qwyz_id])
+		@qwyz_item = @qwyz.qwyz_items.build(qwyz_item_params)
+		if @qwyz_item.save
+			flash[:success] = "Qwyz item created."
+			redirect_to qwyz_path(@qwyz)
+		else
+			@title = "Add a new Qwyz item"
+			render :new
+		end
 	end
 	
 	def show
@@ -37,7 +47,7 @@ class QwyzItemsController < ApplicationController
 	private
 	
 		def qwyz_item_params
-			
+			params.require(:qwyz_item).permit(:qwyz_id, :description)
 		end
 	
 		def correct_user_and_qwyz

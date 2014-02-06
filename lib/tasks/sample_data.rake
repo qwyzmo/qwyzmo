@@ -1,4 +1,3 @@
-
 namespace :db do
 	desc "Fill database with sample data"
 	task populate: :environment do
@@ -12,15 +11,13 @@ def make_users
 											 password: 							"asdfasdf",
 											 password_confirmation: "asdfasdf",
 											 admin: true,
-											 status: User::STATUS[:activated],
-											 )
+											 status: User::STATUS[:activated],)
 	momo = User.create!(name:										"momo",
 											 email:									"m@q.com",
 											 password: 							"asdfasdf",
 											 password_confirmation: "asdfasdf",
 											 admin: false,
-											 status: User::STATUS[:activated],
-											 )
+											 status: User::STATUS[:activated],)
 	make_qwyzs(momo)
 	10.times do |n|
 		name	= Faker::Name.name
@@ -30,8 +27,7 @@ def make_users
 								 email:		 email,
 								 password: password,
 								 password_confirmation: password,
-								 status: User::STATUS[:activated]
-								 )
+								 status: User::STATUS[:activated])
 	end
 end
 
@@ -42,5 +38,8 @@ def make_qwyzs(user)
 									question: 		"test question #{n}",
 									description:	"test description #{n}")
 	end
-	# TODO: create qwyz_items for first qwyz.
+	7.times do |n|
+		QwyzItem.create!(qwyz_id:				1,
+											description:		"description #{n}")
+	end
 end
