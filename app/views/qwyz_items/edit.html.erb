@@ -1,5 +1,6 @@
 
-<h2>Add a New Item to: </h2><%=@qwyz.name%>
+<h2>Edit Qwyz Item</h2>
+
 <hr>
 
 <%= form_for([@qwyz, @qwyz_item], html: {multipart: true}) do |f| %>
@@ -11,6 +12,6 @@
 		<%= f.file_field :image %>
 	</div>
 	<div class="actions">
-		<%= f.submit :save %>
+		<%= f.submit :update %>
 	</div>
 <% end %>

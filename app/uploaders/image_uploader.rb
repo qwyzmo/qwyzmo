@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 class ImageUploader < CarrierWave::Uploader::Base
+	# include Cloudinary::CarrierWave
 
 	# TODO setup and configure for image uploads to cloudinary
 

@@ -14,7 +14,10 @@
 (<%= link_to "Add a new item", new_qwyz_qwyz_item_path(@qwyz) %>)
 <br/>
 <% @qwyz.qwyz_items.each_with_index do |item, n| %>
-	<%=n+1%>. Description:<%=item.description%><br/>
+	<%=n+1%>. Description:  <%=item.description%> | 
+	<%= link_to "Edit", edit_qwyz_qwyz_item_path(@qwyz, item)%> | 
+	<%= button_to "Deactivate", [@qwyz,item], method: 'delete' %><br/>
+	<%= image_tag item.image_url.to_s %><br/>
 <% end %>
 
 
