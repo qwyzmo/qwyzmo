@@ -9,16 +9,22 @@
 <div>
 	Description: <%=@qwyz.description%>
 </div>
-<hr>
-<h3>Qwyz Items:</h3>
+<hr/>
+<h3>Active qwyz items:</h3>
 (<%= link_to "Add a new item", new_qwyz_qwyz_item_path(@qwyz) %>)
 <br/>
 <% @qwyz.qwyz_items.each_with_index do |item, n| %>
-	<%=n+1%>. Description:  <%=item.description%> | 
-	<%= link_to "Edit", edit_qwyz_qwyz_item_path(@qwyz, item)%> | 
-	<%= button_to "Deactivate", [@qwyz,item], method: 'delete' %><br/>
-	<%= image_tag item.image_url.to_s %><br/>
+	<% if item.active? %>
+		<%= n+1%>. Description:  <%=item.description%> | 
+		<%= link_to "Edit", edit_qwyz_qwyz_item_path(@qwyz, item)%> | 
+		<%= button_to "Deactivate", [@qwyz,item], method: 'delete' %>
+		<%= image_tag item.image_url(:thumb).to_s %>
+	<% end%>
 <% end %>
 
+<hr/>
+
+<%= link_to "View inactive qwyz items", 
+				inactive_qwyz_items_path, id: @qwyz.id %>
 
 

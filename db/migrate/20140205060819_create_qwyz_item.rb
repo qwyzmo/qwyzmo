@@ -4,8 +4,8 @@ class CreateQwyzItem < ActiveRecord::Migration
 			t.integer		:qwyz_id
 			t.string		:description
 			t.string		:image
-			t.integer		:type
-			t.integer		:status
+			t.integer		:item_type, 		default: QwyzItem::TYPE[:image]
+			t.integer		:status,	default: QwyzItem::STATUS[:active]
 
 			t.timestamps
 		end

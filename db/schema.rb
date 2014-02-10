@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(version: 20140205060819) do
     t.integer  "qwyz_id"
     t.string   "description"
     t.string   "image"
-    t.integer  "type"
-    t.integer  "status"
+    t.integer  "item_type",   default: 100
+    t.integer  "status",      default: 1
     t.datetime "created_at"
     t.datetime "updated_at"
   end

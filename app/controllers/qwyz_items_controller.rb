@@ -17,8 +17,7 @@ class QwyzItemsController < ApplicationController
 		@qwyz_item = @qwyz.qwyz_items.build(qwyz_item_params)
 		if @qwyz_item.save
 			flash[:success] = "Qwyz item created."
-			# redirect_to qwyz_path(@qwyz)
-			render 'qwyzs/show'
+			render_show_qwyz
 		else
 			@title = "Add a new Qwyz item"
 			render :new
@@ -40,15 +39,27 @@ class QwyzItemsController < ApplicationController
 	end
 	
 	def update
-		# TODO: update the qwyz_item.
+		# TODO: update the qwyz_item
+		# for now just update the qwyz. later we may make items immutable.
+		@qwyz_item = QwyzItem.find(params[:id])
+		if @qwyz_item.update_attributes(qwyz_item_params)
+			flash[:success] = "Qwyz item updated"
+			render_show_qwyz
+		else
+			@title = "Edit Qwyz Item"
+			render :edit
+		end
 	end
 	
 	def destroy
-		# TODO: implement deactivation of qwyz item.
-		puts "------- destroy called. params = #{params.inspect}"
-		@qwyz = Qwyz.find(params[:qwyz_id])
-		# redirect_to qwyz_path(@qwyz)
-		render 'qwyzs/show'
+		@qwyz_item = QwyzItem.find(params[:id])
+		@qwyz_item.status = QwyzItem::STATUS[:inactive]
+		@qwyz_item.save
+		render_show_qwyz
+	end
+	
+	def activate
+		# TODO: implement
 	end
 	
 	private
@@ -60,6 +71,12 @@ class QwyzItemsController < ApplicationController
 	
 		def correct_user_and_qwyz
 			# TODO: implement
+		end
+		
+		def render_show_qwyz
+			@qwyz = Qwyz.find(params[:qwyz_id])
+			@title = 'View Qwyz'
+			render 'qwyzs/show'
 		end
 end
 

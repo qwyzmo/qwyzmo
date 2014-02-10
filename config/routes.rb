@@ -26,6 +26,10 @@ QwyzmoApp::Application.routes.draw do
 	
 	# reset the password
 	match	'/reset_pass', 		to: 'users#reset_password', via: [:patch,:post]
+	
+	
+	get 	'/inactive_qwyz_items/:id',	to: 'qwyzs#show_inactive_qwyz_items', 
+				as: 'inactive_qwyz_items'
 
 	root										'pages#home'
 end
