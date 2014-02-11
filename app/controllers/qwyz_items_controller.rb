@@ -39,8 +39,7 @@ class QwyzItemsController < ApplicationController
 	end
 	
 	def update
-		# TODO: update the qwyz_item
-		# for now just update the qwyz. later we may make items immutable.
+		# TODO: for now just update the qwyz. later we may make items immutable.
 		@qwyz_item = QwyzItem.find(params[:id])
 		if @qwyz_item.update_attributes(qwyz_item_params)
 			flash[:success] = "Qwyz item updated"
@@ -59,7 +58,13 @@ class QwyzItemsController < ApplicationController
 	end
 	
 	def activate
-		# TODO: implement
+		@qwyz_item = QwyzItem.find(params[:id])
+		@qwyz_item.status = QwyzItem::STATUS[:active]
+		@qwyz_item.save
+		@qwyz = Qwyz.find(@qwyz_item.qwyz_id)
+		@title = "Inactive Qwyz Items"
+		render "qwyzs/show_inactive_qwyz_items"
+		
 	end
 	
 	private
@@ -81,4 +86,3 @@ class QwyzItemsController < ApplicationController
 end
 
 
-# TODO: implement

@@ -17,4 +17,23 @@ class Qwyz < ActiveRecord::Base
 		# TODO deactivate qwyz
 		# TODO add status to qwyz db. add status codes: active, inactive
 	end
+	
+	# TODO write tests for these two methods.
+	def active_item_count
+		return 0 if qwyz_items.nil?
+		count = 0
+		qwyz_items.each do |item|
+			count +=1 if item.active?
+		end
+		count
+	end
+	
+	def inactive_item_count
+		return 0 if qwyz_items.nil?
+		count = 0
+		qwyz_items.each do |item|
+			count +=1 if item.inactive?
+		end
+		count
+	end
 end

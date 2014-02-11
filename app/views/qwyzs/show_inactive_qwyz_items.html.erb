@@ -6,10 +6,15 @@
 	<% if item.inactive? %>
 		<%= n+1%>. Description:  <%=item.description%> | 
 		<%= link_to "Edit", edit_qwyz_qwyz_item_path(@qwyz, item)%> | 
-		<%= button_to "Activate", [@qwyz,item], method: 'activate' %>
-		<%= image_tag item.image_url(:thumb).to_s %>
+		<%= button_to "Activate", { action: 'activate', controller: 'qwyz_items',
+						id: item.id} %>
+		<% if !item.image.blank? %>
+			<%= image_tag item.image_url(:thumb).to_s %><br/>
+		<% end %>
 	<% end%>
 <% end %>
 <br/>
 <hr/>
-	<%= link_to "back to View Qwyz", @qwyz %>
+<br/>
+<%= link_to "back to View Qwyz", @qwyz %>
+(<%=@qwyz.active_item_count%>)

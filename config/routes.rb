@@ -23,13 +23,14 @@ QwyzmoApp::Application.routes.draw do
 	
 	# enter uname and new pass									
 	get		'/get_reset_password',	to: 'users#get_reset_password'
-	
+
 	# reset the password
 	match	'/reset_pass', 		to: 'users#reset_password', via: [:patch,:post]
-	
-	
-	get 	'/inactive_qwyz_items/:id',	to: 'qwyzs#show_inactive_qwyz_items', 
+
+	get 	'/inactive_qwyz_items/:id',	to: 'qwyzs#show_inactive_qwyz_items',
 				as: 'inactive_qwyz_items'
+				
+	post	'/activate_item/:id', 			to: 'qwyz_items#activate'
 
 	root										'pages#home'
 end

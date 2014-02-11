@@ -15,16 +15,19 @@
 <br/>
 <% @qwyz.qwyz_items.each_with_index do |item, n| %>
 	<% if item.active? %>
-		<%= n+1%>. Description:  <%=item.description%> | 
+		<%= n + 1%>. Description:  <%=item.description%> | 
 		<%= link_to "Edit", edit_qwyz_qwyz_item_path(@qwyz, item)%> | 
 		<%= button_to "Deactivate", [@qwyz,item], method: 'delete' %>
-		<%= image_tag item.image_url(:thumb).to_s %>
+		<% if !item.image.blank? %>
+			<%= image_tag item.image_url(:thumb).to_s %><br/>
+		<% end %>
 	<% end%>
 <% end %>
 
 <hr/>
 
 <%= link_to "View inactive qwyz items", 
-				inactive_qwyz_items_path, id: @qwyz.id %>
+			inactive_qwyz_items_path( id: @qwyz.id )%>
+(<%=@qwyz.inactive_item_count%>)
 
 
