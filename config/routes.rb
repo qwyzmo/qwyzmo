@@ -1,9 +1,8 @@
 QwyzmoApp::Application.routes.draw do
 
 	resources :users
-	resources :qwyzs do
-		resources :qwyz_items
-	end
+	resources :qwyzs
+	resources :qwyz_items
 	resources :sessions,			:only => [:new, :create, :destroy]
 
   match '/signin',				to:	'sessions#new',					via: 	'get'

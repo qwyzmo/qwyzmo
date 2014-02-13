@@ -75,7 +75,7 @@ class QwyzsController < ApplicationController
 			begin
 				@qwyz = current_user.qwyzs.find(params[:id])
 			rescue
-				redirect_to qwyzs_url if @qwyz.nil?
+				redirect_to qwyzs_url
 			end
 		end
 end

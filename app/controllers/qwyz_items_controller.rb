@@ -1,9 +1,8 @@
 
 class QwyzItemsController < ApplicationController
 	before_filter :authenticate
-	before_filter :correct_user_and_qwyz,
+	before_filter :correct_user,
 								:only => [:destroy, :edit, :update]
-	# TODO: create correct authentication before filters for user and qwyz
 	
 	
 	def new
@@ -74,8 +73,14 @@ class QwyzItemsController < ApplicationController
 					:description, :image)
 		end
 	
-		def correct_user_and_qwyz
-			# TODO: implement
+		def correct_user
+			begin
+				@qwyz_item = QwyzItem.find(params[:id])
+				@qwyz = Qwyz.find(@qwyz_item.qwyz_id)
+				redirect_to users_url if current_user.id != @qwyz.user_id
+			rescue
+				redirect_to users_url
+			end
 		end
 		
 		def render_show_qwyz

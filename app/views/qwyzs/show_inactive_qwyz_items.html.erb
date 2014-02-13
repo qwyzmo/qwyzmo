@@ -1,6 +1,7 @@
 
 <h2>Inactive Qwyz Items</h2>
-
+for qwyz: <%=@qwyz.name%>
+<hr/>
 <br/>
 <% @qwyz.qwyz_items.each_with_index do |item, n| %>
 	<% if item.inactive? %>

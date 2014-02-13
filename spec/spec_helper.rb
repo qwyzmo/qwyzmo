@@ -80,6 +80,13 @@ def create_test_qwyz(user_id, name, question, description)
 	test_qwyz
 end
 
+def create_test_qwyz_item(qwyz_id, description)
+	test_item 							= QwyzItem.new
+	test_item.qwyz_id				= qwyz_id
+	test_item.description		= description
+	test_item.save!
+	test_item
+end
 
 
 

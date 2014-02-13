@@ -2,8 +2,9 @@ class QwyzItem < ActiveRecord::Base
 	belongs_to :qwyz
 	mount_uploader :image, ImageUploader
 	
-	# TODO implement validations and ties to image uploader.
-	
+	validates :qwyz_id, :presence => true
+	validates_presence_of :qwyz
+
 	STATUS = {
 		active: 						1,
 		inactive: 					2,
