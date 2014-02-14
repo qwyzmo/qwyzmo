@@ -4,6 +4,7 @@ class QwyzItem < ActiveRecord::Base
 	
 	validates :qwyz_id, :presence => true
 	validates_presence_of :qwyz
+	validates :description, :presence => true
 
 	STATUS = {
 		active: 						1,

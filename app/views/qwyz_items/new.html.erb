@@ -2,7 +2,8 @@
 <h2>Add a New Item to: </h2><%=@qwyz.name%>
 <hr>
 
-<%= form_for([@qwyz, @qwyz_item], html: {multipart: true}) do |f| %>
+<%= form_for(@qwyz_item, html: {multipart: true}) do |f| %>
+	<%= hidden_field_tag :qwyz_id, @qwyz_item.qwyz_id %>
 	<span>Description</span>
 	<div id="qwyz_item_description">
 		<%= f.text_area :description %>

@@ -6,7 +6,7 @@ for qwyz: <%=@qwyz.name%>
 <% @qwyz.qwyz_items.each_with_index do |item, n| %>
 	<% if item.inactive? %>
 		<%= n+1%>. Description:  <%=item.description%> | 
-		<%= link_to "Edit", edit_qwyz_qwyz_item_path(@qwyz, item)%> | 
+		<%= link_to "Edit", edit_qwyz_item_path(@qwyz, item)%> | 
 		<%= button_to "Activate", { action: 'activate', controller: 'qwyz_items',
 						id: item.id} %>
 		<% if !item.image.blank? %>

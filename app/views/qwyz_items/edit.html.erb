@@ -3,7 +3,7 @@
 
 <hr>
 
-<%= form_for([@qwyz, @qwyz_item], html: {multipart: true}) do |f| %>
+<%= form_for(@qwyz_item, html: {multipart: true}) do |f| %>
 	<span>Description</span>
 	<div id="qwyz_item_description">
 		<%= f.text_area :description %>

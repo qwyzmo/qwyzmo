@@ -11,13 +11,13 @@
 </div>
 <hr/>
 <h3>Active qwyz items:</h3>
-(<%= link_to "Add a new item", new_qwyz_qwyz_item_path(@qwyz) %>)
+(<%= link_to "Add a new item", new_qwyz_item_path(qwyz_id: @qwyz.id) %>)
 <br/>
 <% @qwyz.qwyz_items.each_with_index do |item, n| %>
 	<% if item.active? %>
 		<%= n + 1%>. Description:  <%=item.description%> | 
-		<%= link_to "Edit", edit_qwyz_qwyz_item_path(@qwyz, item)%> | 
-		<%= button_to "Deactivate", [@qwyz,item], method: 'delete' %>
+		<%= link_to "Edit", edit_qwyz_item_path(item)%> | 
+		<%= button_to "Deactivate", item, method: 'delete' %>
 		<% if !item.image.blank? %>
 			<%= image_tag item.image_url(:thumb).to_s %><br/>
 		<% end %>
