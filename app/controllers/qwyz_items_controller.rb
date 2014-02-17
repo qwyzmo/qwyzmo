@@ -25,11 +25,9 @@ class QwyzItemsController < ApplicationController
 	end
 	
 	def show
+		@qwyz_item = QwyzItem.find(params[:id])
+		@qwyz = Qwyz.find(@qwyz_item.qwyz_id)
 		@title = "View Qwyz Item"
-	end
-	
-	def index
-		# TODO: implement
 	end
 	
 	def edit
@@ -41,6 +39,7 @@ class QwyzItemsController < ApplicationController
 	def update
 		# TODO: for now just update the qwyz. later we may make items immutable.
 		@qwyz_item = QwyzItem.find(params[:id])
+		@qwyz = Qwyz.find(@qwyz_item.qwyz_id)
 		if @qwyz_item.update_attributes(qwyz_item_params)
 			flash[:success] = "Qwyz item updated"
 			render_show_qwyz(@qwyz_item.qwyz_id)

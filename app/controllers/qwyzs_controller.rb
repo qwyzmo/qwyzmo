@@ -24,10 +24,6 @@ class QwyzsController < ApplicationController
 	def edit
 		@title = "Edit Qwyz"
 		@qwyz = Qwyz.find(params[:id])
-		if @qwyz.nil?
-			index
-			render :index
-		end
 	end
 	
 	def update

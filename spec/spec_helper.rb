@@ -80,10 +80,12 @@ def create_test_qwyz(user_id, name, question, description)
 	test_qwyz
 end
 
-def create_test_qwyz_item(qwyz_id, description)
-	test_item 							= QwyzItem.new
-	test_item.qwyz_id				= qwyz_id
-	test_item.description		= description
+def create_test_qwyz_item(qwyz_id, description = "d", 
+					remote_image_url = "/spec/fixtures/ruby.jpg")
+	test_item 									= QwyzItem.new(
+			qwyz_id: 							qwyz_id, 
+			description: 					description,
+			remote_image_url: 		remote_image_url)
 	test_item.save!
 	test_item
 end

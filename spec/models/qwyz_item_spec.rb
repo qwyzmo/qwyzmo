@@ -18,9 +18,18 @@ describe QwyzItem do
 			expect(QwyzItem.count).to eq @qcount
 		end
 		
-		it "saves with valid fields" do
-			item = QwyzItem.new(qwyz_id: @qwyz.id, description: 'd3')
+		it "fails to save if image empty" do
+			item = QwyzItem.new(qwyz_id: @qwyz.id, description: 'd4',
+						image: '')
 			save_result = item.save
+			expect(save_result).to be_false
+			expect(QwyzItem.count).to eq @qcount
+		end
+		
+		it "saves with valid fields" do
+			item = QwyzItem.new(qwyz_id: @qwyz.id, description: 'd3',
+											remote_image_url: "/spec/fixtures/ruby.jpg")
+			save_result = item.save!
 			expect(save_result).to be_true
 			expect(QwyzItem.count).to eq @qcount + 1
 		end

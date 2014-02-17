@@ -4,6 +4,7 @@ describe QwyzItemsController do
 	before do
 		@user = create_test_user("n0", "n0@e.c", "password", "password")
 		@qwyz = create_test_qwyz(@user.id, "name", "question", "desc")
+		@qwyz_item = create_test_qwyz_item(@qwyz.id, "qidesc")
 	end
 
 	render_views
@@ -18,8 +19,6 @@ describe QwyzItemsController do
 				expect(response).to redirect_to(signin_path)
 				
 				get :show, id: 1
-				expect(response).to redirect_to(signin_path)
-				get :index
 				expect(response).to redirect_to(signin_path)
 				
 				get :edit, id: 1
@@ -67,7 +66,8 @@ describe QwyzItemsController do
 			it "saves on success and redirects to qwyz show" do
 				count = QwyzItem.count
 				post :create, { qwyz_id: @qwyz.id,
-							qwyz_item: { description: "d"}}
+							qwyz_item: { description: "d", 
+								image: fixture_file_upload('ruby.jpg') }}
 				expect(response).to render_template 'qwyzs/show'
 				expect(QwyzItem.count).to eq(count + 1)
 			end
@@ -82,23 +82,49 @@ describe QwyzItemsController do
 		end
 		
 		describe "#show" do
-			
-		end
-		
-		describe "#index" do
-			
+			it "renders show with title with valid id" do
+				get :show, id: @qwyz_item.id
+				expect(response).to render_template :show
+				expect(response.body).to have_title "View Qwyz Item"
+			end
 		end
 		
 		describe "#edit" do
-			
+			it "renders correct template and title" do
+				get :edit, id: @qwyz_item.id
+				expect(response).to render_template :edit
+				expect(response.body).to have_title "Edit Qwyz Item"
+			end
 		end
 		
 		describe "#update" do
+			it "updates item on success, and renders show qwyz" do
+				count = QwyzItem.count
+				put :update, { id: @qwyz_item.id, 
+							qwyz_item: { description: "d-update",
+							image: fixture_file_upload('ruby.jpg') }}
+				expect(response).to render_template 'qwyzs/show'
+				expect(QwyzItem.count).to eq(count)
+				db_item = QwyzItem.find(@qwyz_item.id)
+				expect(db_item.description).to eq 'd-update'
+			end
 			
+			it "on failure renders edit" do
+				count = QwyzItem.count
+				put :update, { id: @qwyz_item.id, 
+							qwyz_item: { description: "",
+							image: fixture_file_upload('ruby.jpg') }}
+				expect(response).to render_template :edit
+				expect(QwyzItem.count).to eq(count)
+				db_item = QwyzItem.find(@qwyz_item.id)
+				expect(db_item.description).to eq @qwyz_item.description
+			end
 		end
 		
 		describe "#delete" do
-			
+			it "sets the status properly and renders correct template" do
+				
+			end
 		end
 		
 	end # authenticated actions
