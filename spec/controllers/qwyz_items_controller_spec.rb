@@ -123,7 +123,23 @@ describe QwyzItemsController do
 		
 		describe "#delete" do
 			it "sets the status properly and renders correct template" do
-				
+				count = QwyzItem.count
+				delete :destroy, id: @qwyz_item.id
+				expect(response).to render_template 'qwyzs/show'
+				expect(QwyzItem.count).to eq(count)
+				db_item = QwyzItem.find(@qwyz_item.id)
+				expect(db_item.status).to eq QwyzItem::STATUS[:inactive] 
+			end
+		end
+		
+		describe "#activate" do
+			it "sets the status properly and renders correct template" do
+				count = QwyzItem.count
+				get :activate, id: @qwyz_item.id
+				expect(response).to render_template "qwyzs/show_inactive_qwyz_items"
+				expect(QwyzItem.count).to eq(count)
+				db_item = QwyzItem.find(@qwyz_item.id)
+				expect(db_item.status).to eq QwyzItem::STATUS[:active] 
 			end
 		end
 		

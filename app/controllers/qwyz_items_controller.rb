@@ -3,8 +3,7 @@ class QwyzItemsController < ApplicationController
 	before_filter :authenticate
 	before_filter :correct_user,
 								:only => [:destroy, :edit, :update]
-	
-	
+
 	def new
 		@title = "Add a new Qwyz Item"
 		@qwyz = Qwyz.find(params[:qwyz_id])
