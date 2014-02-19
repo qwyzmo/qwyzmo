@@ -31,5 +31,5 @@ QwyzmoApp::Application.routes.draw do
 				
 	post	'/activate_item/:id', 			to: 'qwyz_items#activate'
 
-	root										'pages#home'
+	root										'home#index'
 end

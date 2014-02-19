@@ -1,19 +1,8 @@
 
-	<h1>Qwyzmo</h1>
-<% if signed_in? %>
-	<span>You are signed in</span>
-	<table class="front"	summary="For signed-in users">
-		<tr>
-			<td class="main">
-			</td>
-			<td class="sidebar round">
-				<%= render 'shared/user_info' %>
-			</td>
-		</tr>
-	</table>
-<% else %>
-	<p>
-		Please sign in or register.
-	</p>
-	<%= link_to "Sign up now!", signup_path, :class => "signup_button round" %>
+<h2>Qwyzmo</h2>
+<h4>Select a Qwyz to begin:</h4>
+
+<% @qwyz_list.each do |qwyz| %>
+	Name: <%= qwyz.name %><br/>
 <% end %>
+

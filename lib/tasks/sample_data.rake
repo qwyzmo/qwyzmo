@@ -38,8 +38,10 @@ def make_qwyzs(user)
 									question: 		"test question #{n}",
 									description:	"test description #{n}")
 	end
-	7.times do |n|
-		QwyzItem.create!(qwyz_id:				1,
-											description:		"description #{n}")
+	3.times do |n|
+		QwyzItem.create!(qwyz_id:					1,
+											description:			"description #{n}",
+											remote_image_url: 
+					"http://res.cloudinary.com/hlxsa1nsv/image/upload/v1392832619/apekp0zrdsx29lnp80sk.jpg")
 	end
 end
