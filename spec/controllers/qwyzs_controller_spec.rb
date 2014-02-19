@@ -135,7 +135,6 @@ describe QwyzsController do
 				expect(db_qwyz.question).to_not 		eq qquest
 				expect(db_qwyz.description).to_not 	eq qdescr
 			end
-			
 		end
 		
 		describe "#index" do
@@ -143,6 +142,14 @@ describe QwyzsController do
 				get :index
 				expect(response).to render_template :index
 				expect(response.body).to have_title "My Qwyzs"
+			end
+		end
+
+		describe "#show_inactive_qwyz_items" do
+			it "renders correct template and title" do
+				get :show_inactive_qwyz_items, { id: @qwyz.id }
+				expect(response).to render_template :show_inactive_qwyz_items
+				expect(response.body).to have_title "Inactive Qwyz Items"
 			end
 		end
 

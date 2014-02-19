@@ -54,6 +54,36 @@ describe "qwyz item pages" do
 		end
 	end
 	
+	describe "deactivate and activate qwyz item" do
+		before do
+			@qwyz_item = create_test_qwyz_item(@qwyz.id, "desc")
+			visit qwyz_path(@qwyz.id)
+		end
+		
+		it { should have_content "View inactive qwyz items (0)" }
+		
+		describe "upon deactivation" do
+			before { click_button "Deactivate" }
+			
+			it { should have_title "View Qwyz" }
+			it { should have_content "View inactive qwyz items (1)" }
+			
+			describe "visit to de-activated qwyz items page" do
+				before { click_link "View inactive qwyz items" }
+				
+				it { should have_title "Inactive Qwyz Items" }
+				it { should have_content "back to View Qwyz (0)" }
+				
+				describe "upon activation" do
+					before { click_button "Activate" }
+					
+					it { should have_title "Inactive Qwyz Items" }
+					it { should have_content "back to View Qwyz (1)"}
+				end
+			end
+		end
+	end
+	
 	def fill_form(description, image, button_name)
 		fill_in "qwyz_item_description", 	with: description
 		attach_file('qwyz_item_image', File.join(Rails.root, image))
@@ -62,4 +92,9 @@ describe "qwyz item pages" do
 	
 end
 
-# TODO: implement
+
+
+
+
+
+

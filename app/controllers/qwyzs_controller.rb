@@ -44,7 +44,6 @@ class QwyzsController < ApplicationController
 	end
 	
 	def show_inactive_qwyz_items
-		# TODO write tests for this also
 		@title = "Inactive Qwyz Items"
 		@qwyz = Qwyz.find(params[:id])
 	end
