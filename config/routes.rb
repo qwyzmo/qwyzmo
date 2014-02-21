@@ -1,12 +1,16 @@
 QwyzmoApp::Application.routes.draw do
 
 	resources :users
-	resources :qwyzs
+	resources :qwyzs do
+		resources :votes
+	end
 	resources :qwyz_items
+	
+	
 	resources :sessions,			:only => [:new, :create, :destroy]
 
-  match '/signin',				to:	'sessions#new',					via: 	'get'
-  match '/signout',				to:	'sessions#destroy',			via: 	[:delete, :get]
+	match '/signin',				to:	'sessions#new',					via: 	'get'
+	match '/signout',				to:	'sessions#destroy',			via: 	[:delete, :get]
 	
 	match '/signup',				to:	'users#new',						via: 	'get'
 	
@@ -30,6 +34,8 @@ QwyzmoApp::Application.routes.draw do
 				as: 'inactive_qwyz_items'
 				
 	post	'/activate_item/:id', 			to: 'qwyz_items#activate'
+
+	# get		'/browse_qwyz/:id',					to: 'votes#'
 
 	root										'home#index'
 end

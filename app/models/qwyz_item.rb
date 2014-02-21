@@ -2,10 +2,10 @@ class QwyzItem < ActiveRecord::Base
 	belongs_to :qwyz
 	mount_uploader :image, ImageUploader
 	
-	validates :qwyz_id, :presence => true
+	validates :qwyz_id, presence: true
 	validates_presence_of :qwyz
-	validates :description, :presence => true
-	validates :image, :presence => true
+	validates :description, presence: true
+	validates :image, presence: true
 
 	STATUS = {
 		active: 						1,

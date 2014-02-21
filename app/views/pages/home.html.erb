@@ -3,6 +3,7 @@
 <h4>Select a Qwyz to begin:</h4>
 
 <% @qwyz_list.each do |qwyz| %>
-	Name: <%= qwyz.name %><br/>
+	Name: <%= qwyz.name %>, 
+	<%= link_to "Browse", browse_qwyz_path %><br/>
 <% end %>
 
