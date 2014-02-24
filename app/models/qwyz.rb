@@ -18,7 +18,6 @@ class Qwyz < ActiveRecord::Base
 		# TODO add status to qwyz db. add status codes: active, inactive
 	end
 	
-	# TODO write tests for these two methods.
 	def active_item_count
 		return 0 if qwyz_items.nil?
 		count = 0
@@ -36,4 +35,32 @@ class Qwyz < ActiveRecord::Base
 		end
 		count
 	end
+	
+	def next_unvoted_item_pair(user, ip, votelist)
+		users_votes = Vote.get_votes_by_voter(id, current_user, ip)
+		unvoted_item_pair(users_votes)
+	end
+
+	# gets the next pair of items that havent been voted on by the given user.
+	def unvoted_item_pair(votelist)
+		# find the items that have not been voted on, randomly pick two.
+		# create a map of id to items. remove all the left and right items from the votes.
+		voted_item_ids = {}
+		votelist.each do |vote|
+			voted_item_ids.put(vote.left_item_id, true)
+			voted_item_ids.put(vote.right_item_id, true)
+		end
+		unvoted_items = []
+		qwyz_items.each do |item|
+			if ! voted_item_ids[item.id]
+				unvoted_items.add item
+			end
+		end
+		unvoted_items.sample 2
+	end
 end
+
+
+
+
+

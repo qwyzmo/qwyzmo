@@ -2,7 +2,7 @@ QwyzmoApp::Application.routes.draw do
 
 	resources :users
 	resources :qwyzs do
-		resources :votes
+		resources :votes, only: [:new, :create]
 	end
 	resources :qwyz_items
 	
@@ -34,8 +34,6 @@ QwyzmoApp::Application.routes.draw do
 				as: 'inactive_qwyz_items'
 				
 	post	'/activate_item/:id', 			to: 'qwyz_items#activate'
-
-	# get		'/browse_qwyz/:id',					to: 'votes#'
 
 	root										'home#index'
 end

@@ -38,6 +38,40 @@ describe Qwyz do
 		end
 	end
 	
+	describe "counting active and inactive items" do
+		before do
+			@qwyz = create_test_qwyz(@user.id, "n", "q", "d")
+			qitem1 = newitem(@qwyz.id, QwyzItem::STATUS[:active])
+			qitem2 = newitem(@qwyz.id, QwyzItem::STATUS[:active])
+			qitem3 = newitem(@qwyz.id, QwyzItem::STATUS[:active])
+			qitem4 = newitem(@qwyz.id, QwyzItem::STATUS[:inactive])
+			qitem5 = newitem(@qwyz.id, QwyzItem::STATUS[:inactive])
+		end
+		
+		it "returns correct number of active items" do
+			expect(@qwyz.active_item_count).to eq 3
+		end
+
+		it "returns correct number of inactive items" do
+			expect(@qwyz.inactive_item_count).to eq 2
+		end
+	end
+	
+	describe "#unvoted_item_pair" do
+		before do
+			# create a list of votes.
+			
+		end
+		
+		it "returns two items from the list" do
+			
+		end
+		
+		it "returns nil if less than two unvoted items in list" do
+			
+		end
+	end
+	
 	def check_save_failed(qwyz)
 		save_result = qwyz.save
 		expect(save_result).to be_false
@@ -47,6 +81,10 @@ describe Qwyz do
 	def newqwyz(user_id, name, question, description)
 		Qwyz.new(user_id: user_id, name: name, 
 				question: question, description: description)
+	end
+	
+	def newitem(qwyz_id, stat)
+		create_test_qwyz_item(qwyz_id, "d", "/spec/fixtures/ruby.jpg", stat)
 	end
 end
 

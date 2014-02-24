@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140205060819) do
+ActiveRecord::Schema.define(version: 20140220063423) do
 
   create_table "qwyz_items", force: true do |t|
     t.integer  "qwyz_id"
@@ -55,5 +55,21 @@ ActiveRecord::Schema.define(version: 20140205060819) do
   add_index "users", ["name"], name: "index_users_on_name", unique: true
   add_index "users", ["password_reset_token"], name: "index_users_on_password_reset_token"
   add_index "users", ["remember_token"], name: "index_users_on_remember_token"
+
+  create_table "votes", force: true do |t|
+    t.integer  "qwyz_id"
+    t.integer  "left_item_id"
+    t.integer  "right_item_id"
+    t.integer  "chosen_item_id"
+    t.integer  "voter_user_id"
+    t.string   "voter_ip_address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "votes", ["left_item_id"], name: "index_votes_on_left_item_id"
+  add_index "votes", ["qwyz_id"], name: "index_votes_on_qwyz_id"
+  add_index "votes", ["right_item_id"], name: "index_votes_on_right_item_id"
+  add_index "votes", ["voter_user_id"], name: "index_votes_on_voter_user_id"
 
 end
