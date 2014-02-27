@@ -36,27 +36,14 @@ class Qwyz < ActiveRecord::Base
 		count
 	end
 	
-	def next_unvoted_item_pair(user, ip, votelist)
-		users_votes = Vote.get_votes_by_voter(id, current_user, ip)
-		unvoted_item_pair(users_votes)
+	def item_id_list
+		# TODO: implement
 	end
-
-	# gets the next pair of items that havent been voted on by the given user.
-	def unvoted_item_pair(votelist)
-		# find the items that have not been voted on, randomly pick two.
-		# create a map of id to items. remove all the left and right items from the votes.
-		voted_item_ids = {}
-		votelist.each do |vote|
-			voted_item_ids.put(vote.left_item_id, true)
-			voted_item_ids.put(vote.right_item_id, true)
-		end
-		unvoted_items = []
-		qwyz_items.each do |item|
-			if ! voted_item_ids[item.id]
-				unvoted_items.add item
-			end
-		end
-		unvoted_items.sample 2
+	
+	def item_choice(user_id, ip)
+		votelist = Vote::votelist(id, user_id, ip)
+		choice_gen = ChoiceGenerator.new
+		left_item_id, right_item_id = choice_gen.choice(votelist, item_id_list)
 	end
 end
 

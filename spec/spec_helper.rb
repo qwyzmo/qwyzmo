@@ -98,6 +98,17 @@ def create_test_qwyz_item(qwyz_id, description = "d",
 	test_item
 end
 
+def create_test_vote(qwyz_id, left_id, right_id, chosen_id, voter_id, ip = nil)
+	test_vote = Vote.new(
+			qwyz_id: 						qwyz_id,
+			left_item_id:				left_id,
+			right_item_id:			right_id,
+			chosen_item_id:			chosen_id,
+			voter_user_id:			voter_id,
+			voter_ip_address:		ip)
+	test_vote.save!
+	test_vote
+end
 
 
 

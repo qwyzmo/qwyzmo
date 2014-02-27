@@ -59,18 +59,36 @@ describe Qwyz do
 	
 	describe "#unvoted_item_pair" do
 		before do
-			# create a list of votes.
-			
+			@qwyz = create_test_qwyz(@user.id, "n", "q", "d")
+			# create 6 items for this qwyz
+			@item_map = {}
+			6.times do |i|
+				qwyz_item = create_test_qwyz_item(@qwyz.id)
+				@item_map[qwyz_item.id] = qwyz_item
+			end
+			# create a few test votes.
+			k = @item_map.keys
+			@votes = []
+			@votes.push create_test_vote(@qwyz.id, k[0], k[1], k[0], 999)
+			@votes.push create_test_vote(@qwyz.id, k[1], k[2], k[0], 999)
+			@votes.push create_test_vote(@qwyz.id, k[2], k[3], k[0], 999)
+			# @votes.push create_test_vote(@qwyz.id, k[3], k[4], k[0], 999)
+			# @votes.push create_test_vote(@qwyz.id, k[4], k[5], k[0], 999)
+			# @votes.push create_test_vote(@qwyz.id, k[5], k[0], k[0], 999)
+			# @votes.push create_test_vote(@qwyz.id, k[0], k[3], k[0], 999)
 		end
 		
+		# TODO: need several specific tests: validate item pairs haven't been voted on.
+		
+		
 		it "returns two items from the list" do
-			
+			right_item, left_item = @qwyz.unvoted_item_pair(@votes)
+			puts "---------> r, l = #{right_item.id}, #{left_item.id}"
 		end
 		
 		it "returns nil if less than two unvoted items in list" do
 			
 		end
-	end
 	
 	def check_save_failed(qwyz)
 		save_result = qwyz.save
