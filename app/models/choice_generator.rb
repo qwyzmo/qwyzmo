@@ -1,39 +1,32 @@
 
-# TODO: consider renaming to ChoiceGenerator
-
 # This is a utility class that provides the functionality for
 # creating a pair of item ids, for a qwyz, that is not a repeat
 # of the votes that have already been cast.
-
 class ChoiceGenerator
-
+	
 	def max_choice_count(item_count)
 		# return the number of vote pairs possible ( ignoring order )
 		(item_count * (item_count - 1)) / 2
 	end
 	
-	#
+	# creates an order pair of item ids, given all votes cast so far, and a list
+	#  of all available item ids.
 	def choice(votelist, item_id_list)
-		if votelist.count == max_vote_pair_count(item_id_list.count)
+		if votelist.count == max_choice_count(item_id_list.count)
 			return [nil, nil]
 		end
-		# generate the all pairs map
-		# remove each existing vote 
-		# randomly choose two that remain, if possible.
 		all_choices = all_choices_map(item_id_list)
-		unvoted_choices = unvoted_choices_map(votelist, all_pairs)
-		left_item_id = unvoted_choices.sample
-		right_item_id = unvoted_choices[left].sample
+		remove_votes_from_choices(votelist, all_choices)
+		# pick a random left and right item id.
+		left_item_id = all_choices.keys.sample
+		right_item_id = all_choices[left_item_id].keys.sample
 		[left_item_id, right_item_id]
 	end
 	
+	# build a map of item id to map of item ids. representing all possible 
+	#  (id1,id2) pairs
+	#   id1 => (id2 => true)  for all id1 and id2 in item_id_list where id1 != id2
 	def all_choices_map(item_id_list)
-		# for each id, put it in the map, 
-		#   then put each of the rest in a submap. 
-		#   we build a map of maps.  id>(id>true)
-		
-		# this is a map of maps, representing all allowable id pairs, 
-		#   id1 => (id2 => true)  for all id1 and id2 in item_id_list
 		map = {}
 		item_id_list.each do |left|
 			item_id_list.each do |right|
@@ -48,7 +41,8 @@ class ChoiceGenerator
 		map
 	end
 	
-	def unvoted_choices_map(votelist, all_pairs)
+	# removes the votes from the all_pairs map
+	def remove_votes_from_choices(votelist, all_pairs)
 		# for each vote in votelist, remove it from the @all_pairs_map
 		#  creating a new map of unused item pairings.
 		votelist.each do |item|
@@ -62,6 +56,7 @@ class ChoiceGenerator
 			end
 		end
 	end
+	
 end
 
 
