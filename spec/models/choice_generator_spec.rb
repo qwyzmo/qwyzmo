@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-
 describe ChoiceGenerator do
 	before do
 		@choice_gen = ChoiceGenerator.new
@@ -71,8 +70,44 @@ describe ChoiceGenerator do
 			end
 		end
 		
-		it "generates null if all votes cast" do
-			
+		it "returns nil if all votes cast" do
+			votelist = [vote(5,6), vote(5,7), vote(6,7)]
+			id_list = [5,6,7]
+			left, right = @choice_gen.choice(votelist, id_list)
+			expect(left).to be_nil
+			expect(right).to be_nil
+		end
+		
+		it "returns nils if id list is nil" do
+			votelist = [vote(5,6), vote(5,7), vote(6,7)]
+			id_list = nil
+			left, right = @choice_gen.choice(votelist, id_list)
+			expect(left).to be_nil
+			expect(right).to be_nil
+		end
+		
+		it "returns nils if id list is empty" do
+			votelist = [vote(5,6), vote(5,7), vote(6,7)]
+			id_list = []
+			left, right = @choice_gen.choice(votelist, id_list)
+			expect(left).to be_nil
+			expect(right).to be_nil
+		end
+		
+		it "is successful if votelist nil" do
+			votelist = nil
+			id_list = [5,6,7]
+			left, right = @choice_gen.choice(votelist, id_list)
+			expect(left).to_not be_nil
+			expect(right).to_not be_nil
+		end
+		
+		it "is successful if votelist empty" do
+			votelist = []
+			id_list = [5,6,7]
+			left, right = @choice_gen.choice(votelist, id_list)
+			expect(left).to_not be_nil
+			expect(right).to_not be_nil
 		end
 	end # choices
 	

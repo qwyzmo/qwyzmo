@@ -12,7 +12,8 @@ class ChoiceGenerator
 	# creates an order pair of item ids, given all votes cast so far, and a list
 	#  of all available item ids.
 	def choice(votelist, item_id_list)
-		if votelist.count == max_choice_count(item_id_list.count)
+		votelist = [] if votelist.nil?
+		if item_id_list.blank? || votelist.count == max_choice_count(item_id_list.count)
 			return [nil, nil]
 		end
 		all_choices = all_choices_map(item_id_list)
