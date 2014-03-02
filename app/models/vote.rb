@@ -5,8 +5,11 @@ class Vote < ActiveRecord::Base
 	validates :qwyz_id, 					presence: true
 	validates_presence_of :qwyz
 	validates :left_item_id, 		presence: true
+	validates_presence_of :left_item_id
 	validates :right_item_id, 	presence: true
+	validates_presence_of :right_item_id
 	validates :chosen_item_id, 	presence: true
+	validates_presence_of :chosen_item_id
 
 
 	def self.votelist( qwyz_id, user_id, ip)

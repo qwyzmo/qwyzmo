@@ -36,14 +36,17 @@ class Qwyz < ActiveRecord::Base
 		count
 	end
 	
-	def item_id_list
-		# TODO: implement
+	def item(id)
+		qwyz_items.each do |item|
+			return item if item.id == id
+		end
 	end
 	
 	def item_choice(user_id, ip)
 		votelist = Vote::votelist(id, user_id, ip)
 		choice_gen = ChoiceGenerator.new
 		left_item_id, right_item_id = choice_gen.choice(votelist, item_id_list)
+		return [item(left_item_id), item(right_item_id)]
 	end
 end
 

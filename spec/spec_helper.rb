@@ -110,6 +110,11 @@ def create_test_vote(qwyz_id, left_id, right_id, chosen_id, voter_id, ip = nil)
 	test_vote
 end
 
+def check_save_failed(db_object, count)
+	save_result = db_object.save
+	expect(save_result).to be_false
+	expect(db_object.class.count).to eq count
+end
 
 
 
