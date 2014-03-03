@@ -40,6 +40,7 @@ class Qwyz < ActiveRecord::Base
 		qwyz_items.each do |item|
 			return item if item.id == id
 		end
+		return nil
 	end
 	
 	def item_choice(user_id, ip)
