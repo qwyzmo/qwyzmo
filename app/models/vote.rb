@@ -45,9 +45,9 @@ class Vote < ActiveRecord::Base
 
 	def self.votelist( qwyz_id, user_id, ip)
 		if user_id.nil?
-			return Vote.find_by(qwyz_id: qwyz_id, voter_ip_address: ip)
+			return Vote.where(qwyz_id: qwyz_id, voter_ip_address: ip).load
 		else
-			return Vote.find_by(qwyz_id: qwyz_id, voter_user_id: user_id)
+			return Vote.where(qwyz_id: qwyz_id, voter_user_id: user_id).load
 		end
 	end
 end
