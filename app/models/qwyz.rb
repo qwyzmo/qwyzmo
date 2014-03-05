@@ -15,7 +15,7 @@ class Qwyz < ActiveRecord::Base
 	# deactivate the qwyz; qwyzs are never destroyed.
 	def destroy
 		# TODO deactivate qwyz
-		# TODO add status to qwyz db. add status codes: active, inactive
+		#     add status to qwyz db. add status codes: active, inactive
 	end
 	
 	def active_item_count
@@ -36,17 +36,31 @@ class Qwyz < ActiveRecord::Base
 		count
 	end
 	
+	# first call; build a hash of items by id and keep it around.
 	def item(id)
-		qwyz_items.each do |item|
-			return item if item.id == id
+		if @item_map.nil?
+			@item_map = {}
+			qwyz_items.each do |item|
+				@item_map[item.id] = item
+			end
 		end
-		return nil
+		return @item_map[id]
 	end
 	
+	def active_item_ids
+		ids = []
+		qwyz_items.each do |item|
+			ids.push(item.id) if item.active?
+		end
+		return ids
+	end
+	
+	# returns a pair of items that have not been voted on side by side
+	#   by the user designated by either id or ip. exclude inactive items also.
 	def item_choice(user_id, ip)
 		votelist = Vote::votelist(id, user_id, ip)
 		choice_gen = ChoiceGenerator.new
-		left_item_id, right_item_id = choice_gen.choice(votelist, item_id_list)
+		left_item_id, right_item_id = choice_gen.choice(votelist, active_item_ids)
 		return [item(left_item_id), item(right_item_id)]
 	end
 end
