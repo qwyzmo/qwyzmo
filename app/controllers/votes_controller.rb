@@ -8,14 +8,25 @@ class VotesController < ApplicationController
 		@left_item, @right_item = 
 					@qwyz.item_choice(current_user_id, request.remote_ip)
 		if	@left_item.nil? || @right_item.nil?
-			render "qwyzs/qwyz_summary"
+			@title = "Qwyz Summary"
+			index
+			return
 		else
+			@title = "Vote"
 			render :new
 		end
 	end
 
 	def create
-		# record the vote, call new
+		# TODO: record the vote, call new
+	end
+	
+	def index
+		# TODO: get all votes, sum them per item. 
+		#   perhaps create a vote summary model object.
+		
+		@title = "Qwyz Vote Summary"
+		render :index
 	end
 end
 

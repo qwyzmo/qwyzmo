@@ -38,6 +38,7 @@ class Qwyz < ActiveRecord::Base
 	
 	# first call; build a hash of items by id and keep it around.
 	def item(id)
+		return nil if id.nil?
 		if @item_map.nil?
 			@item_map = {}
 			qwyz_items.each do |item|
