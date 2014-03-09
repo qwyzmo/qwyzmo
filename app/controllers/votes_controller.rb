@@ -3,6 +3,7 @@ class VotesController < ApplicationController
 	
 	
 	def new
+		@vote = Vote.new
 		@qwyz = Qwyz.find(params[:qwyz_id])
 		current_user_id = current_user.nil? ? nil : current_user.id
 		@left_item, @right_item = 
@@ -18,7 +19,11 @@ class VotesController < ApplicationController
 	end
 
 	def create
-		# TODO: record the vote, call new
+		puts "-----> params = #{params.inspect}"
+		current_user_id = current_user.nil? ? nil : current_user.id
+		Vote.cast(params[:qwyz_id], params[:left_item_id], params[:right_item_id], 
+				params[:commit], current_user_id, request.remote_ip)
+		new
 	end
 	
 	def index
@@ -30,4 +35,3 @@ class VotesController < ApplicationController
 	end
 end
 
-# TODO: implement

@@ -39,6 +39,11 @@ describe Vote do
 			vote = newvote(@qwyz1.id, @item1a.id, @item1a.id, @item1a.id)
 			expect(vote.valid?).to be_false
 		end
+		
+		it "fails validation if not unique: {chosen, left, right, user_id, ip}" do
+			# TODO implement
+			pending
+		end
 
 		it "passes validation with valid fields" do
 			vote = newvote(@qwyz1.id, @item1a.id, @item1b.id, @item1a.id)

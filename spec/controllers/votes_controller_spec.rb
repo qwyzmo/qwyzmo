@@ -48,6 +48,19 @@ describe VotesController do
 	end
 	
 	describe "#create" do
+		
+		it "records the vote" do
+			pending
+		end
+		
+		it "renders :new if not all votes cast" do
+			pending
+		end
+		
+		it "renders index if all votes cast" do
+			pending
+		end
+		
 		pending
 	end
 
