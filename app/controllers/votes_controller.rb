@@ -27,8 +27,8 @@ class VotesController < ApplicationController
 	end
 	
 	def index
-		# TODO: get all votes, sum them per item. 
-		#   perhaps create a vote summary model object.
+		@qwyz = Qwyz.find(params[:qwyz_id])
+		@qwyz_result = QwyzResult.new(params[:qwyz_id])
 		
 		@title = "Qwyz Vote Summary"
 		render :index
