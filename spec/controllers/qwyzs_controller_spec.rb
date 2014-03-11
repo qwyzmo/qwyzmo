@@ -153,10 +153,6 @@ describe QwyzsController do
 			end
 		end
 
-		describe "#show" do
-			# TODO implement show tests when show is implemented
-		end
-
 		describe "#destroy" do
 			# TODO implement destroy tests when destroy is implemented fully
 		end

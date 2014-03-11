@@ -68,6 +68,13 @@ describe Qwyz do
 		end
 	end
 	
+	describe "#item_id_to_item" do
+		it "creates a map of the correct size" do
+			map = @qwyz.item_id_to_item
+			expect(map.count).to eq @qwyz.qwyz_items.count
+		end
+	end
+	
 	describe "#active_item_ids" do
 		it "returns active item ids only" do
 			ids = @qwyz.active_item_ids

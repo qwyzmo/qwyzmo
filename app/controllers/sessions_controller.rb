@@ -19,7 +19,6 @@ class SessionsController < ApplicationController
 				return
 			elsif user.deactivated?
 				flash.now[:error] = 'Your account has been deactivated.'
-			else
 			end
 			new
 			render 'new'

@@ -39,13 +39,21 @@ class Qwyz < ActiveRecord::Base
 	# first call; build a hash of items by id and keep it around.
 	def item(id)
 		return nil if id.nil?
-		if @item_map.nil?
-			@item_map = {}
+		return item_id_to_item[id]
+	end
+	
+	# this method lazily builds the map of item ids to items.
+	# the item id to item attribute should only be accessed 
+	# in this method. All other methods in this class should 
+	# call this method to use that map.
+	def item_id_to_item
+		if @_item_map.nil?
+			@_item_map = {}
 			qwyz_items.each do |item|
-				@item_map[item.id] = item
+				@_item_map[item.id] = item
 			end
 		end
-		return @item_map[id]
+		return @_item_map
 	end
 	
 	def active_item_ids

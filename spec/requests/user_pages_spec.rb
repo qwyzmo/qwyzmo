@@ -74,7 +74,7 @@ describe "User pages" do
 			visit signout_path
 		end
 		it { should have_title "Home" }
-		it { should have_content "Please sign in or register" }
+		it { should have_content "Select a Qwyz to begin" }
 	end
 end
 

@@ -36,7 +36,7 @@ class QwyzItemsController < ApplicationController
 	end
 	
 	def update
-		# TODO: for now just update the qwyz. later we may make items immutable.
+		# TODO: for now just update the qwyz. later we may make items immutable. 
 		@qwyz_item = QwyzItem.find(params[:id])
 		@qwyz = Qwyz.find(@qwyz_item.qwyz_id)
 		if @qwyz_item.update_attributes(qwyz_item_params)
