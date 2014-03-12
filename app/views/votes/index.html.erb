@@ -1,3 +1,10 @@
 
 <h2>Vote summary for Qwyz</h2>
 
+
+<% @qwyz_result.each do |item, vote_count| %>
+
+<%= image_tag item.image_url(:thumb).to_s %> 
+<%= vote_count %><br />
+
+<% end %>

@@ -14,11 +14,12 @@ class VotesController < ApplicationController
 		else
 			@vote = Vote.new
 			@title = "Vote"
+			render :new
 		end
 	end
 
 	def create
-		puts "-----> params = #{params.inspect}"
+		pp params
 		current_user_id = current_user.nil? ? nil : current_user.id
 		Vote.cast(params[:qwyz_id], params[:left_item_id], params[:right_item_id], 
 				params[:commit], current_user_id, request.remote_ip)

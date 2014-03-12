@@ -1,6 +1,8 @@
 
 # Represents the results of the votes cast for a given qwyz.
 class QwyzResult
+	include Enumerable
+	
 	attr_accessor :total_vote_count
 	
 	def initialize(qwyz)
@@ -19,6 +21,12 @@ class QwyzResult
 	
 	def item_count
 		@item_vcount_list.count
+	end
+	
+	def each(&block)
+		@item_vcount_list.each do |item_vcount|
+			block.call(item_vcount[0], item_vcount[1])
+		end
 	end
 	
 	private

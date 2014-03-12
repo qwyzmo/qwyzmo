@@ -6,17 +6,13 @@ describe VotesController do
 	before do
 		@user = create_test_user("n0", "n0@e.c", "password", "password")
 		@qwyz = create_test_qwyz(@user.id, "name", "question", "desc")
+		@item1a = create_test_qwyz_item(@qwyz.id)
+		@item1b = create_test_qwyz_item(@qwyz.id)
+		@item1c = create_test_qwyz_item(@qwyz.id)
 	end
 	
 	describe "#new" do
-		before do
-			@item1a = create_test_qwyz_item(@qwyz.id)
-			@item1b = create_test_qwyz_item(@qwyz.id)
-			@item1c = create_test_qwyz_item(@qwyz.id)
-		end
-		
 		describe "not all votes have been cast" do
-			
 			it "sets title, qwyz, renders new, sets left and right items" do
 				get :new, qwyz_id: @qwyz.id
 				
@@ -52,26 +48,25 @@ describe VotesController do
 				result = assigns(:qwyz_result)
 				
 				expect(result).to_not be_nil
-				# TODO: test index creating the attributes to summarize the votes
+				expect(result.item_count).to eq 3
+				expect(result.total_vote_count).to eq 3
 			end
 		end
 	end
 	
 	describe "#create" do
-		
-		it "records the vote" do
-			pending
+		before do
+			@vote1 = create_test_vote(@qwyz.id, @item1a.id, @item1b.id, @item1a.id, @user.id)
+			test_sign_in(@user)
 		end
 		
-		it "renders :new if not all votes cast" do
-			pending
+		it "records the vote, renders :new" do
+			db_vote_count = Vote.count
+			post :create, { 	qwyz_id: @qwyz.id, left_item_id: 	@item1b.id,
+											 		right_item_id:	@item1c.id, commit:	@item1b.id}
+			expect(response).to render_template :new 
+			expect(Vote.count).to eq (db_vote_count + 1)
 		end
-		
-		it "renders index if all votes cast" do
-			pending
-		end
-		
-		pending
 	end
 
 	describe "#index" do
