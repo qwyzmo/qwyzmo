@@ -25,15 +25,15 @@ describe QwyzResult do
 			qwyz_result = QwyzResult.new(@qwyz)
 			expect(qwyz_result.total_vote_count).to eq 7
 			
-			expect(qwyz_result.qwyz_item(0).id).to eq 2
-			expect(qwyz_result.qwyz_item(1).id).to eq 1
-			expect(qwyz_result.qwyz_item(2).id).to eq 4
-			expect(qwyz_result.qwyz_item(3).id).to eq 3
-			
-			expect(qwyz_result.vote_count(0)).to eq 3
-			expect(qwyz_result.vote_count(1)).to eq 2
-			expect(qwyz_result.vote_count(2)).to eq 2
-			expect(qwyz_result.vote_count(3)).to eq 0
+			item_id_list = [2, 1, 4, 3]
+			vote_count_list = [3, 2, 2, 0]
+			expect(qwyz_result.count).to eq 4
+			index = 0
+			qwyz_result.each do |item, vote_count|
+				expect(item.id).to 			eq item_id_list[index]
+				expect(vote_count).to		eq vote_count_list[index]
+				index += 1
+			end
 		end
 	end
 end

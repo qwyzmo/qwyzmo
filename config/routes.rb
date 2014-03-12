@@ -2,7 +2,7 @@ QwyzmoApp::Application.routes.draw do
 
 	resources :users
 	resources :qwyzs do
-		resources :votes, only: [:new, :create]
+		resources :votes, only: [:new, :create, :index]
 	end
 	resources :qwyz_items
 	

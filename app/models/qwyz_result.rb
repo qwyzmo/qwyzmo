@@ -5,27 +5,18 @@ class QwyzResult
 	
 	attr_accessor :total_vote_count
 	
+	ITEM_INDEX = 0
+	VOTE_COUNT_INDEX = 1
+	
 	def initialize(qwyz)
 		result = query_result(qwyz.id)
 		@total_vote_count, @item_vcount_list = 
 					item_vote_count_list(qwyz.item_id_to_item.clone, result)
 	end
 	
-	def qwyz_item(index)
-		@item_vcount_list[index][0]
-	end
-	
-	def vote_count(index)
-		@item_vcount_list[index][1]
-	end
-	
-	def item_count
-		@item_vcount_list.count
-	end
-	
 	def each(&block)
 		@item_vcount_list.each do |item_vcount|
-			block.call(item_vcount[0], item_vcount[1])
+			block.call(item_vcount[ITEM_INDEX], item_vcount[VOTE_COUNT_INDEX])
 		end
 	end
 	

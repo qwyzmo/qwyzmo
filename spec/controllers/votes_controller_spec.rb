@@ -48,7 +48,7 @@ describe VotesController do
 				result = assigns(:qwyz_result)
 				
 				expect(result).to_not be_nil
-				expect(result.item_count).to eq 3
+				expect(result.count).to eq 3
 				expect(result.total_vote_count).to eq 3
 			end
 		end
@@ -65,12 +65,27 @@ describe VotesController do
 			post :create, { 	qwyz_id: @qwyz.id, left_item_id: 	@item1b.id,
 											 		right_item_id:	@item1c.id, commit:	@item1b.id}
 			expect(response).to render_template :new 
-			expect(Vote.count).to eq (db_vote_count + 1)
+			expect(Vote.count).to eq(db_vote_count + 1)
 		end
 	end
 
 	describe "#index" do
-		pending
+		before do
+		end
+		
+		it "sets title, qwyz, qwyz_result, and renders index" do
+			get :index, qwyz_id: @qwyz.id
+			
+			qwyz = assigns(:qwyz)
+			qwyz_result = assigns(:qwyz_result)
+			
+			expect(response.body).to have_title "Qwyz Vote Summary"
+			expect(response).to render_template :index
+			
+			expect(qwyz.id).to eq @qwyz.id
+			expect(qwyz_result.count).to eq 3
+		end
+		
 	end
 end
 
