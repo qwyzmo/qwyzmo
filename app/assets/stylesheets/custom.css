@@ -186,14 +186,6 @@ li.user_row form {
   display: inline-block;
 }
 
-.activate_button {
-  background: red;
-}
-
-.deactivate_button {
-  background: green;
-}
-
 div.user_info img {
   padding-right: 0.1em;
 }

@@ -10,6 +10,7 @@ class QwyzResult
 	
 	def initialize(qwyz)
 		result = query_result(qwyz.id)
+		pp result
 		@total_vote_count, @item_vcount_list = 
 					item_vote_count_list(qwyz.item_id_to_item.clone, result)
 	end
