@@ -40,7 +40,8 @@ class QwyzResult
 			cur_item = item_map[row["chosen_item_id"]]
 			item_vcount_list.push([cur_item, row["vote_count"]])
 			item_map.delete(row["chosen_item_id"])
-			total_vote_count += row["vote_count"]
+			puts "+++++++>> row vote count = #{row["vote_count"]}"
+			total_vote_count += row["vote_count"].to_i
 		end
 		item_map.each do |id, item|
 			item_vcount_list.push([item, 0])
