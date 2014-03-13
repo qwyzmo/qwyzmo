@@ -1,10 +1,8 @@
-
 # Represents the results of the votes cast for a given qwyz.
 class QwyzResult
 	include Enumerable
 	
 	attr_accessor :total_vote_count
-	
 	ITEM_INDEX = 0
 	VOTE_COUNT_INDEX = 1
 	
@@ -17,11 +15,13 @@ class QwyzResult
 	end
 	
 	def each(&block)
+		puts ">>>>>> item vcount list = #{@item_vcount_list.inspect}"
 		@item_vcount_list.each do |item_vcount|
+			puts ">>>>>> item vcount item index = #{item_vcount[ITEM_INDEX]}"
 			block.call(item_vcount[ITEM_INDEX], item_vcount[VOTE_COUNT_INDEX])
 		end
 	end
-	
+	########################################## private methods.
 	private
 	
 	def query_result(qwyz_id)
