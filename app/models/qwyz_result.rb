@@ -10,7 +10,8 @@ class QwyzResult
 	
 	def initialize(qwyz)
 		result = query_result(qwyz.id)
-		puts "=======> db query result = #{result.inspect}"
+		puts "2=======> db query result = #{result.inspect}"
+		
 		@total_vote_count, @item_vcount_list = 
 					item_vote_count_list(qwyz.item_id_to_item.clone, result)
 	end
@@ -35,6 +36,7 @@ class QwyzResult
 		item_vcount_list = []
 		total_vote_count = 0
 		query_result.each do |row|
+			puts "--------> row = #{row.inspect}"
 			cur_item = item_map[row["chosen_item_id"]]
 			item_vcount_list.push([cur_item, row["vote_count"]])
 			item_map.delete(row["chosen_item_id"])
