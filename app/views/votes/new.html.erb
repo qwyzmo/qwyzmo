@@ -8,9 +8,9 @@
 	<%= hidden_field_tag :left_item_id,  @left_item.id %>
 	<%= hidden_field_tag :right_item_id,  @right_item.id %>
 	<%= vote.submit @left_item.id.to_s, 
-			type: :image, src: @left_item.image_url.to_s %>
+			type: :image, src: @left_item.image_url.to_s, id: "left_img"%>
 	<%= vote.submit @right_item.id.to_s, 
-			type: :image, src: @right_item.image_url.to_s %>
+			type: :image, src: @right_item.image_url.to_s, id: "right_img" %>
 <% end %>
 
 <hr/>

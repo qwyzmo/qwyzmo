@@ -27,6 +27,7 @@ class VotesController < ApplicationController
 	
 	def index
 		@qwyz = Qwyz.find(params[:qwyz_id])
+		@author = User.find(@qwyz.user_id)
 		@qwyz_result = QwyzResult.new(@qwyz)
 		@title = "Qwyz Vote Summary"
 		render :index

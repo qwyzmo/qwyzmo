@@ -1,10 +1,12 @@
 
 <h2>Vote summary for Qwyz</h2>
 
-
+For Qwyz: <%= @qwyz.name%><br/>
+by: <%= @author.name %>
+<hr />
 <% @qwyz_result.each do |item, vote_count| %>
 
 <%= image_tag item.image_url(:thumb).to_s %> 
-<%= vote_count %><br />
+<%= vote_count %> votes<br />
 
 <% end %>

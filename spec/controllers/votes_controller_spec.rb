@@ -76,14 +76,16 @@ describe VotesController do
 		it "sets title, qwyz, qwyz_result, and renders index" do
 			get :index, qwyz_id: @qwyz.id
 			
-			qwyz = assigns(:qwyz)
+			qwyz 				= assigns(:qwyz)
 			qwyz_result = assigns(:qwyz_result)
+			author 			= assigns(:author)
 			
 			expect(response.body).to have_title "Qwyz Vote Summary"
 			expect(response).to render_template :index
 			
 			expect(qwyz.id).to eq @qwyz.id
 			expect(qwyz_result.count).to eq 3
+			expect(author.id).to eq qwyz.user_id
 		end
 		
 	end
