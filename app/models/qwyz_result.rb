@@ -37,9 +37,9 @@ class QwyzResult
 		total_vote_count = 0
 		query_result.each do |row|
 			puts "--------> row = #{row.inspect}"
-			cur_item = item_map[row["chosen_item_id"]]
-			item_vcount_list.push([cur_item, row["vote_count"]])
-			item_map.delete(row["chosen_item_id"])
+			cur_item = item_map[row["chosen_item_id"].to_i]
+			item_vcount_list.push([cur_item, row["vote_count"].to_i])
+			item_map.delete(row["chosen_item_id"].to_i)
 			puts "+++++++>> row vote count = #{row["vote_count"]}"
 			total_vote_count += row["vote_count"].to_i
 		end
