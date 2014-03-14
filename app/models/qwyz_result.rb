@@ -8,19 +8,17 @@ class QwyzResult
 	
 	def initialize(qwyz)
 		result = query_result(qwyz.id)
-		puts "2=======> db query result = #{result.inspect}"
-		
 		@total_vote_count, @item_vcount_list = 
 					item_vote_count_list(qwyz.item_id_to_item.clone, result)
 	end
 	
 	def each(&block)
-		puts ">>>>>> item vcount list = #{@item_vcount_list.inspect}"
 		@item_vcount_list.each do |item_vcount|
 			puts ">>>>>> item vcount item index = #{item_vcount[ITEM_INDEX]}"
 			block.call(item_vcount[ITEM_INDEX], item_vcount[VOTE_COUNT_INDEX])
 		end
 	end
+	
 	########################################## private methods.
 	private
 	
@@ -36,11 +34,9 @@ class QwyzResult
 		item_vcount_list = []
 		total_vote_count = 0
 		query_result.each do |row|
-			puts "--------> row = #{row.inspect}"
 			cur_item = item_map[row["chosen_item_id"].to_i]
 			item_vcount_list.push([cur_item, row["vote_count"].to_i])
 			item_map.delete(row["chosen_item_id"].to_i)
-			puts "+++++++>> row vote count = #{row["vote_count"]}"
 			total_vote_count += row["vote_count"].to_i
 		end
 		item_map.each do |id, item|
