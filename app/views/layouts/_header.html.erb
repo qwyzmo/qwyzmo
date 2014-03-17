@@ -1,22 +1,37 @@
 <header>
 	<div id="topbar">
-		<h3 id="logo" >Qwyzmo</h3>
+		<%= link_to root_path, id: "logo-link" do %>
+			<div id="logo">
+				<span id="logo-q">Q</span>
+				<span id="logo-wyzmo" >wyzmo</span>
+				<span id="logo-beta">beta</span>
+			</div>
+		<% end %>
+		<div id="login-bar">
+			<% if signed_in? %>
+				<span>Welcome <%=current_user.name%></span>
+				<%= link_to "Sign out", signout_path, :method => :delete %>
+			<% else %>
+				<span>Sign in:</span>
+				<%= form_for(:session, url: sessions_path) do |f| %>
+						<%= f.label :email %>:
+						<%= f.text_field :email %>
+						<%= f.label :password %>:
+						<%= f.password_field :password %>
+						<%= f.submit "Sign in" %>
+				<% end %>
+				<%= link_to "or Sign up", signup_path %>
+			<% end %>
+		</div>
 	</div>
+	
 
 	<nav id="navbar" class="round">
 		<ul>
-			<li>
-				<%= link_to "Home", root_path %>
-			</li>
+			<li><%= link_to "Home", root_path %></li>
+			<li><%= link_to "My Qwyzs", qwyzs_path %></li>
 			<% if signed_in? %>
-				<li><%= link_to "My Qwyzs", qwyzs_path %></li>
-				<li><%= link_to "Edit Account", 
-						edit_user_path(current_user)%></li>
-			<% end %>
-			<% if signed_in? %>
-				<li><%= link_to "Sign out", signout_path, :method => :delete %></li>
-			<% else %>
-				<li><%= link_to "Sign in", signin_path %></li>
+				<li><%= link_to "Account", edit_user_path(current_user)%></li>
 			<% end %>
 		</ul>
 	</nav>
