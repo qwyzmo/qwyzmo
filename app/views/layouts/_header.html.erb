@@ -9,8 +9,9 @@
 		<% end %>
 		<div id="login-bar">
 			<% if signed_in? %>
-				<span>Welcome <%=current_user.name%></span>
+				<span id="welcome-msg">Welcome <%=current_user.name%></span>
 				<%= link_to "Sign out", signout_path, :method => :delete %>
+				<%= link_to "Edit account", edit_user_path(current_user)%>
 			<% else %>
 				<span>Sign in:</span>
 				<%= form_for(:session, url: sessions_path) do |f| %>
@@ -30,9 +31,6 @@
 		<ul>
 			<li><%= link_to "Home", root_path %></li>
 			<li><%= link_to "My Qwyzs", qwyzs_path %></li>
-			<% if signed_in? %>
-				<li><%= link_to "Account", edit_user_path(current_user)%></li>
-			<% end %>
 		</ul>
 	</nav>
 </header>
