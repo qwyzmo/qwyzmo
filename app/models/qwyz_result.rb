@@ -14,7 +14,6 @@ class QwyzResult
 	
 	def each(&block)
 		@item_vcount_list.each do |item_vcount|
-			puts ">>>>>> item vcount item index = #{item_vcount[ITEM_INDEX]}"
 			block.call(item_vcount[ITEM_INDEX], item_vcount[VOTE_COUNT_INDEX])
 		end
 	end

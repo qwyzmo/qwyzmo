@@ -1,10 +1,20 @@
 
-<h2>Qwyzmo</h2>
-<h4>Select a Qwyz to begin:</h4>
-
-<% @qwyz_list.each do |qwyz| %>
-	Name: <%= qwyz.name %>, 
-	num items: <%= qwyz.qwyz_items.count%>, 
-	<%= link_to "browse", new_qwyz_vote_path(qwyz) %><br/>
-<% end %>
+<div id="home-body">
+	<h2>Qwyzmo</h2>
+	<h4>Select a Qwyz to begin:</h4>
+	
+	<% @qwyz_list.each do |qwyz| %>
+		<% next if qwyz.qwyz_items.count == 0 %>
+		<%= link_to new_qwyz_vote_path(qwyz), class: "browse-qwyz-link" do %>
+			<div class="browse-qwyz-row">
+				Name: <%= qwyz.name %>, 
+				num items: <%= qwyz.qwyz_items.count%>, 
+				<% qwyz.qwyz_items.each_with_index do |item, index| %>
+					<%= image_tag item.image_url(:thumb).to_s %>
+					<% break if index >= 6 %>
+				<% end %>
+			</div>
+		<% end %>
+	<% end %>
+</div>
 
