@@ -16,9 +16,9 @@
 				<span>Sign in:</span>
 				<%= form_for(:session, url: sessions_path) do |f| %>
 						<%= f.label :email %>:
-						<%= f.text_field :email %>
+						<%= f.text_field :email, id: "header-email-field" %>
 						<%= f.label :password %>:
-						<%= f.password_field :password %>
+						<%= f.password_field :password, id: "header-password-field" %>
 						<%= f.submit "Sign in" %>
 				<% end %>
 				<%= link_to "or Sign up", signup_path %>
@@ -27,7 +27,7 @@
 	</div>
 	
 
-	<nav id="navbar" class="round">
+	<nav id="navbar">
 		<ul>
 			<li><%= link_to "Home", root_path %></li>
 			<li><%= link_to "My Qwyzs", qwyzs_path %></li>

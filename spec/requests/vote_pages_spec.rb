@@ -17,7 +17,8 @@ describe "vote pages" do
 	describe "click browse qwyz and go to vote page" do
 		before do 
 			visit root_path
-			click_link "browse"
+			first('.browse-qwyz-link').click
+			# click_link "browse-qwyz-link"
 		end
 		
 		it { should have_title "Vote"}

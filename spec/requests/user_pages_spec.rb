@@ -48,19 +48,14 @@ describe "User pages" do
 
 		describe "with valid info" do
 			before do
-				fill_in "Email",						with: @user.email
-				fill_in "Password",		 			with: "p" * 8
-				click_button "Sign in"
+				complete_sign_in_form(@user.email, "p" * 8)
 			end
-			it { should have_title @user.name }
-			it { should have_content "Name #{@user.name}" }
+			it { should have_title "Home" }
 		end
 		
 		describe "with invalid info" do
 			before do
-				fill_in "Email",						with: @user.email
-				fill_in "Password",		 			with: "wrong password"
-				click_button "Sign in"
+				complete_sign_in_form(@user.email, "wrong password")
 			end
 			it { should have_title "Sign in" }
 			it { should have_content "Invalid email/password combination" }
