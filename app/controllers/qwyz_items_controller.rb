@@ -1,8 +1,7 @@
 
 class QwyzItemsController < ApplicationController
-	before_filter :authenticate
-	before_filter :correct_user,
-								:only => [:destroy, :edit, :update]
+	before_filter :authenticate, only: [:destroy, :edit, :update, :create]
+	before_filter :correct_user, only: [:destroy, :edit, :update]
 
 	def new
 		@title = "Add a new Qwyz Item"

@@ -1,1 +1,6 @@
-<h2>View Qwyz Item</h2>
+
+<div id="show-item-body">
+	<h2><%= @qwyz_item.description %></h2>
+	<%= image_tag @qwyz_item.image_url.to_s %><br />
+	<%= link_to "back to qwyz results", qwyz_votes_path(@qwyz_item.qwyz_id) %>
+</div>
