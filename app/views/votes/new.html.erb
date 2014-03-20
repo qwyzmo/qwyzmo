@@ -1,20 +1,33 @@
 
-
-<h3><%= @qwyz.name%></h3>
-<h3><%= @qwyz.question%></h3>
-<hr/>
-
-<%= form_for([@qwyz, @vote]) do |vote| %>
-	<%= hidden_field_tag :left_item_id,  @left_item.id %>
-	<%= hidden_field_tag :right_item_id,  @right_item.id %>
-	<%= vote.submit @left_item.id.to_s, 
-			type: :image, src: @left_item.image_url(:vote).to_s, id: "left_img"%>
-	<%= vote.submit @right_item.id.to_s, 
-			type: :image, src: @right_item.image_url(:vote).to_s, id: "right_img" %>
-<% end %>
-
-<hr/>
-
-<h3><%= @qwyz.description%></h3>
+<div id="votes-body">
+	<h3><%= @qwyz.name%></h3>
+	<h3><%= @qwyz.question%></h3>
+	<hr/>
+	
+	<%= form_for([@qwyz, @vote]) do |vote| %>
+		<%= hidden_field_tag :left_item_id,  @left_item.id %>
+		<%= hidden_field_tag :right_item_id,  @right_item.id %>
+		<table id="vote-table" cellpadding="10">
+			<tr>
+				<th><%= @left_item.description %></th>
+				<th><%= @right_item.description %></th>
+			</tr>
+			<tr>
+				<td class="vote-image">
+					<%= vote.submit @left_item.id.to_s, 
+							type: :image, src: @left_item.image_url(:vote).to_s, id: "left_img"%>
+				</td>
+				<td class="vote-image">
+					<%= vote.submit @right_item.id.to_s, 
+							type: :image, src: @right_item.image_url(:vote).to_s, id: "right_img" %>
+				</td>
+			</tr>
+		</table>
+	<% end %>
+	
+	<hr/>
+	
+	<h3><%= @qwyz.description%></h3>
+</div>
 
 
