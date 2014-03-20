@@ -140,8 +140,33 @@ nav ul li a:hover {
   margin-left: 8%
 }
 
+#votes-body {
+  
+}
 
-/*****************  */
+/**********************************  qwyz edit page **/
+
+#qwyz_name textarea{
+  height: 2em;
+  width: 90%;
+}
+
+#qwyz_question textarea{
+  height: 6em;
+  width: 90%;
+}
+
+#qwyz_description textarea{
+  height: 8em;
+  width: 90%;
+}
+
+#qwyz_item_description textarea{
+  height: 8em;
+  width: 90%;
+}
+
+/***************** home page */
 
 .browse-qwyz-row {
   border: 2px solid green;
@@ -159,6 +184,8 @@ nav ul li a:hover {
 
 .browse-qwyz-link {
 }
+
+/************************ votes page */
 
 #votes-body table {
   border-spacing: 10px;
@@ -179,13 +206,7 @@ nav ul li a:hover {
   border: 3px solid #0f0;
 }
 
-/***************  old css */
-
-.round {
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
-    border-radius: 8px;
-}
+/*************************** tables for user show page */
 
 table.profile {
 	width: 100%;
@@ -203,6 +224,33 @@ td.sidebar {
 	vertical-align: top;
 	background: #ffc
 }
+
+/****************************** flash messages */ 
+
+div.flash {
+  width: 50%;
+  padding: 15px;
+  border-style: solid;
+  border-width: 2px;
+
+  -moz-border-radius:     10px;
+  -webkit-border-radius:  10px;
+  border-radius:           10px;
+}
+
+div.notice {
+  border-color: #00f;
+  background: #fff;
+  color: #44f;
+}
+
+div.error {
+  border-color: #f44;
+  background: #fee;
+  color: #a00;
+}
+
+/************************************* error messages */
 
 .field_with_errors {
 	margin-top: 10px;
@@ -245,57 +293,21 @@ td.sidebar {
 	list-style: square;
 }
 
+/*****************************  misc */
+
+.round {
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+}
+
 .debug_dump {
-  color: #000;
+  color: #00a;
+  margin-top: 300px;
   margin-left: 200px;
 }
 
-ul.users {
-  margin-top: 1em;
-}
 
-.users li {
-  list-style: none;
-  border-bottom: 1px solid gray;
-  height: 30px;
-}
-
-li.user_row form {
-  float: right;
-  display: inline-block;
-}
-
-div.user_info img {
-  padding-right: 0.1em;
-}
-
-div.user_info a {
-  text-decoration: none;
-}
-
-div.user_info span.user_name {
-  position: absolute;
-}
-
-#qwyz_name textarea{
-  height: 2em;
-  width: 90%;
-}
-
-#qwyz_question textarea{
-  height: 6em;
-  width: 90%;
-}
-
-#qwyz_description textarea{
-  height: 8em;
-  width: 90%;
-}
-
-#qwyz_item_description textarea{
-  height: 8em;
-  width: 90%;
-}
 
 
 
