@@ -1,8 +1,15 @@
 
 <div id="votes-body">
-	<h3><%= @qwyz.name%></h3>
-	<h3><%= @qwyz.question%></h3>
-	<hr/>
+	<div id="qwyz-vote-info">
+		<div id="title-row">
+			<span id="qwyz-name"><%= @qwyz.name%></span>
+			<span id="author">by <%= @qwyz_owner.name %></span>
+			<%= link_to "view qwyz results", root_path, id: "qwyz-results-link"%>
+		</div>
+		<div id="question-row">
+			<h2 id="question"><%= @qwyz.question%></h2>
+		</div>
+	</div>
 	
 	<%= form_for([@qwyz, @vote]) do |vote| %>
 		<%= hidden_field_tag :left_item_id,  @left_item.id %>
@@ -24,10 +31,6 @@
 			</tr>
 		</table>
 	<% end %>
-	
-	<hr/>
-	
-	<h3><%= @qwyz.description%></h3>
 </div>
 
 

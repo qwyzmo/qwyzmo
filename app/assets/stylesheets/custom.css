@@ -185,12 +185,77 @@ nav ul li a:hover {
 .browse-qwyz-link {
 }
 
-/************************ votes page */
+/************************ vote page */
+
+#qwyz-vote-info {
+  background: #fff;
+  padding: 5px 25px 5px 25px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+  -moz-border-radius:     10px;
+  -webkit-border-radius:  10px;
+  border-radius:           10px;
+}
+
+#votes-body #qwyz-name {
+  font-weight: bold;
+  padding: 1px;
+  margin: 10px 0px 0px 0px;
+}
+
+#votes-body #question-row h2 {
+  text-align: center;
+  margin: 0px;
+  padding: 5px;
+}
+
+#votes-body #title-row a {
+  background: #efe;
+  color: #0a0;
+  padding: 2px 10px 4px 10px;
+  -moz-border-radius:     5px;
+  -webkit-border-radius:  5px;
+  border-radius:           5px;
+}
+
+#votes-body #title-row a:hover {
+  background: #cfc;
+  color: #060;
+}
+
+#votes-body #author {
+  margin: 2px 10px 5px 0px;
+  padding: 15px;
+  font-size: 0.8em;
+  font-style: italic;
+}
+
+#votes-body #question {
+  font-size: 1.5em;
+  font-style: italic;
+  font-weight: bold;
+}
+
+#votes-body #qwyz-results-link {
+  float: right;
+}
 
 #votes-body table {
   border-spacing: 10px;
   margin-left: auto;
   margin-right: auto;
+  width:100%;
+  /*border-collapse:collapse;*/
+  table-layout:fixed;
+}
+
+#votes-body table th {
+  font-size: 1.5em;
+  /*background-color: #ddf;*/
+  -moz-border-radius:     10px;
+  -webkit-border-radius:  10px;
+  border-radius:           10px;
 }
 
 #votes-body table td {
@@ -199,6 +264,11 @@ nav ul li a:hover {
   -webkit-border-radius:  10px;
   border-radius:           10px;
   background: #000;
+  width: 50%;
+}
+
+#votes-body table td input {
+  width: 100% 
 }
 
 #votes-body table td:hover {
