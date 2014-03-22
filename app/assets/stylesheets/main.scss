@@ -1,0 +1,222 @@
+
+@import "shared";
+
+body {
+  background:   #227;
+  margin-left:  auto;
+  margin-right: auto;
+  font-family:  Ubuntu;
+}
+
+#main {
+  width: 85%;
+  margin: 0 auto;
+  padding: 20px;
+  background: #eef;
+  box-shadow: 0px 0px 100px #00f;
+  @include round_corners(8px);
+}
+
+/***************************** links */
+
+a {
+  color: #aaf;
+  text-decoration: underline;
+}
+
+a:visited {
+  color: #069;
+}
+
+/******************* page bodies */
+
+#sign-up-body {
+  margin-left: 7%;
+}
+
+#home-body {
+  margin-left: 8%
+}
+
+#votes-body {
+  
+}
+
+/**********************************  qwyz edit page **/
+
+#qwyz_name textarea{
+  height: 2em;
+  width: 90%;
+}
+
+#qwyz_question textarea{
+  height: 6em;
+  width: 90%;
+}
+
+#qwyz_description textarea{
+  height: 8em;
+  width: 90%;
+}
+
+#qwyz_item_description textarea{
+  height: 8em;
+  width: 90%;
+}
+
+/***************** home page */
+
+.browse-qwyz-row {
+  border: 2px solid green;
+  margin: 10px 120px 10px 0px;
+  padding: 5px 5px 5px 25px;
+  background-color: white;
+  @include round_corners(8px);
+  box-shadow: 5px 5px 10px #666;
+  /*height: 50px;*/
+}
+
+.browse-qwyz-row:hover {
+  background-color: #efe;
+  border: 2px solid #0f0;
+}
+
+.browse-qwyz-link {
+  text-decoration: none;
+}
+
+.browse-qwyz-row span {
+  color: #888;
+  padding: 2px 5px 5px 5px;
+}
+
+.browse-qwyz-row .name {
+  color: black;
+  font-size: 1.3em;
+  margin: 0px 0px 5px 0px;
+  line-height: 33px;
+}
+
+.browse-qwyz-row .author, .browse-qwyz-row .image-num {
+  font-size: 0.7em;
+  font-style: italic;
+}
+
+.browse-qwyz-row .text-info {
+  display: inline-block;
+  width: 50%;
+}
+.browse-qwyz-row .thumnail-list {
+  display: inline-block;
+  padding: 0px;
+}
+
+/*************************** tables for user show page */
+
+table.profile {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+td.main {
+  width: 70%;
+  padding: 1em;
+}
+
+td.sidebar {
+  width: 30%;
+  padding: 1em;
+  vertical-align: top;
+  background: #ffc
+}
+
+/****************************** flash messages */ 
+
+div.flash {
+  width: 50%;
+  padding: 15px;
+  border-style: solid;
+  border-width: 2px;
+  @include round_corners(8px);
+}
+
+div.notice {
+  border-color: #00f;
+  background: #fff;
+  color: #44f;
+}
+
+div.error {
+  border-color: #f44;
+  background: #fee;
+  color: #a00;
+}
+
+/************************************* error messages */
+
+.field_with_errors {
+  margin-top: 10px;
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+.field_with_errors label {
+  color: #fff
+}
+
+#error_explanation {
+  width: 400px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#error_explanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+}
+
+#error_explanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#error_explanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
+
+/*****************************  misc */
+
+.round {
+  @include round_corners(8px);
+}
+
+.debug_dump {
+  color: #00a;
+  margin-top: 300px;
+  margin-left: 200px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

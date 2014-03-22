@@ -1,17 +1,27 @@
 
 <div id="home-body">
-	<h2>Select a Qwyz to begin browsing:</h2>
+	<h2>Select a Qwyz:</h2>
 	
 	<% @qwyz_list.each do |qwyz| %>
 		<% next if qwyz.qwyz_items.count == 0 %>
 		<%= link_to new_qwyz_vote_path(qwyz), class: "browse-qwyz-link" do %>
 			<div class="browse-qwyz-row">
-				Name: <%= qwyz.name %>, 
-				num items: <%= qwyz.qwyz_items.count%>, 
-				<% qwyz.qwyz_items.each_with_index do |item, index| %>
-					<%= image_tag item.image_url(:thumb).to_s %>
-					<% break if index >= 6 %>
-				<% end %>
+				<div class="text-info">
+					<div class="top-row">
+						<span class="name"><%= qwyz.name %></span>
+						<span class="author"><%= "by momo"%></span>
+						<span class="image-num">(<%= qwyz.qwyz_items.count%> images)</span>
+					</div>
+					<div class="bottom-row">
+						<span class="description"><%= qwyz.description %></span>
+					</div>
+				</div>
+				<div class="thumnail-list">
+					<% qwyz.qwyz_items.each_with_index do |item, index| %>
+						<%= image_tag item.image_url(:thumb).to_s %>
+						<% break if index >= 6 %>
+					<% end %>
+				</div>
 			</div>
 		<% end %>
 	<% end %>
