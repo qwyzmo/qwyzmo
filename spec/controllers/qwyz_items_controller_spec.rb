@@ -13,12 +13,7 @@ describe QwyzItemsController do
 		
 		describe "when not logged in" do
 			it "denies access to some actions" do
-				get :new
-				expect(response).to redirect_to(signin_path)
 				post :create
-				expect(response).to redirect_to(signin_path)
-				
-				get :show, id: 1
 				expect(response).to redirect_to(signin_path)
 				
 				get :edit, id: 1

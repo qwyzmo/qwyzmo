@@ -108,8 +108,15 @@ a:visited {
 }
 .browse-qwyz-row .thumnail-list {
   display: inline-block;
+  width: 49%;
   padding: 0px;
+  img {
+    padding: 0px 2px 0px 2px;
+    float: right;
+  }
 }
+
+
 
 /*************************** tables for user show page */
 

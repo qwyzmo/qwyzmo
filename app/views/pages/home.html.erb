@@ -9,7 +9,7 @@
 				<div class="text-info">
 					<div class="top-row">
 						<span class="name"><%= qwyz.name %></span>
-						<span class="author"><%= "by momo"%></span>
+						<span class="author">by <%= @qwyz_to_author_map[qwyz.id]%></span>
 						<span class="image-num">(<%= qwyz.qwyz_items.count%> images)</span>
 					</div>
 					<div class="bottom-row">
