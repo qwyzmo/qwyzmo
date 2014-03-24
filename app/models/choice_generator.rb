@@ -4,20 +4,22 @@
 # of the votes that have already been cast.
 class ChoiceGenerator
 	
-	def max_choice_count(item_count)
+	def self.max_choice_count(item_count)
 		# return the number of vote pairs possible ( ignoring order )
 		(item_count * (item_count - 1)) / 2
 	end
 	
 	# creates an order pair of item ids, given all votes cast so far, and a list
 	#  of all available item ids.
-	def choice(votelist, item_id_list)
+	def self.choice(votelist, item_id_list)
 		votelist = [] if votelist.nil?
 		if item_id_list.blank? || votelist.count == max_choice_count(item_id_list.count)
 			return [nil, nil]
 		end
 		all_choices = all_choices_map(item_id_list)
 		remove_votes_from_choices(votelist, all_choices)
+		# TODO first try and pick a pair, neither of which have been voted on before.
+		
 		# pick a random left and right item id.
 		left_item_id = all_choices.keys.sample
 		right_item_id = all_choices[left_item_id].keys.sample
@@ -27,7 +29,7 @@ class ChoiceGenerator
 	# build a map of item id to map of item ids. representing all possible 
 	#  (id1,id2) pairs
 	#   id1 => (id2 => true)  for all id1 and id2 in item_id_list where id1 != id2
-	def all_choices_map(item_id_list)
+	def self.all_choices_map(item_id_list)
 		map = {}
 		item_id_list.each do |left|
 			item_id_list.each do |right|
@@ -43,7 +45,7 @@ class ChoiceGenerator
 	end
 	
 	# removes the votes from the all_pairs map
-	def remove_votes_from_choices(votelist, all_pairs)
+	def self.remove_votes_from_choices(votelist, all_pairs)
 		# for each vote in votelist, remove it from the @all_pairs_map
 		#  creating a new map of unused item pairings.
 		votelist.each do |item|

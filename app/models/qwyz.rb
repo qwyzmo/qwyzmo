@@ -68,8 +68,7 @@ class Qwyz < ActiveRecord::Base
 	#   by the user designated by either id or ip. exclude inactive items also.
 	def item_choice(user_id, ip)
 		votelist = Vote::votelist(id, user_id, ip)
-		choice_gen = ChoiceGenerator.new
-		left_item_id, right_item_id = choice_gen.choice(votelist, active_item_ids)
+		left_item_id, right_item_id = ChoiceGenerator.choice(votelist, active_item_ids)
 		return [item(left_item_id), item(right_item_id)]
 	end
 	
@@ -95,6 +94,10 @@ class Qwyz < ActiveRecord::Base
 			qwyz_id2user_name[qwyz.id] = user_id2name[qwyz.user_id]
 		end
 		qwyz_id2user_name
+	end
+	
+	def total_possible_vote_count
+		ChoiceGenerator.max_choice_count(qwyz_items.count)
 	end
 end
 

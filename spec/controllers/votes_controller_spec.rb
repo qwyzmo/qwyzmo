@@ -28,6 +28,8 @@ describe VotesController do
 				expect(@qwyz.item(left_item.id)).to_not be_nil
 				expect(@qwyz.item(right_item.id)).to_not be_nil
 				expect(vote).to_not be_nil
+				# TODO check for view results button fields.
+				pending
 			end
 		end
 
@@ -50,6 +52,8 @@ describe VotesController do
 				expect(result).to_not be_nil
 				expect(result.count).to eq 3
 				expect(result.total_vote_count).to eq 3
+				# TODO check for view results button fields
+				pending
 			end
 		end
 	end

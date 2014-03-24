@@ -56,7 +56,7 @@ describe Vote do
 		end
 	end
 	
-	describe "self.votelist" do
+	describe "Vote.votelist and Vote.vote_count" do
 		before do
 			@ip = "1.2.3.4"
 			@vote1a = create_test_vote(@qwyz1.id, @item1a.id, @item1b.id, @item1a.id, @user2.id)
@@ -90,6 +90,8 @@ describe Vote do
 			expect(votes.count).to be 0
 		end
 	end
+	
+########################## helper methods
 	
 	def newvote(qwyz_id, left_item_id, right_item_id, chosen_item_id)
 		Vote.new(qwyz_id: qwyz_id, left_item_id: left_item_id, 

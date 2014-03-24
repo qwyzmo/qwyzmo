@@ -18,6 +18,9 @@ class QwyzResult
 		end
 	end
 	
+	def self.total_possible_votes
+		# TODO implement
+	end
 	########################################## private methods.
 	private
 	

@@ -91,6 +91,13 @@ describe Qwyz do
 			end
 		end
 	end
+	
+	describe "#total_possible_vote_count" do
+		it "computes the correct total possible vote count" do
+			total_count = @qwyz.total_possible_vote_count
+			expect(total_count).to eq(10)
+		end
+	end
 
 	describe "#active_item_count and #inactive_item_count" do
 		

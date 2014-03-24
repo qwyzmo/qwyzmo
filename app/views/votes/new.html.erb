@@ -4,7 +4,12 @@
 		<div id="title-row">
 			<span id="qwyz-name"><%= @qwyz.name%></span>
 			<span id="author">by <%= @qwyz_owner.name %></span>
-			<%= link_to "view qwyz results", root_path, id: "qwyz-results-link"%>
+			<% if @show_results %>
+				<%= link_to "qwyz results", root_path, id: "qwyz-results-link"%>
+			<% else %>
+				<span id="">Qwyz results in 
+					<%= @votes_til_results%> more.</span>
+			<% end %>
 		</div>
 		<div id="question-row">
 			<h2 id="question"><%= @qwyz.question%></h2>
