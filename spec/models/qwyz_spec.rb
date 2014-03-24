@@ -4,6 +4,8 @@ describe Qwyz do
 	before do
 		@user = create_test_user("n", "e@q.com", "passpass", "passpass")
 		@qwyz = create_test_qwyz(@user.id, "n", "q", "d")
+		@qwyz2 = create_test_qwyz(@user.id, "n", "q", "d")
+		@qwyz3 = create_test_qwyz(@user.id, "n", "q", "d")
 		@qitem1 = newitem(@qwyz.id, QwyzItem::STATUS[:active])
 		@qitem2 = newitem(@qwyz.id, QwyzItem::STATUS[:active])
 		@qitem3 = newitem(@qwyz.id, QwyzItem::STATUS[:active])
@@ -44,6 +46,52 @@ describe Qwyz do
 		end
 	end
 	
+	describe "qwyz lists" do
+		before do
+			@user1 = create_test_user("n1", "e1@q.com", "passpass", "passpass")
+			@user2 = create_test_user("n2", "e2@q.com", "passpass", "passpass")
+			@user3 = create_test_user("n3", "e3@q.com", "passpass", "passpass")
+			
+			@qwyz1 = create_test_qwyz(@user1.id, "n", "q", "d")
+			@qwyz2 = create_test_qwyz(@user2.id, "n", "q", "d")
+			@qwyz3 = create_test_qwyz(@user3.id, "n", "q", "d")
+			@qwyz_list = [@qwyz1, @qwyz2, @qwyz3]
+		end
+		
+		describe "Qwyz.id_list" do
+			it "returns same size list as passed in" do
+				id_list = Qwyz.user_id_list(@qwyz_list)
+				expect(id_list.count).to eq(@qwyz_list.count)
+				expect(id_list[2]).to eq(@qwyz3.user_id)
+			end
+		end
+		
+		describe "Qwyz.id2author" do
+	
+			it "returns empty hash when qwyzlist is nil" do
+				id2author = Qwyz.id2author(nil)
+				expect(id2author.count).to eq(0)
+			end
+	
+			it "returns empty hash when qwyzlist is empty hash" do
+				id2author = Qwyz.id2author({})
+				expect(id2author.count).to eq(0)
+			end
+	
+			it "returns hash with correct name for a qwyz, given correct qwyz id" do
+				id2author = Qwyz.id2author(@qwyz_list)
+				expect(id2author.count).to eq(@qwyz_list.count)
+				expect(id2author[@qwyz2.id]).to eq(@user2.name)
+			end
+	
+			it "returns hash without qwyz id key if no qwyz has that id" do
+				id2author = Qwyz.id2author(@qwyz_list)
+				expect(id2author.count).to eq(@qwyz_list.count)
+				expect(id2author[99999]).to be_nil
+			end
+		end
+	end
+
 	describe "#active_item_count and #inactive_item_count" do
 		
 		it "returns correct number of active items" do
@@ -53,7 +101,7 @@ describe Qwyz do
 		it "returns correct number of inactive items" do
 			expect(@qwyz.inactive_item_count).to eq 1
 		end
-		
+
 	end
 
 	describe "#item" do

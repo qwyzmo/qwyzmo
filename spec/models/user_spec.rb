@@ -97,24 +97,6 @@ describe User do
 		it { should_not be_valid }
 	end
 	
-	describe "self.qwyz_id_to_author" do
-		it "returns empty hash when qwyzlist is nil" do
-			pending
-		end
-		
-		it "returns empty hash when qwyzlist is empty hash" do
-			pending
-		end
-		
-		it "returns hash with correct name for a qwyz, given correct qwyz id" do
-			pending
-		end
-		
-		it "returns hash without qwyz id key if no qwyz has that id" do
-			pending
-		end
-	end
-	
 ########################### password related tests
 
 	describe "with a password that's too short" do

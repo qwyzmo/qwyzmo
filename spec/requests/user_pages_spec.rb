@@ -69,7 +69,7 @@ describe "User pages" do
 			visit signout_path
 		end
 		it { should have_title "Home" }
-		it { should have_content "Select a Qwyz to begin" }
+		it { should have_css "div#home-body" }
 	end
 end
 

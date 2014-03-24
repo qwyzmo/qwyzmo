@@ -25,33 +25,6 @@ class User < ActiveRecord::Base
 		deactivated: 		200,
 	}
 
-	def User.qwyz_id_to_author(qwyzlist)
-		return {} if qwyzlist.empty?
-		qwyz_id_string = ""
-		qwyzlist.each do |qwyz|
-			qwyz_id_string += "#{qwyz.id},"
-		end
-		qwyz_id_string = qwyz_id_string[0..-2]
-		
-		sql = "select q.id, u.name from users u, qwyzs q " + 
-						"where q.user_id = u.id and q.id in (#{qwyz_id_string})"
-		conn = ActiveRecord::Base.connection
-		result = ActiveRecord::Base.connection.execute(sql)
-		
-		qwyzid_to_name = {}
-		result.each do |row|
-			qwyzid_to_name[row["id"]] = row["name"]
-		end
-		qwyzid_to_name
-	end
-	
-	def User.qwyz_id_to_author(qwyzlist)
-		return {} if qwyzlist.empty?
-		
-		return {}
-	end
-	
-
 	def User.new_remember_token
 		SecureRandom.urlsafe_base64
 	end

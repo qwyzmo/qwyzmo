@@ -63,7 +63,7 @@ class Qwyz < ActiveRecord::Base
 		end
 		return ids
 	end
-	
+
 	# returns a pair of items that have not been voted on side by side
 	#   by the user designated by either id or ip. exclude inactive items also.
 	def item_choice(user_id, ip)
@@ -72,7 +72,34 @@ class Qwyz < ActiveRecord::Base
 		left_item_id, right_item_id = choice_gen.choice(votelist, active_item_ids)
 		return [item(left_item_id), item(right_item_id)]
 	end
+	
+	# return list of qwyz ids from the qwyzs.
+	def self.user_id_list(qwyz_list)
+		id_list = []
+		qwyz_list.each do |qwyz|
+			id_list.push(qwyz.user_id)
+		end
+		id_list
+	end
+
+	# returns a map of qwyz id to user name of the qwyz's creator
+	def self.id2author(qwyz_list)
+		return {} if qwyz_list.blank?
+		author_list = User.find(Qwyz.user_id_list(qwyz_list))
+		user_id2name = {}
+		author_list.each do |author|
+			user_id2name[author.id] = author.name
+		end
+		qwyz_id2user_name = {}
+		qwyz_list.each do |qwyz|
+			qwyz_id2user_name[qwyz.id] = user_id2name[qwyz.user_id]
+		end
+		qwyz_id2user_name
+	end
 end
+
+
+
 
 
 
