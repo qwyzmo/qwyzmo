@@ -11,14 +11,18 @@ class QwyzItemsController < ApplicationController
 	end
 	
 	def create
-		@qwyz = Qwyz.find(params[:qwyz_id])
-		@qwyz_item = @qwyz.qwyz_items.build(qwyz_item_params)
-		if @qwyz_item.save
-			flash[:success] = "Qwyz item created."
-			render_show_qwyz @qwyz.id
-		else
-			@title = "Add a new Qwyz item"
-			render :new
+		begin
+			@qwyz = Qwyz.find(params[:qwyz_id])
+			@qwyz_item = @qwyz.qwyz_items.build(qwyz_item_params)
+			if @qwyz_item.save
+				flash.now[:success] = "Qwyz item created."
+				render_show_qwyz @qwyz.id
+			else
+				@title = "Add a new Qwyz item"
+				render :new
+			end
+		rescue
+			redirect_to root_path
 		end
 	end
 	
@@ -39,7 +43,7 @@ class QwyzItemsController < ApplicationController
 		@qwyz_item = QwyzItem.find(params[:id])
 		@qwyz = Qwyz.find(@qwyz_item.qwyz_id)
 		if @qwyz_item.update_attributes(qwyz_item_params)
-			flash[:success] = "Qwyz item updated"
+			flash.now[:success] = "Qwyz item updated"
 			render_show_qwyz(@qwyz_item.qwyz_id)
 		else
 			@title = "Edit Qwyz Item"

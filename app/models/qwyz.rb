@@ -99,6 +99,14 @@ class Qwyz < ActiveRecord::Base
 	def total_possible_vote_count
 		ChoiceGenerator.max_choice_count(qwyz_items.count)
 	end
+	
+	def active_item_count
+		count = 0
+		qwyz_items.each do |item|
+			count += 1 if item.active?
+		end
+		count
+	end
 end
 
 

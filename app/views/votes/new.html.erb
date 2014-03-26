@@ -5,10 +5,11 @@
 			<span id="qwyz-name"><%= @qwyz.name%></span>
 			<span id="author">by <%= @qwyz_owner.name %></span>
 			<% if @show_results %>
-				<%= link_to "qwyz results", root_path, id: "qwyz-results-link"%>
+				<%= link_to "View qwyz results", qwyz_votes_path(@qwyz.id), 
+							id: "qwyz-results-link"%>
 			<% else %>
-				<span id="">Qwyz results in 
-					<%= @votes_til_results%> more.</span>
+				<span id="vote-status-msg">You may view Qwyz results in 
+					<%= @votes_til_results%> more votes.</span>
 			<% end %>
 		</div>
 		<div id="question-row">

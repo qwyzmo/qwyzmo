@@ -5,16 +5,14 @@ class VotesController < ApplicationController
 	
 	def new
 		@qwyz = Qwyz.find(params[:qwyz_id])
-		@qwyz_owner = User.find(@qwyz.user_id)
 		current_user_id = current_user.nil? ? nil : current_user.id
-		set_results_button_info(@qwyz, current_user_id, request.remote_ip)
-		@left_item, @right_item = 
-					@qwyz.item_choice(current_user_id, request.remote_ip)
+		@left_item, @right_item = @qwyz.item_choice(current_user_id, request.remote_ip)
 		if	@left_item.nil? || @right_item.nil?
-			@title = "Qwyz Summary"
 			@qwyz_result = QwyzResult.new(@qwyz)
 			index
 		else
+			@qwyz_owner = User.find(@qwyz.user_id)
+			set_results_button_info(@qwyz, current_user_id, request.remote_ip)
 			@vote = Vote.new
 			@title = "Vote"
 			render :new

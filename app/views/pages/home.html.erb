@@ -3,7 +3,8 @@
 	<h2>Select a Qwyz:</h2>
 	
 	<% @qwyz_list.each do |qwyz| %>
-		<% next if qwyz.qwyz_items.count == 0 %>
+		<% puts "-----> #{qwyz.active_item_count}"%>
+		<% next if qwyz.active_item_count <= 1 %>
 		<%= link_to new_qwyz_vote_path(qwyz), class: "browse-qwyz-link" do %>
 			<div class="browse-qwyz-row">
 				<div class="text-info">
@@ -18,6 +19,7 @@
 				</div>
 				<div class="thumnail-list">
 					<% qwyz.qwyz_items.each_with_index do |item, index| %>
+						<% next if item.inactive? %>
 						<%= image_tag item.image_url(:thumb).to_s %>
 						<% break if index >= 6 %>
 					<% end %>

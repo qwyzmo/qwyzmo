@@ -147,7 +147,7 @@ div.flash {
   @include round_corners(8px);
 }
 
-div.notice {
+div.notice, div.success {
   border-color: #00f;
   background: #fff;
   color: #44f;

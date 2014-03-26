@@ -12,7 +12,7 @@ class QwyzsController < ApplicationController
 	def create
 		@qwyz = current_user.qwyzs.build(qwyz_params)
 		if @qwyz.save
-			flash[:success] = "Qwyz created."
+			flash.now[:success] = "Qwyz created."
 			index
 			render :index
 		else
@@ -29,7 +29,7 @@ class QwyzsController < ApplicationController
 	def update
 		@qwyz = Qwyz.find(params[:id])
 		if @qwyz.update_attributes(qwyz_params)
-			flash[:success] = "Qwyz updated."
+			flash.now[:success] = "Qwyz updated."
 			index
 			render :index
 		else

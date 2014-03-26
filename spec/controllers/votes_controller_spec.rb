@@ -16,20 +16,21 @@ describe VotesController do
 			it "sets title, qwyz, renders new, sets left and right items" do
 				get :new, qwyz_id: @qwyz.id
 				
+				qwyz 							= assigns(:qwyz)
+				left_item 				= assigns(:left_item)
+				right_item				= assigns(:right_item)
+				vote 							= assigns(:vote)
+				votes_til_results = assigns(:votes_til_results)
+				show_results 			= assigns(:show_results)
+				
 				expect(response).to render_template :new
 				expect(response.body).to have_title "Vote"
-				
-				qwyz 				=		assigns(:qwyz)
-				left_item 	=		assigns(:left_item)
-				right_item	=		assigns(:right_item)
-				vote 				= 	assigns(:vote)
-				
 				expect(qwyz.id).to eq(@qwyz.id)
 				expect(@qwyz.item(left_item.id)).to_not be_nil
 				expect(@qwyz.item(right_item.id)).to_not be_nil
 				expect(vote).to_not be_nil
-				# TODO check for view results button fields.
-				pending
+				expect(votes_til_results).to eq 3
+				expect(show_results).to be_false
 			end
 		end
 
@@ -44,16 +45,13 @@ describe VotesController do
 			it "sets title, sets qwyz, and renders qwyz summary" do
 				get :new, qwyz_id: @qwyz.id
 
-				expect(response).to render_template :index
-				expect(response.body).to have_title "Qwyz Vote Summary"
-				
 				result = assigns(:qwyz_result)
 				
+				expect(response).to render_template :index
+				expect(response.body).to have_title "Qwyz Vote Summary"
 				expect(result).to_not be_nil
 				expect(result.count).to eq 3
 				expect(result.total_vote_count).to eq 3
-				# TODO check for view results button fields
-				pending
 			end
 		end
 	end

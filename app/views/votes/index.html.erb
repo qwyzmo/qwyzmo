@@ -7,6 +7,7 @@ by: <%= @author.name %>
 <hr />
 
 <% @qwyz_result.each do |item, vote_count| %>
+	<% next if item.inactive? %>
 	<%= link_to item do %>
 		<%= image_tag item.image_url(:thumb).to_s %> 
 	<%  end %>
