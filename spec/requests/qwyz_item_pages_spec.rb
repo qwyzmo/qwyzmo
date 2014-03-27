@@ -40,14 +40,14 @@ describe "qwyz item pages" do
 		end
 
 		describe "with valid info" do
-			before { fill_form("desc", '/spec/fixtures/ruby.jpg', 'update') }
+			before { fill_form("desc", nil, 'update') }
 			
 			it { should have_title "View Qwyz" }
 			it { should have_content "Active qwyz items" }
 		end
 
 		describe "with invalid info" do
-			before { fill_form("", '/spec/fixtures/ruby.jpg', "update") }
+			before { fill_form("", nil, "update") }
 			
 			it { should have_title "Edit Qwyz Item" }
 			it { should have_content "Edit Qwyz Item" }
@@ -86,7 +86,7 @@ describe "qwyz item pages" do
 	
 	def fill_form(description, image, button_name)
 		fill_in "qwyz_item_description", 	with: description
-		attach_file('qwyz_item_image', File.join(Rails.root, image))
+		attach_file('qwyz_item_image', File.join(Rails.root, image)) unless image.nil?
 		click_button button_name
 	end
 	

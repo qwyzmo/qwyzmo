@@ -3,7 +3,6 @@
 	<h2>Select a Qwyz:</h2>
 	
 	<% @qwyz_list.each do |qwyz| %>
-		<% puts "-----> #{qwyz.active_item_count}"%>
 		<% next if qwyz.active_item_count <= 1 %>
 		<%= link_to new_qwyz_vote_path(qwyz), class: "browse-qwyz-link" do %>
 			<div class="browse-qwyz-row">

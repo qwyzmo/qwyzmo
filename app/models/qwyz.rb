@@ -99,13 +99,10 @@ class Qwyz < ActiveRecord::Base
 	def total_possible_vote_count
 		ChoiceGenerator.max_choice_count(qwyz_items.count)
 	end
-	
-	def active_item_count
-		count = 0
-		qwyz_items.each do |item|
-			count += 1 if item.active?
-		end
-		count
+
+	def remaining_vote_count(current_user_id, current_user_ip)
+		votes_cast_count = Vote.votelist(self.id, current_user_id, current_user_ip).count
+		ChoiceGenerator.max_choice_count(self.active_item_count) - votes_cast_count
 	end
 end
 

@@ -150,7 +150,7 @@ describe Qwyz do
 	describe "#item_choice" do
 		before do
 			@qwyz = create_test_qwyz(@user.id, "n", "q", "d")
-			# create 6 items for this qwyz
+			# create 4 items for this qwyz
 			@item_map = {}
 			4.times do |i|
 				qwyz_item = create_test_qwyz_item(@qwyz.id)
@@ -164,6 +164,7 @@ describe Qwyz do
 			@votes.push create_test_vote(@qwyz.id, k[1], k[2], k[1], @voter_id)
 			@votes.push create_test_vote(@qwyz.id, k[2], k[3], k[3], @voter_id)
 		end
+		
 
 		it "returns two items from the list, but not in votes list" do
 			# lets use up all the remaining possible votes.
@@ -182,7 +183,20 @@ describe Qwyz do
 			expect(left_item).to be_nil
 			expect(right_item).to be_nil
 		end
+	end
+	
+	describe "#remaining_vote_count" do
+		before do
+			create_test_vote(@qwyz.id, @qitem1.id, @qitem2.id, @qitem1.id, @user.id)
+			create_test_vote(@qwyz.id, @qitem1.id, @qitem3.id, @qitem1.id, @user.id)
+			create_test_vote(@qwyz.id, @qitem1.id, @qitem4.id, @qitem1.id, @user.id)
+			create_test_vote(@qwyz.id, @qitem2.id, @qitem3.id, @qitem2.id, @user.id)
+		end
 		
+		it "computes correct remaining vote count" do
+			remaining = @qwyz.remaining_vote_count(@user.id, nil)
+			expect(remaining).to eq 2
+		end
 	end
 	
 	############################## helper methods

@@ -27,7 +27,9 @@ class VotesController < ApplicationController
 	end
 	
 	def index
+		current_user_id = current_user.nil? ? nil : current_user.id
 		@qwyz = Qwyz.find(params[:qwyz_id])
+		@remaining_vote_count = @qwyz.remaining_vote_count(current_user_id, request.remote_ip)
 		@author = User.find(@qwyz.user_id)
 		@qwyz_result = QwyzResult.new(@qwyz)
 		@title = "Qwyz Vote Summary"

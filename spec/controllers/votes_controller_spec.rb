@@ -81,6 +81,7 @@ describe VotesController do
 			qwyz 				= assigns(:qwyz)
 			qwyz_result = assigns(:qwyz_result)
 			author 			= assigns(:author)
+			# TODO add tests for vars to turn on link to finish qwyz.
 			
 			expect(response.body).to have_title "Qwyz Vote Summary"
 			expect(response).to render_template :index

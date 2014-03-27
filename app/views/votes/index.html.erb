@@ -2,8 +2,13 @@
 <h2>Vote summary for Qwyz</h2>
 
 For Qwyz: <%= @qwyz.name%><br/>
-by: <%= @author.name %>
+by: <%= @author.name %><br/>
 
+<% if @remaining_vote_count > 0 %>
+	<%= link_to "Continue taking this Qwyz.", new_qwyz_vote_path(@qwyz) %>
+<% else %>
+	You have cast all possible votes for this Qwyz.
+<% end%>
 <hr />
 
 <% @qwyz_result.each do |item, vote_count| %>
