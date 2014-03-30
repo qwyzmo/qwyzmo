@@ -64,60 +64,6 @@ a:visited {
   width: 90%;
 }
 
-/***************** home page */
-
-.browse-qwyz-row {
-  border: 2px solid green;
-  margin: 10px 120px 10px 0px;
-  padding: 5px 5px 5px 25px;
-  background-color: white;
-  @include round_corners(8px);
-  box-shadow: 5px 5px 10px #666;
-}
-
-.browse-qwyz-row:hover {
-  background-color: #efe;
-  border: 2px solid #0f0;
-  /*box-shadow: 0px 0px 10px #fff;*/
-}
-
-.browse-qwyz-link {
-  text-decoration: none;
-}
-
-.browse-qwyz-row span {
-  color: #888;
-  padding: 2px 5px 5px 5px;
-}
-
-.browse-qwyz-row .name {
-  color: black;
-  font-size: 1.3em;
-  margin: 0px 0px 5px 0px;
-  line-height: 33px;
-}
-
-.browse-qwyz-row .author, .browse-qwyz-row .image-num {
-  font-size: 0.7em;
-  font-style: italic;
-}
-
-.browse-qwyz-row .text-info {
-  display: inline-block;
-  width: 50%;
-}
-.browse-qwyz-row .thumnail-list {
-  display: inline-block;
-  width: 49%;
-  padding: 0px;
-  img {
-    padding: 0px 2px 0px 2px;
-    float: right;
-  }
-}
-
-
-
 /*************************** tables for user show page */
 
 table.profile {

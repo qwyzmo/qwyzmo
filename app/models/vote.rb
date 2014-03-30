@@ -61,7 +61,7 @@ class Vote < ActiveRecord::Base
 		vote.right_item_id 		= right_id
 		vote.chosen_item_id 	= chosen_id
 		vote.voter_user_id 		= user_id
-		vote.voter_ip_address = ip if user_id.nil?
+		vote.voter_ip_address = ip
 		vote.save
 	end
 end

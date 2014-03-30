@@ -22,6 +22,7 @@ describe "vote pages" do
 		end
 		
 		it { should have_title "Vote"}
+		it { should have_css "span#vote-status-msg"}
 		
 		describe "cast a vote for an item." do
 			before do
