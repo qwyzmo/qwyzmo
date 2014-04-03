@@ -82,6 +82,7 @@
 #votes-body table td {
   border: 4px solid #5c5;
   @include round_corners(8px);
+  vertical-align: top;
   background: #000;
   width: 50%;
 }
