@@ -5,9 +5,9 @@ QwyzmoApp::Application.routes.draw do
 		resources :votes, only: [:new, :create, :index]
 	end
 	resources :qwyz_items
-	
-	
 	resources :sessions,			:only => [:new, :create, :destroy]
+	
+	match '/receive_email',	to: 'mail#receive_email',		via:	[:post, :get]
 
 	match '/signin',				to:	'sessions#new',					via: 	'get'
 	match '/signout',				to:	'sessions#destroy',			via: 	[:delete, :get]
@@ -16,7 +16,7 @@ QwyzmoApp::Application.routes.draw do
 	
 	get 	'/editpass/:id',	to: 'users#edit_password', 	as: 	'editpass'
 	get 	'/activate',			to: 'users#activate'
-		
+
 	# #####################  password change routes
 	# get email for pass reset
 	get 	'/forgot_password',		to: 'users#forgot_password'
