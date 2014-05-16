@@ -1,20 +1,40 @@
 
-<h2>Vote summary for Qwyz</h2>
+<div id="top">
+	
+	<span id="results-msg" >Voting results for </span>
+	<span id="qwyz-name" ><%= @qwyz.name%></span>
+	<span id="author" >by <%= @author.name %></span>
+	
+	<% if @remaining_vote_count > 0 %>
+		<%= link_to "Continue taking this Qwyz.", new_qwyz_vote_path(@qwyz),
+				class: "primary-button" %>
+	<% else %>
+		You have cast all possible votes for this Qwyz.
+	<% end%>
+</div>
 
-For Qwyz: <%= @qwyz.name%><br/>
-by: <%= @author.name %><br/>
-
-<% if @remaining_vote_count > 0 %>
-	<%= link_to "Continue taking this Qwyz.", new_qwyz_vote_path(@qwyz) %>
-<% else %>
-	You have cast all possible votes for this Qwyz.
-<% end%>
-<hr />
-
-<% @qwyz_result.each do |item, vote_count| %>
-	<% next if item.inactive? %>
-	<%= link_to item do %>
-		<%= image_tag item.image_url(:thumb).to_s %> 
-	<%  end %>
-	<%= vote_count %> votes for <%= item.description%>.<br />
-<% end %>
+<table id="results-table">
+	<tr>
+		<th>Image</th>
+		<th>Description</th>
+		<th>Total Vote Count</th>
+	</th>
+	<% @qwyz_result.each do |item, vote_count| %>
+		<% next if item.inactive? %>
+		<tr>
+			<td class="image-cell primary-button" >
+				<%= link_to item do %>
+					<%= image_tag item.image_url(:thumb).to_s %> 
+				<%  end %>
+			</td>
+			<td class="description-cell">
+				<span>
+					<%= item.description%>
+				</span>
+			</td>
+			<td>
+				<%= vote_count %> 
+			</td>
+		</tr>
+	<% end %>
+</table>

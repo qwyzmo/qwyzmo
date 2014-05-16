@@ -1,0 +1,27 @@
+@import "shared";
+
+#show-item-body {
+  padding: 30px;
+  img {
+    display: block;
+    border: 1px solid black;
+    margin: 0 auto;
+  }
+}
+
+#show-item-top {
+  width: 70%;
+  padding: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+  @include info-box;
+  span {
+    padding: 0 0 0 40px;
+    font-weight: bold;
+    font-size: 1.4em;
+  }
+  a {
+    float: right;
+  }
+}

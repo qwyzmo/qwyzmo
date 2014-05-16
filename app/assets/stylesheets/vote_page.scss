@@ -2,13 +2,9 @@
 
 
 #qwyz-vote-info {
-  background: #fff;
-  padding: 5px 25px 5px 25px;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 10px 25px 5px 25px;
   width: 80%;
-  @include round_corners(10px);
-  box-shadow: 5px 5px 10px #666;
+  @include info-box;
 }
 
 #votes-body #qwyz-name {
@@ -40,18 +36,6 @@
   float: right;
 }
 
-#votes-body #title-row a {
-  background: #efe;
-  color: #0a0;
-  padding: 2px 20px 4px 20px;
-  border: 1px solid #0f0;
-  @include round_corners(5px);
-}
-
-#votes-body #title-row a:hover {
-  background: #cfc;
-  color: #060;
-}
 
 #votes-body #question {
   font-size: 1.5em;
