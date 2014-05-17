@@ -117,7 +117,7 @@ def check_save_failed(db_object, count)
 end
 
 def complete_sign_in_form(email, password)
-	within(:css, "div#sign-up-body") do
+	within(:css, "div.user-page-body") do
 		fill_in "Email",		with: email
 		fill_in "Password", with: password
 		click_button "Sign in"

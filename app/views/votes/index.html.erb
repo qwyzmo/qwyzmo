@@ -7,9 +7,11 @@
 	
 	<% if @remaining_vote_count > 0 %>
 		<%= link_to "Continue taking this Qwyz.", new_qwyz_vote_path(@qwyz),
-				class: "primary-button" %>
+				class: "primary-button vote-stat-msg" %>
 	<% else %>
-		You have cast all possible votes for this Qwyz.
+		<span class="vote-stat-msg">
+			You have cast all possible votes for this Qwyz.
+		</span>
 	<% end%>
 </div>
 
