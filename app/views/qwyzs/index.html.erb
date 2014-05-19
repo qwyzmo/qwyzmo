@@ -1,11 +1,25 @@
-<h1>My Qwyzs</h1>
 
-<%= link_to "Create a new Qwyz", new_qwyz_path %>
+<div id="my-qwyzs-body">
+	<div id="my-qwyz-top">
+		<span>My Qwyzs</span>
+		<%= link_to "Create a new Qwyz", new_qwyz_path %>
+	</div>
 
-
-<ul class="qwyzs">
-	<% @qwyzs.each do |qwyz| %>
-		<%= render qwyz %>
-	<% end %>
-</ul>
-
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>Description</th>
+			<th>Image count</th>
+		</tr>
+		<% @qwyzs.each do |qwyz| %>
+			<tr>
+				<td><%= qwyz.name %></td>
+				<td><%= qwyz.description %></td>
+				<td><%= qwyz.qwyz_items.count %></td>
+				<td class="link-cell" ><%= link_to "Edit", edit_qwyz_path(qwyz) %></td>
+				<td class="link-cell" ><%= link_to "Images", qwyz %></td>
+				<td class="link-cell" ><%= link_to "Results", qwyz_votes_path(qwyz.id) %></td>
+			</tr>
+		<% end %>
+	</table>
+</div>

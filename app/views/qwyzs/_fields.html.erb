@@ -2,15 +2,15 @@
 <%= form_for(@qwyz) do |f| %>
 	<%= render 'shared/error_messages', :object => f.object %>
 	<span>Name</span>
-	<div id="qwyz_name">
+	<div id="qwyz_name" class= 'field'>
 		<%= f.text_area :name %>
 	</div>
 	<span>Question</span>
-	<div id="qwyz_question">
+	<div id="qwyz_question" class= 'field'>
 		<%= f.text_area :question %>
 	</div>
 	<span>Description</span>
-	<div id="qwyz_description">
+	<div id="qwyz_description" class= 'field'>
 		<%= f.text_area :description %>
 	</div>
 	<div class="actions">

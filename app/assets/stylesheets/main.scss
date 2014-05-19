@@ -28,57 +28,6 @@ a:visited {
   color: #069;
 }
 
-/******************* page bodies */
-
-#home-body {
-  margin-left: 8%
-}
-
-#votes-body {
-  
-}
-
-/**********************************  qwyz edit page **/
-
-#qwyz_name textarea{
-  height: 2em;
-  width: 90%;
-}
-
-#qwyz_question textarea{
-  height: 6em;
-  width: 90%;
-}
-
-#qwyz_description textarea{
-  height: 8em;
-  width: 90%;
-}
-
-#qwyz_item_description textarea{
-  height: 8em;
-  width: 90%;
-}
-
-/*************************** tables for user show page */
-
-table.profile {
-  width: 100%;
-  margin-bottom: 0;
-}
-
-td.main {
-  width: 70%;
-  padding: 1em;
-}
-
-td.sidebar {
-  width: 30%;
-  padding: 1em;
-  vertical-align: top;
-  background: #ffc
-}
-
 /****************************** flash messages */ 
 
 div.flash {

@@ -1,23 +1,24 @@
 <div class="user-page-body" >
 	<h1>Edit Account Info</h1>
-	
-	<%= form_for(@user) do |f| %>
-		<%= render 'shared/error_messages', :object => f.object %>
-		<div class='field'>
-			<%= f.label :name %><br/>
-			<%= f.text_field :name%>
-		</div>
-		<div class= 'field'>
-			<%= f.label :email%><br/>
-			<%= f.text_field :email%>
-		</div>
-		<div class='field'>
-			<%= f.label :password%><br/>
-			<%= f.password_field :password%>
-		</div>
-		<div class='actions'>
-			<%= f.submit "Save changes" %>
-		</div>
-	<% end %>
-	<%= link_to "Change Password", editpass_path, id: @user.id %>
+	<div id="fields">
+		<%= form_for(@user) do |f| %>
+			<%= render 'shared/error_messages', :object => f.object %>
+			<div class='field'>
+				<%= f.label :name %><br/>
+				<%= f.text_field :name%>
+			</div>
+			<div class= 'field'>
+				<%= f.label :email%><br/>
+				<%= f.text_field :email%>
+			</div>
+			<div class='field'>
+				<%= f.label :password%><br/>
+				<%= f.password_field :password%>
+			</div>
+			<div class='actions'>
+				<%= f.submit "Save changes" %>
+			</div>
+		<% end %>
+		<%= link_to "Change Password", editpass_path, id: @user.id %>
+	</div>
 </div>

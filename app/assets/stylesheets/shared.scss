@@ -29,3 +29,45 @@ a.primary-button {
   background: #cfc;
   color: #060;
 }
+
+.input-button {
+  color: #080;
+  border: 0;
+  text-decoration: underline;
+  font-family: Ubuntu;
+  font-size: 1.0em;
+  @extend .primary-button;
+  margin-bottom: 10px;
+}
+
+.actions input {
+  @extend .input-button;
+}
+
+@mixin table-row-coloring {
+  tr:nth-child(even) {
+    td:not(.link-cell) {
+      background: #efefef;
+    }
+  }
+}
+
+@mixin field-page-body {
+  margin: 0 auto;
+  width: 80%;
+  h1 {
+    padding: 15px 15px 0px 25px;
+    margin-top: 0;
+  }
+  
+  #fields {
+    padding: 0 30px;
+    width: 80%;
+    margin-bottom: 30px;
+    .field {
+      margin: 0 0 20px 0;
+    }
+  }
+}
+
+

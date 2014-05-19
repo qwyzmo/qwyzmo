@@ -1,0 +1,124 @@
+@import "shared";
+
+
+/**********************************  qwyz edit page **/
+
+#qwyz_name textarea{
+  height: 2em;
+  width: 100%;
+}
+
+#qwyz_question textarea{
+  height: 6em;
+  width: 100%;
+}
+
+#qwyz_description textarea{
+  height: 8em;
+  width: 100%;
+}
+
+#qwyz_item_description textarea{
+  height: 8em;
+  width: 100%;
+}
+
+///////////////////////////////////// my qwyzs page.
+
+#my-qwyzs-body {
+  
+  #my-qwyz-top {
+    span {
+      font-weight: bold;
+      font-size: 2.0em;
+    }
+    padding: 10px 10px 10px 25px;
+    //@include info-box;
+    width: 80%;
+    margin: 0 auto;
+    a {
+      float: right;
+      margin: 5px;
+    }
+  }
+  
+  a {
+    @extend .primary-button;
+  }
+
+  @include table-row-coloring;
+  
+  td {
+    padding: 5px;
+  }
+
+  table {
+    width: 80%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    @include info-box;
+    .link-cell {
+      width: 50px;
+    }
+  }
+}
+
+////////////////////////// create qwyz page
+
+#create-qwyz-body {
+  @include field-page-body;
+}
+
+/////////////////// edit qwyz page
+
+#edit-qwyz-body {
+  @include field-page-body;
+}
+
+///////////////////// manage images page
+
+#manage-qwyz-images {
+  margin: 0 auto;
+  margin-bottom: 30px;
+  width: 80%;
+  #manage-img-top .link-cell {
+    padding: 5px;
+  }
+  table {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 100%;
+    @include info-box;
+    .link-cell {
+      width: 50px;
+      input {
+        margin-bottom: 0;
+      }
+    }
+    .image-cell {
+      width: 100px;
+    }
+    img {
+      display: block;
+      margin: 0 auto;
+    }
+    span {
+      padding-left: 10px;
+    }
+  }
+
+  @include table-row-coloring;
+
+  a {
+    @extend .primary-button;
+  }
+  
+  input {
+    @extend .input-button;
+  }
+  
+  #inactive-count {
+    padding-left: 10px;
+  }
+}
