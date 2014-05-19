@@ -33,7 +33,6 @@
       font-size: 2.0em;
     }
     padding: 10px 10px 10px 25px;
-    //@include info-box;
     width: 80%;
     margin: 0 auto;
     a {
@@ -67,13 +66,13 @@
 ////////////////////////// create qwyz page
 
 #create-qwyz-body {
-  @include field-page-body;
+  @extend .field-page-body;
 }
 
 /////////////////// edit qwyz page
 
 #edit-qwyz-body {
-  @include field-page-body;
+  @extend .field-page-body;
 }
 
 ///////////////////// manage images page
@@ -118,7 +117,7 @@
     @extend .input-button;
   }
   
-  #inactive-count {
+  .trailing-text {
     padding-left: 10px;
   }
 }

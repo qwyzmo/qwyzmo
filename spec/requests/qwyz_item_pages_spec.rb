@@ -22,7 +22,7 @@ describe "qwyz item pages" do
 						'/spec/fixtures/ruby.jpg', "save") }
 			
 			it { should have_title "View Qwyz" }
-			it { should have_content "Active qwyz items" }
+			it { should have_content "Manage Qwyz Images" }
 		end
 		
 		describe "with invalid info" do
@@ -43,7 +43,7 @@ describe "qwyz item pages" do
 			before { fill_form("desc", nil, 'update') }
 			
 			it { should have_title "View Qwyz" }
-			it { should have_content "Active qwyz items" }
+			it { should have_content "Manage Qwyz Images" }
 		end
 
 		describe "with invalid info" do
@@ -60,25 +60,25 @@ describe "qwyz item pages" do
 			visit qwyz_path(@qwyz.id)
 		end
 		
-		it { should have_content "View inactive qwyz items (0)" }
+		it { should have_content "(0 images inactive)" }
 		
 		describe "upon deactivation" do
 			before { click_button "Deactivate" }
 			
 			it { should have_title "View Qwyz" }
-			it { should have_content "View inactive qwyz items (1)" }
+			it { should have_content "(1 image inactive)" }
 			
 			describe "visit to de-activated qwyz items page" do
-				before { click_link "View inactive qwyz items" }
+				before { click_link "Manage inactive images >" }
 				
 				it { should have_title "Inactive Qwyz Items" }
-				it { should have_content "back to View Qwyz (0)" }
+				it { should have_content "(0 images active)" }
 				
 				describe "upon activation" do
 					before { click_button "Activate" }
 					
 					it { should have_title "Inactive Qwyz Items" }
-					it { should have_content "back to View Qwyz (1)"}
+					it { should have_content "(1 image active)"}
 				end
 			end
 		end

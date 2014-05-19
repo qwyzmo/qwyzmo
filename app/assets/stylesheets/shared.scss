@@ -52,7 +52,7 @@ a.primary-button {
   }
 }
 
-@mixin field-page-body {
+.field-page-body {
   margin: 0 auto;
   width: 80%;
   h1 {
@@ -67,6 +67,12 @@ a.primary-button {
     .field {
       margin: 0 0 20px 0;
     }
+  }
+  input {
+    margin-top: 10px;
+  }
+  .actions {
+    margin-top: 10px;
   }
 }
 

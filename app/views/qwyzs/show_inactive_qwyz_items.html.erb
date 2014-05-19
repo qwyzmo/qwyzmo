@@ -1,21 +1,33 @@
 
-<h2>Inactive Qwyz Items</h2>
-for qwyz: <%=@qwyz.name%>
-<hr/>
-<br/>
-<% @qwyz.qwyz_items.each_with_index do |item, n| %>
-	<% if item.inactive? %>
-		<%= n+1%>. Description:  <%=item.description%> | 
-		<%= link_to "Edit", edit_qwyz_item_path(@qwyz, item)%> | 
-		<%= button_to "Activate", { action: 'activate', controller: 'qwyz_items',
-						id: item.id} %>
-		<% if !item.image.blank? %>
-			<%= image_tag item.image_url(:thumb).to_s %><br/>
+<div id="manage-qwyz-images">
+	<h2>Inactive Qwyz Items</h2>
+	for qwyz: <%=@qwyz.name%>
+
+	<table>
+		<tr>
+			<th>Image</th>
+			<th>Description</th>
+		</tr>
+		<% @qwyz.qwyz_items.each_with_index do |item, n| %>
+			<% if item.inactive? %>
+				<tr>
+					<td class="image-cell">
+						<% if !item.image.blank? %>
+							<%= image_tag item.image_url(:thumb).to_s %>
+						<% elsif %>
+							no image
+						<% end %>
+					</td>
+					<td><span><%=item.description%></span></td>
+					<td class="link-cell"><%= link_to "Edit", edit_qwyz_item_path(item)%></td> 
+					<td class="link-cell"><%= button_to "Activate", { action: 'activate', 
+								controller: 'qwyz_items', id: item.id} %>
+			<% end%>
 		<% end %>
-	<% end%>
-<% end %>
-<br/>
-<hr/>
-<br/>
-<%= link_to "back to View Qwyz", @qwyz %>
-(<%=@qwyz.active_item_count%>)
+	</table>
+
+	<%= link_to "< back to Manage Qwyz Images", @qwyz %>
+	<span class="trailing-text">
+		(<%=pluralize( @qwyz.active_item_count,"image") %> active)
+	</span>
+</div>

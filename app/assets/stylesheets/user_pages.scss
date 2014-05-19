@@ -1,14 +1,5 @@
 @import "shared";
 
-.user-page-body {
-  // margin-top: 30px;
-  // margin-left: 5%;
-  // .field {
-    // padding: 0 0 10px 0;
-  // }
-  @include field-page-body;
-}
-
 #user-info {
   width: 40%;
   @include info-box;

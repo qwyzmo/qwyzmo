@@ -17,7 +17,7 @@
 		</table>
 	</div>
 
-	<%= link_to "Add a new item", new_qwyz_item_path(qwyz_id: @qwyz.id) %>
+	<%= link_to "Add a new image", new_qwyz_item_path(qwyz_id: @qwyz.id) %>
 
 	<table>
 		<tr>
@@ -42,9 +42,10 @@
 		<% end %>
 	</table>
 
-	<%= link_to "View inactive images", 
+	<%= link_to "Manage inactive images >", 
 				inactive_qwyz_items_path( id: @qwyz.id )%>
-	<span id="inactive-count">(<%=@qwyz.inactive_item_count%> images are inactive)</span>
-
+	<span class="trailing-text">
+		(<%=pluralize( @qwyz.inactive_item_count,"image") %> inactive)
+	</span>
 </div>
 

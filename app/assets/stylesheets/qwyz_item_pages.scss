@@ -1,5 +1,7 @@
 @import "shared";
 
+//////////////////////// show item page
+
 #show-item-body {
   padding: 30px;
   img {
@@ -24,4 +26,8 @@
   a {
     float: right;
   }
+}
+
+#top-qwyz-name {
+  font-style: italic;
 }

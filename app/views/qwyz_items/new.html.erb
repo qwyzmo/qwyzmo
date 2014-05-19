@@ -1,17 +1,18 @@
 
-<h2>Add a New Item to: </h2><%=@qwyz.name%>
-<hr>
-
-<%= form_for(@qwyz_item, html: {multipart: true}) do |f| %>
-	<%= hidden_field_tag :qwyz_id, @qwyz_item.qwyz_id %>
-	<span>Description</span>
-	<div id="qwyz_item_description">
-		<%= f.text_area :description %>
-	</div>
-	<div>
-		<%= f.file_field :image %>
-	</div>
-	<div class="actions">
-		<%= f.submit :save %>
-	</div>
-<% end %>
+<div class="field-page-body">
+	<h2>Add a New Item to <span id="top-qwyz-name"><%=@qwyz.name%></span></h2>
+	
+	<%= form_for(@qwyz_item, html: {multipart: true}) do |f| %>
+		<%= hidden_field_tag :qwyz_id, @qwyz_item.qwyz_id %>
+		<span>Description</span>
+		<div id="qwyz_item_description">
+			<%= f.text_area :description %>
+		</div>
+		<div>
+			<%= f.file_field :image %>
+		</div>
+		<div class="actions">
+			<%= f.submit :save %>
+		</div>
+	<% end %>
+</div>

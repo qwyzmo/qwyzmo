@@ -1,21 +1,18 @@
 
-<h2>Edit Qwyz Item</h2>
-
-<hr>
-
-<%= form_for(@qwyz_item, html: {multipart: true}) do |f| %>
-	<%= render 'shared/error_messages', :object => f.object %>
-	<span>Description</span>
-	<div id="qwyz_item_description">
-		<%= f.text_area :description %>
-	</div>
-	<!-- <div>
-		<%= f.file_field :image %>
-	</div> -->
-	<div class="actions">
-		<%= f.submit :update %>
-	</div>
-<% end %>
-
-<h5>Current Image:</h5>
-<%= image_tag @qwyz_item.image_url.to_s %>
+<div class="field-page-body">
+	<h2>Edit Qwyz Item</h2>
+	
+	<%= form_for(@qwyz_item, html: {multipart: true}) do |f| %>
+		<%= render 'shared/error_messages', :object => f.object %>
+		<span>Description</span>
+		<div id="qwyz_item_description">
+			<%= f.text_area :description %>
+		</div>
+		<div class="actions">
+			<%= f.submit :update %>
+		</div>
+	<% end %>
+	
+	<h5>Current Image:</h5>
+	<%= image_tag @qwyz_item.image_url.to_s %>
+</div>
