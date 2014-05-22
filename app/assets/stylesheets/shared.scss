@@ -22,7 +22,7 @@ a.primary-button {
   // border: 1px solid #0f0;
   @include round_corners(5px);
   padding: 2px 20px 4px 20px;
-  box-shadow: 5px 5px 10px #888;
+  box-shadow: 5px 5px 10px #666;
 }
 
 .primary-button:hover {
@@ -76,4 +76,8 @@ a.primary-button {
   }
 }
 
+textarea {
+  height: 8em;
+  width: 100%;
+}
 

@@ -9,6 +9,9 @@ QwyzmoApp::Application.routes.draw do
 	
 	match '/receive_email',	to: 'mail#receive_email',		via:	[:post, :get]
 
+	post '/feedback', to: 'feedback#send_feedback'
+
+	############### sign in/out
 	match '/signin',				to:	'sessions#new',					via: 	'get'
 	match '/signout',				to:	'sessions#destroy',			via: 	[:delete, :get]
 	
@@ -35,5 +38,6 @@ QwyzmoApp::Application.routes.draw do
 				
 	post	'/activate_item/:id', 			to: 'qwyz_items#activate'
 
+	##################  home
 	root										'home#index'
 end

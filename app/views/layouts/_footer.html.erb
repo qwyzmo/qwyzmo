@@ -1,0 +1,12 @@
+
+<div id="footer">
+	<div class="field-page-body">
+		<h3>Feedback</h3>
+		<span>What do you like about this site?  What could be better? 
+			Qwyzmo is in beta and we could use your constructive criticism.</span>
+		<%= form_tag("/feedback", method: "post") do %>
+			<%= text_area_tag :feedback %>
+			<%= submit_tag "Submit Feedback", { class: "input-button" } %>
+		<% end %>
+	</div> 
+</div>

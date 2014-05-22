@@ -47,12 +47,12 @@ class ChoiceGenerator
 		# for each vote in votelist, remove it from the @all_pairs_map
 		#  creating a new map of unused item pairings.
 		votelist.each do |item|
-			all_pairs[item.left_item_id].delete(item.right_item_id)
-			all_pairs[item.right_item_id].delete(item.left_item_id)
-			if all_pairs[item.left_item_id].count == 0
+			all_pairs[item.left_item_id].delete(item.right_item_id) if all_pairs[item.left_item_id]
+			all_pairs[item.right_item_id].delete(item.left_item_id) if all_pairs[item.right_item_id]
+			if all_pairs[item.left_item_id] && all_pairs[item.left_item_id].count == 0
 				all_pairs.delete(item.left_item_id)
 			end
-			if all_pairs[item.right_item_id].count == 0
+			if all_pairs[item.right_item_id] && all_pairs[item.right_item_id].count == 0
 				all_pairs.delete(item.right_item_id)
 			end
 		end
