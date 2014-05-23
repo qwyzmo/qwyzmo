@@ -1,7 +1,7 @@
 class FeedbackMailer < ActionMailer::Base
 	default from: "feedback@qwyzmo.com"
 	
-	FEEDBACK_EMAIL_ADDRESS = "qwyzmo.feedback@gmail.com"
+	FEEDBACK_EMAIL_ADDRESS = "feedback.qwyzmo@gmail.com"
 	
 	def feedback_email(user_id, ip, referer, feedback)
 		@user_id 	= user_id
