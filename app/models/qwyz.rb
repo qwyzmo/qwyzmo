@@ -58,11 +58,9 @@ class Qwyz < ActiveRecord::Base
 	
 	def active_item_ids
 		ids = []
-		puts "=============> qwyz items = #{qwyz_items.inspect}"
 		qwyz_items.each do |item|
 			ids.push(item.id) if item.active?
 		end
-		puts ".............>>> ids = #{ids.inspect}"
 		return ids
 	end
 

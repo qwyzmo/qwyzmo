@@ -1,4 +1,9 @@
 
+/////////////////////////////// colors
+$main-background-color: #ccd;
+
+
+
 @mixin round_corners($radius) {
   -moz-border-radius: $radius;
   -webkit-border-radius: $radius;
@@ -13,36 +18,6 @@
   box-shadow: 5px 5px 10px #666;
 }
 
-a.primary-button {
-  color: #0a0;
-}
-
-.primary-button {
-  background: #efe;
-  // border: 1px solid #0f0;
-  @include round_corners(5px);
-  padding: 2px 20px 4px 20px;
-  box-shadow: 5px 5px 10px #666;
-}
-
-.primary-button:hover {
-  background: #cfc;
-  color: #060;
-}
-
-.input-button {
-  color: #080;
-  border: 0;
-  text-decoration: underline;
-  font-family: Ubuntu;
-  font-size: 1.0em;
-  @extend .primary-button;
-  margin-bottom: 10px;
-}
-
-.actions input {
-  @extend .input-button;
-}
 
 @mixin table-row-coloring {
   tr:nth-child(even) {
@@ -80,4 +55,37 @@ textarea {
   height: 8em;
   width: 100%;
 }
+
+///////////////////////////// buttons
+a.primary-button {
+  color: #0a0;
+}
+
+.primary-button {
+  background: #efe;
+  // border: 1px solid #0f0;
+  @include round_corners(10px);
+  padding: 2px 20px 4px 20px;
+  box-shadow: 5px 5px 10px #666;
+}
+
+.primary-button:hover {
+  background: #cfc;
+  color: #060;
+}
+
+.input-button {
+  color: #080;
+  border: 0;
+  text-decoration: underline;
+  font-family: Ubuntu;
+  font-size: 1.0em;
+  @extend .primary-button;
+  margin-bottom: 10px;
+}
+
+.actions input {
+  @extend .input-button;
+}
+//////////////////////////////////
 
