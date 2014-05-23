@@ -1,6 +1,6 @@
 
 <div id="home-body">
-	<h2>Select a Qwyz:</h2>
+	<h2>Select a Qwyz</h2>
 	
 	<% @qwyz_list.each do |qwyz| %>
 		<% next if qwyz.active_item_count <= 1 %>
@@ -10,7 +10,7 @@
 					<div class="top-row">
 						<span class="name"><%= qwyz.name %></span>
 						<span class="author">by <%= @qwyz_to_author_map[qwyz.id]%></span>
-						<span class="image-num">(<%= qwyz.qwyz_items.count%> images)</span>
+						<span class="image-num">(<%= qwyz.active_item_count%> images)</span>
 					</div>
 					<div class="bottom-row">
 						<span class="description"><%= qwyz.description %></span>
