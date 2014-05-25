@@ -24,6 +24,9 @@ class ChoiceGenerator
 		[left_item_id, right_item_id]
 	end
 	
+	#################################### private methods
+	private
+	
 	# build a map of item id to map of item ids. representing all possible 
 	#  (id1,id2) pairs
 	#   id1 => (id2 => true)  for all id1 and id2 in item_id_list where id1 != id2

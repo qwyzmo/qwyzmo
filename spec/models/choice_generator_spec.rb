@@ -106,6 +106,14 @@ describe ChoiceGenerator do
 			expect(left).to_not be_nil
 			expect(right).to_not be_nil
 		end
+		
+		it "is successful even if votelist has votes not in all_pairs " do
+			votelist = [vote(5,6), vote(5,7)]
+			id_list = [1,2,6]
+			left, right = ChoiceGenerator.choice(votelist, id_list)
+			expect(left).to_not be_nil
+			expect(right).to_not be_nil
+		end
 	end # choices
 	
 	def vote(left, right)
