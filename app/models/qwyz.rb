@@ -104,6 +104,18 @@ class Qwyz < ActiveRecord::Base
 		votes_cast_count = Vote.votelist(self.id, current_user_id, current_user_ip).count
 		ChoiceGenerator.max_choice_count(self.active_item_count) - votes_cast_count
 	end
+	
+	# returns the previous and next item ids that are active. 
+	# returns nils if there is none
+	def previous_next_active_item_ids(item_id)
+		return [nil,nil] if item_id.nil?
+		ids = active_item_ids
+		item_index = ids.find_index(item_id)
+		return [nil, nil] if item_index.nil?
+		previous_id = item_index == 0 ? nil : ids[item_index - 1]
+		next_id = item_index == ids.length - 1 ? nil : ids[item_index + 1]
+		[previous_id, next_id]
+	end
 end
 
 

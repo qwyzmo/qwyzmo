@@ -199,6 +199,34 @@ describe Qwyz do
 		end
 	end
 	
+	describe "#previous_next_active_item_ids" do
+		
+		it "returns correct previous and next item" do
+			prev_id, next_id = @qwyz.previous_next_active_item_ids(@qitem2.id)
+			expect(prev_id).to eq @qitem1.id
+			expect(next_id).to eq @qitem3.id
+		end
+		
+		it "returns nil for previous if at beginning of list" do
+			prev_id, next_id = @qwyz.previous_next_active_item_ids(@qitem1.id)
+			expect(prev_id).to be_nil
+			expect(next_id).to eq @qitem2.id
+		end
+		
+		it "returns nil for next if at the end of list, and doesnt give inactives" do
+			prev_id, next_id = @qwyz.previous_next_active_item_ids(@qitem4.id)
+			expect(prev_id).to eq @qitem3.id
+			expect(next_id).to be_nil
+		end
+		
+		it "returns nil for next and previous if item not in list of active items" do
+			prev_id, next_id = @qwyz.previous_next_active_item_ids(@qitem5.id)
+			expect(prev_id).to be_nil
+			expect(next_id).to be_nil
+		end
+		
+	end
+	
 	############################## helper methods
 	
 	def newqwyz(user_id, name, question, description)

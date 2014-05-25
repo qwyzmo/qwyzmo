@@ -21,7 +21,7 @@ $main-background-color: #ccd;
 
 @mixin table-row-coloring {
   tr:nth-child(even) {
-    td:not(.link-cell) {
+    td:not(.link-cell):not(.image-cell) {
       background: #efefef;
     }
   }
@@ -63,7 +63,6 @@ a.primary-button {
 
 .primary-button {
   background: #efe;
-  // border: 1px solid #0f0;
   @include round_corners(10px);
   padding: 2px 20px 4px 20px;
   box-shadow: 5px 5px 10px #666;

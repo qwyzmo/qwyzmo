@@ -29,6 +29,10 @@ class QwyzItemsController < ApplicationController
 	def show
 		@qwyz_item = QwyzItem.find(params[:id])
 		@qwyz = Qwyz.find(@qwyz_item.qwyz_id)
+		@previous_item_id, @next_item_id = @qwyz.previous_next_active_item_ids(@qwyz_item.id);
+		if current_user
+			@show_back_to_manage_images_link = current_user.id = @qwyz.user_id
+		end
 		@title = "View Qwyz Item"
 	end
 	

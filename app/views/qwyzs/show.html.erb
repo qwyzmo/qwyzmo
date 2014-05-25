@@ -17,7 +17,8 @@
 		</table>
 	</div>
 
-	<%= link_to "Add a new image", new_qwyz_item_path(qwyz_id: @qwyz.id) %>
+	<%= link_to "Add a new image", new_qwyz_item_path(qwyz_id: @qwyz.id), 
+			{class: "primary-button"} %>
 
 	<table>
 		<tr>
@@ -27,9 +28,11 @@
 		<% @qwyz.qwyz_items.each_with_index do |item, n| %>
 			<% if item.active? %>
 				<tr>
-					<td class="image-cell">
+					<td class="image-cell primary-button">
 						<% if !item.image.blank? %>
-							<%= image_tag item.image_url(:thumb).to_s %>
+							<%= link_to item do %>
+								<%= image_tag item.image_url(:thumb).to_s %> 
+							<%  end %>
 						<% elsif %>
 							no image
 						<% end %>
@@ -43,7 +46,7 @@
 	</table>
 
 	<%= link_to "Manage inactive images >", 
-				inactive_qwyz_items_path( id: @qwyz.id )%>
+				inactive_qwyz_items_path( id: @qwyz.id ), {class: "primary-button"} %>
 	<span class="trailing-text">
 		(<%=pluralize( @qwyz.inactive_item_count,"image") %> inactive)
 	</span>

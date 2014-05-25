@@ -2,7 +2,8 @@
 
 #top {
   @include info-box;
-  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-bottom: 30px;
   width: 80%;
   padding: 20px 25px 25px 50px;
   .vote-stat-msg {
@@ -28,34 +29,34 @@
 
 #results-table {
   background: #fff;
+  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 30px;
   width: 80%;
   @include round_corners(10px);
   box-shadow: 5px 5px 10px #666;
-}
-
-#results-table td {
-  padding: 5px;
-}
-
-#results-table th {
-  padding: 10px;
-}
-
-#results-table td.image-cell {
-  width: 70px;
-}
-
-#results-table td:not(.description-cell) {
-  text-align: center;
-}
-
-#results-table td.description-cell span {
-  padding: 0 0 0 20px;
-}
-
-#results-table tr:nth-child(even) {
-  background: #efefef;
+  td {
+    padding: 5px;
+  }
+  th {
+    padding: 10px;
+  }
+  
+  td.image-cell {
+    width: 70px;
+  }
+  
+  td:not(.description-cell) {
+    text-align: center;
+  }
+  
+  td.description-cell span {
+    padding: 0 0 0 20px;
+  }
+  
+  @include table-row-coloring;
+  // tr:nth-child(even) {
+    // background: #efefef;
+  // }
 }

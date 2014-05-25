@@ -84,6 +84,19 @@ describe "qwyz item pages" do
 		end
 	end
 	
+	describe "show qwyz item" do
+		before do
+			@qwyz_item1 = create_test_qwyz_item(@qwyz.id, "desc1")
+			@qwyz_item2 = create_test_qwyz_item(@qwyz.id, "desc2")
+			@qwyz_item3 = create_test_qwyz_item(@qwyz.id, "desc3")
+			visit qwyz_item_path(@qwyz_item2)
+		end
+		
+		it { should have_title "View Qwyz Item" }
+		it { should have_css "a#previous-image" }
+		it { should have_css "a#next-image" }
+	end
+	
 	def fill_form(description, image, button_name)
 		fill_in "qwyz_item_description", 	with: description
 		attach_file('qwyz_item_image', File.join(Rails.root, image)) unless image.nil?

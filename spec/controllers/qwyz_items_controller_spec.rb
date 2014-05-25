@@ -5,6 +5,9 @@ describe QwyzItemsController do
 		@user = create_test_user("n0", "n0@e.c", "password", "password")
 		@qwyz = create_test_qwyz(@user.id, "name", "question", "desc")
 		@qwyz_item = create_test_qwyz_item(@qwyz.id, "qidesc")
+		@qwyz_item2 = create_test_qwyz_item(@qwyz.id, "qidesc2")
+		@qwyz_item3 = create_test_qwyz_item(@qwyz.id, "qidesc3")
+		
 	end
 
 	render_views
@@ -77,8 +80,16 @@ describe QwyzItemsController do
 		end
 		
 		describe "#show" do
-			it "renders show with title with valid id" do
-				get :show, id: @qwyz_item.id
+			it "renders show with title with valid id and correct fields" do
+				get :show, id: @qwyz_item2.id
+				item 		= assigns(:qwyz_item)
+				qwyz 		= assigns(:qwyz)
+				prev_id = assigns(:previous_item_id)
+				next_id = assigns(:next_item_id)
+				expect(item.id).to eq @qwyz_item2.id
+				expect(qwyz.id).to eq @qwyz_item2.qwyz_id
+				expect(prev_id).to eq @qwyz_item.id
+				expect(next_id).to eq @qwyz_item3.id
 				expect(response).to render_template :show
 				expect(response.body).to have_title "View Qwyz Item"
 			end

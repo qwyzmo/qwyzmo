@@ -68,6 +68,9 @@
   #manage-img-top .link-cell {
     padding: 5px;
   }
+  
+  @include table-row-coloring;
+  
   table {
     margin-top: 30px;
     margin-bottom: 30px;
@@ -78,9 +81,12 @@
       input {
         margin-bottom: 0;
       }
+      a {
+        @extend .primary-button;
+      }
     }
     .image-cell {
-      width: 100px;
+      width: 50px;
     }
     img {
       display: block;
@@ -91,11 +97,7 @@
     }
   }
 
-  @include table-row-coloring;
 
-  a {
-    @extend .primary-button;
-  }
   
   input {
     @extend .input-button;

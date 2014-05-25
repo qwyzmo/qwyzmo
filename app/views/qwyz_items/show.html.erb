@@ -2,8 +2,24 @@
 <div id="show-item-body">
 	<div id="show-item-top">
 		<span><%= @qwyz_item.description %></span>
-		<%= link_to "back to qwyz results", qwyz_votes_path(@qwyz_item.qwyz_id),
+		<%= link_to "Qwyz Results", qwyz_votes_path(@qwyz_item.qwyz_id),
 				class: "primary-button" %>
+		<% if @show_back_to_manage_images_link %>
+			<%= link_to "Manage Images", qwyz_path(@qwyz),
+					class: "primary-button" %>
+		<% end %>
+	</div>
+	<div id="image-next-previous">
+		<% if @previous_item_id %>
+			<%= link_to "< Previous", qwyz_item_path(@previous_item_id),
+					{ id: "previous-image" } %>
+		<% else %>
+			<span>previous</span>
+		<% end %>
+		<% if @next_item_id %>
+			<%= link_to "Next >", qwyz_item_path(@next_item_id),
+					{ id: "next-image" } %>
+		<% end %>
 	</div>
 	<%= image_tag @qwyz_item.image_url.to_s %><br />
 </div>
