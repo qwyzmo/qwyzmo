@@ -2,7 +2,7 @@
 class QwyzsController < ApplicationController
 	before_filter :authenticate
 	before_filter :correct_user,
-								:only => [:destroy, :edit, :update]
+								:only => [:destroy, :edit, :update, :show]
 
 	def new
 		@title = "Create a New Qwyz"

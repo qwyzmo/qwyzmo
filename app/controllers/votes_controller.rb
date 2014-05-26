@@ -22,7 +22,7 @@ class VotesController < ApplicationController
 	def create
 		current_user_id = current_user.nil? ? nil : current_user.id
 		Vote.cast(params[:qwyz_id], params[:left_item_id], params[:right_item_id], 
-				params[:commit], current_user_id, request.remote_ip)
+				chosen_id(params), current_user_id, request.remote_ip)
 		new
 	end
 	
@@ -37,6 +37,17 @@ class VotesController < ApplicationController
 	end
 	
 	private ###########################################
+	
+	## this is rather ugly.  choose left or right id based on presence of "left.x"
+	## 	I do this to get around differences in firefox vs chrome when using an image
+	## 	as the button in a form.
+	def chosen_id(params)
+		if params["left.x"]
+			params[:left_item_id]
+		else
+			params[:right_item_id]
+		end
+	end
 	
 	# sets the boolean for showing the results button and also the number of 
 	# votes left before results button shows.

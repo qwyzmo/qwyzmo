@@ -28,11 +28,13 @@
 			<tr>
 				<td class="vote-image">
 					<%= vote.submit @left_item.id.to_s, 
-							type: :image, src: @left_item.image_url(:vote).to_s, id: "left_img"%>
+							type: :image, src: @left_item.image_url(:vote).to_s, 
+							id: "left_img", name: "left" %>
 				</td>
 				<td class="vote-image">
 					<%= vote.submit @right_item.id.to_s, 
-							type: :image, src: @right_item.image_url(:vote).to_s, id: "right_img" %>
+							type: :image, src: @right_item.image_url(:vote).to_s, 
+							id: "right_img", name: "right" %>
 				</td>
 			</tr>
 		</table>

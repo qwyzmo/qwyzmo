@@ -38,6 +38,8 @@ describe QwyzsController do
 				expect(response).to redirect_to qwyzs_url
 				post :update, id: @qwyz.id
 				expect(response).to redirect_to qwyzs_url
+				get :show, id: @qwyz.id
+				expect(response).to redirect_to qwyzs_url
 			end
 		end # logged in as wrong user
 	end # authentication/authorization failures

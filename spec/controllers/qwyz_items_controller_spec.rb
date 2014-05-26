@@ -3,11 +3,14 @@ require "spec_helper"
 describe QwyzItemsController do
 	before do
 		@user = create_test_user("n0", "n0@e.c", "password", "password")
+		@user2 = create_test_user("n2", "n2@e.c", "password", "password")
 		@qwyz = create_test_qwyz(@user.id, "name", "question", "desc")
+		@qwyz2 = create_test_qwyz(@user2.id, "name", "question", "desc")
 		@qwyz_item = create_test_qwyz_item(@qwyz.id, "qidesc")
 		@qwyz_item2 = create_test_qwyz_item(@qwyz.id, "qidesc2")
 		@qwyz_item3 = create_test_qwyz_item(@qwyz.id, "qidesc3")
 		
+		@qwyz2_item1 = create_test_qwyz_item(@qwyz2.id, "qidesc4")
 	end
 
 	render_views
@@ -86,10 +89,20 @@ describe QwyzItemsController do
 				qwyz 		= assigns(:qwyz)
 				prev_id = assigns(:previous_item_id)
 				next_id = assigns(:next_item_id)
+				show_manage_images = assigns(:show_back_to_manage_images_link)
 				expect(item.id).to eq @qwyz_item2.id
 				expect(qwyz.id).to eq @qwyz_item2.qwyz_id
 				expect(prev_id).to eq @qwyz_item.id
 				expect(next_id).to eq @qwyz_item3.id
+				expect(show_manage_images).to be_true
+				expect(response).to render_template :show
+				expect(response.body).to have_title "View Qwyz Item"
+			end
+			
+			it "doesnt render show manage images link when user not owner of qwyz" do
+				get :show, id: @qwyz2_item1.id
+				show_manage_images = assigns(:show_back_to_manage_images_link)
+				expect(show_manage_images).to be_false
 				expect(response).to render_template :show
 				expect(response.body).to have_title "View Qwyz Item"
 			end

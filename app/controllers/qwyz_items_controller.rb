@@ -31,7 +31,7 @@ class QwyzItemsController < ApplicationController
 		@qwyz = Qwyz.find(@qwyz_item.qwyz_id)
 		@previous_item_id, @next_item_id = @qwyz.previous_next_active_item_ids(@qwyz_item.id);
 		if current_user
-			@show_back_to_manage_images_link = current_user.id = @qwyz.user_id
+			@show_back_to_manage_images_link = current_user.id == @qwyz.user_id
 		end
 		@title = "View Qwyz Item"
 	end
