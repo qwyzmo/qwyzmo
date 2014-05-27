@@ -15,11 +15,21 @@
 			<tr>
 				<td><%= qwyz.name %></td>
 				<td><%= qwyz.description %></td>
-				<td><%= qwyz.qwyz_items.count %></td>
+				<td>
+					<%= qwyz.qwyz_items.count %>
+					<% if qwyz.qwyz_items.count == 0 %>
+						<span class="label-note" >(need to add images)</span>
+					<% end %>
+				</td>
 				<td class="link-cell" ><%= link_to "Edit", edit_qwyz_path(qwyz) %></td>
 				<td class="link-cell" ><%= link_to "Images", qwyz %></td>
 				<td class="link-cell" ><%= link_to "Results", qwyz_votes_path(qwyz.id) %></td>
 			</tr>
+		<% end %>
+		<% if @qwyzs.count == 0 %>
+			<td></td>
+			<td>You have no Qwyzs. <%= link_to "Please create one", new_qwyz_path %></td>
+			<td></td>
 		<% end %>
 	</table>
 </div>

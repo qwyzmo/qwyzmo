@@ -48,3 +48,18 @@
 #top-qwyz-name {
   font-style: italic;
 }
+
+////////////////////// new qwyz item
+#new-qwyz-item {
+  @extend .field-page-body;
+  div {
+    padding: 5px;
+    span {
+      font-style: italic;
+      padding: 5px;
+    }
+    textarea {
+      margin: 5px;
+    }
+  }
+}
