@@ -18,6 +18,6 @@ describe FeedbackController do
 		expect(email).to_not be_nil
 		expect(response).to redirect_to(:back)
 		expect(email).to have_content(sample_feedback)
-		expect(email).to have_content("user_id		=#{@user.id}")
+		expect(email).to have_content("user_id    = #{@user.id}")
 	end
 end

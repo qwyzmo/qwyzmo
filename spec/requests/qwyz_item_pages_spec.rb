@@ -14,7 +14,7 @@ describe "qwyz item pages" do
 			visit new_qwyz_item_path(qwyz_id: @qwyz.id)
 		end
 		
-		it { should have_content "Add a New Item to"}
+		it { should have_content "Add a New Image"}
 		it { should have_title   "Add a new Qwyz Item"}
 		
 		describe "with valid info" do
@@ -29,7 +29,7 @@ describe "qwyz item pages" do
 			before { fill_form("", '/spec/fixtures/ruby.jpg', "save") }
 			
 			it { should have_title "Add a new Qwyz item" }
-			it { should have_content "Add a New Item to" }
+			it { should have_content "Add a New Image" }
 		end
 	end
 	

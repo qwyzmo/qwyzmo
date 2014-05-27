@@ -7,9 +7,10 @@ describe FeedbackMailer do
 			@user_id 	= 4567
 			@ip 			= "1.2.3.4"
 			@referer 	= "/signin"
+			@agent		= "sample agent"
 			@feedback = "sample feedback 23426"
 			@email = FeedbackMailer.feedback_email(
-						@user_id, @ip, @referer, @feedback).deliver
+						@user_id, @ip, @referer, @agent, @feedback).deliver
 		end
 		
 		it "delivers the email" do

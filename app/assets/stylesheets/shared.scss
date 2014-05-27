@@ -60,11 +60,21 @@ textarea {
   width: 100%;
 }
 
-.label-note {
+///// this is used for labeling required fields, and other very important
+/////  fields that the users attention should be drawn to.
+.required-note {
   color:red;
   font-style: italic;
   font-size: 0.7em;
   padding-left: 5px;
+}
+
+////// for informative notes that shouldnt stand out too much.
+.quiet-note {
+  color: grey;
+  font-style: italic;
+  font-size: 0.8em;
+  padding: 10px;
 }
 
 ///////////////////////////// buttons

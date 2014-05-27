@@ -18,7 +18,7 @@
 				<td>
 					<%= qwyz.qwyz_items.count %>
 					<% if qwyz.qwyz_items.count == 0 %>
-						<span class="label-note" >(need to add images)</span>
+						<span class="required-note" >(need to add images)</span>
 					<% end %>
 				</td>
 				<td class="link-cell" ><%= link_to "Edit", edit_qwyz_path(qwyz) %></td>
@@ -28,7 +28,9 @@
 		<% end %>
 		<% if @qwyzs.count == 0 %>
 			<td></td>
-			<td>You have no Qwyzs. <%= link_to "Please create one", new_qwyz_path %></td>
+			<td>
+				<span class="quiet-note">You have no Qwyzs.</span>
+				<%= link_to "Please create one", new_qwyz_path %></td>
 			<td></td>
 		<% end %>
 	</table>

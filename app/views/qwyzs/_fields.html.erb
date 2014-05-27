@@ -1,11 +1,11 @@
 
 <%= form_for(@qwyz) do |f| %>
 	<%= render 'shared/error_messages', :object => f.object %>
-	<span>Name</span><span class="label-note">(required)</span>
+	<span>Name</span><span class="required-note">(required)</span>
 	<div id="qwyz_name" class= 'field'>
 		<%= f.text_area :name %>
 	</div>
-	<span>Question</span><span class="label-note">(required)</span>
+	<span>Question</span><span class="required-note">(required)</span>
 	<div id="qwyz_question" class= 'field'>
 		<%= f.text_area :question %>
 	</div>

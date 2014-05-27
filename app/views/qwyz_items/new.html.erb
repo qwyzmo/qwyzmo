@@ -6,12 +6,12 @@
 		<%= hidden_field_tag :qwyz_id, @qwyz_item.qwyz_id %>
 		<div>
 			<span>Step 1</span>
-			<%= f.file_field :image %><span class="label-note">(required)</span>
+			<%= f.file_field :image %><span class="required-note">(required)</span>
 		</div>
 		<div id="qwyz_item_description">
 			<span>Step 2</span>
 			<span>Enter a brief description or name</span>
-			<span class="label-note">(required)</span>
+			<span class="required-note">(required)</span>
 			<%= f.text_area :description %>
 		</div>
 		<div class="actions">
