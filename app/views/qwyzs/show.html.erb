@@ -43,6 +43,15 @@
 				</tr>
 			<% end%>
 		<% end %>
+		<% if @qwyz.active_item_count == 0 %>
+			<tr>
+				<td>
+					<span class="quiet-note">This Qwyz has no images.</span>
+					<%= link_to "Please add an image",
+							new_qwyz_item_path(qwyz_id: @qwyz.id), {class: "primary-button"} %>
+				</td>
+			</tr>
+		<% end %>
 	</table>
 
 	<%= link_to "Manage inactive images >", 

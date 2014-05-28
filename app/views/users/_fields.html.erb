@@ -2,15 +2,18 @@
 <%= form_for(@user) do |f| %>
 	<%= render 'shared/error_messages', object: f.object %>
 	<div class='field'>
-		<%= f.label :name %><span class="required-note">(required)</span><br/>
+		<%= f.label :name %><span class="required-note">(required)</span>
+		<span class="quiet-note">This will be your visible username.</span><br/>
 		<%= f.text_field :name%>
 	</div>
 	<div class= 'field'>
-		<%= f.label :email%><span class="required-note">(required)</span><br/>
+		<%= f.label :email%><span class="required-note">(required)</span>
+		<span class="quiet-note">Hidden to other users. We promise never to share or spam your email.</span><br/>
 		<%= f.text_field :email%>
 	</div>
 	<div class='field'>
-		<%= f.label :password%><span class="required-note">(required)</span><br/>
+		<%= f.label :password%><span class="required-note">(required)</span>
+		<span class="quiet-note">At least 8 characters.</span><br/>
 		<%= f.password_field :password%>
 	</div>
 	<div class='field'>

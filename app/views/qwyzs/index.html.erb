@@ -9,15 +9,15 @@
 		<tr>
 			<th>Name</th>
 			<th>Description</th>
-			<th>Image count</th>
+			<th>Active Image count</th>
 		</tr>
 		<% @qwyzs.each do |qwyz| %>
 			<tr>
 				<td><%= qwyz.name %></td>
 				<td><%= qwyz.description %></td>
 				<td>
-					<%= qwyz.qwyz_items.count %>
-					<% if qwyz.qwyz_items.count == 0 %>
+					<%= qwyz.active_item_count %>
+					<% if qwyz.active_item_count == 0 %>
 						<span class="required-note" >(need to add images)</span>
 					<% end %>
 				</td>
