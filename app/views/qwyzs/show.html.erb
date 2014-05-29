@@ -31,7 +31,7 @@
 					<td class="image-cell primary-button">
 						<% if !item.image.blank? %>
 							<%= link_to item do %>
-								<%= image_tag item.image_url(:thumb).to_s %> 
+								<%= image_tag item.image_url(:thumb, secure: true).to_s %> 
 							<%  end %>
 						<% elsif %>
 							no image

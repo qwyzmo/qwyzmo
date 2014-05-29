@@ -19,7 +19,7 @@
 				<div class="thumnail-list">
 					<% qwyz.qwyz_items.each_with_index do |item, index| %>
 						<% next if item.inactive? %>
-						<%= image_tag item.image_url(:thumb).to_s %>
+						<%= image_tag item.image_url(:thumb, secure: true).to_s %>
 						<% break if index >= 6 %>
 					<% end %>
 				</div>

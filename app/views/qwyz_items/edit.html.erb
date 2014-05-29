@@ -14,5 +14,5 @@
 	<% end %>
 	
 	<h5>Current Image:</h5>
-	<%= image_tag @qwyz_item.image_url.to_s %>
+	<%= image_tag @qwyz_item.image_url(secure: true).to_s %>
 </div>
