@@ -83,6 +83,14 @@ describe ChoiceGenerator do
 			expect(right).to be_nil
 		end
 		
+		it "returns nils if votelist has all possible votes and extras" do
+			votelist = [vote(5,6), vote(5,7), vote(6,7), vote(1,2), vote(2,3), vote(1,3)]
+			id_list = [5,6,7]
+			left, right = ChoiceGenerator.choice(votelist, id_list)
+			expect(left).to be_nil
+			expect(right).to be_nil
+		end
+		
 		it "returns nils if id list is empty" do
 			votelist = [vote(5,6), vote(5,7), vote(6,7)]
 			id_list = []

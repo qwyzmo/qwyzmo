@@ -45,6 +45,7 @@ class Vote < ActiveRecord::Base
 	end
 
 	# returns list of all votes belonging to the qwyz and user ( or ip if no user id )
+	# 	includes votes for inactive and active items.
 	def self.votelist( qwyz_id, user_id, ip)
 		if user_id.nil?
 			return Vote.where(qwyz_id: qwyz_id, voter_ip_address: ip).load

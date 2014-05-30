@@ -197,6 +197,13 @@ describe Qwyz do
 			remaining = @qwyz.remaining_vote_count(@user.id, nil)
 			expect(remaining).to eq 2
 		end
+		
+		it "only computes remaining votes for active items" do
+			create_test_vote(@qwyz.id, @qitem2.id, @qitem5.id, @qitem5.id, @user.id)
+			create_test_vote(@qwyz.id, @qitem3.id, @qitem5.id, @qitem5.id, @user.id)
+			remaining = @qwyz.remaining_vote_count(@user.id, nil)
+			expect(remaining).to eq 2
+		end
 	end
 	
 	describe "#previous_next_active_item_ids" do

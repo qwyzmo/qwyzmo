@@ -71,7 +71,7 @@ class Qwyz < ActiveRecord::Base
 		left_item_id, right_item_id = ChoiceGenerator.choice(votelist, active_item_ids)
 		return [item(left_item_id), item(right_item_id)]
 	end
-	
+
 	# return list of qwyz ids from the qwyzs.
 	def self.user_id_list(qwyz_list)
 		id_list = []
@@ -100,9 +100,15 @@ class Qwyz < ActiveRecord::Base
 		ChoiceGenerator.max_choice_count(qwyz_items.count)
 	end
 
+	# returns the remaining votes for active items.
 	def remaining_vote_count(current_user_id, current_user_ip)
-		votes_cast_count = Vote.votelist(self.id, current_user_id, current_user_ip).count
-		ChoiceGenerator.max_choice_count(self.active_item_count) - votes_cast_count
+		votes = Vote.votelist(self.id, current_user_id, current_user_ip)
+		# filter out the votes for inactive items.
+		active_ids = active_item_ids()
+		active_votes = votes.find_all do |vote|
+			active_ids.include?(vote.chosen_item_id)
+		end
+		ChoiceGenerator.max_choice_count(self.active_item_count) - active_votes.count
 	end
 	
 	# returns the previous and next item ids that are active. 

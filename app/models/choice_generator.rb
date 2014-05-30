@@ -18,6 +18,7 @@ class ChoiceGenerator
 		end
 		all_choices = all_choices_map(item_id_list)
 		remove_votes_from_choices(votelist, all_choices)
+		return [nil, nil] if all_choices.empty?
 		# pick a random left and right item id.
 		left_item_id = all_choices.keys.sample
 		right_item_id = all_choices[left_item_id].keys.sample
