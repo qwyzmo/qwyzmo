@@ -19,9 +19,10 @@
 	<tr>
 		<th>Image</th>
 		<th>Description</th>
-		<th>Total Vote Count</th>
+		<th>Total Votes</th>
+		<th>Your Votes</th>
 	</th>
-	<% @qwyz_result.each do |item, vote_count| %>
+	<% @qwyz_result.each do |item, vote_count, user_vote_count| %>
 		<% next if item.inactive? %>
 		<tr>
 			<td class="image-cell primary-button" >
@@ -30,13 +31,10 @@
 				<%  end %>
 			</td>
 			<td class="description-cell">
-				<span>
-					<%= item.description%>
-				</span>
+				<span><%= item.description%></span>
 			</td>
-			<td>
-				<%= vote_count %> 
-			</td>
+			<td><%= vote_count %></td>
+			<td><%= user_vote_count %></td>
 		</tr>
 	<% end %>
 </table>

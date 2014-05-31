@@ -8,7 +8,7 @@ class VotesController < ApplicationController
 		current_user_id = current_user.nil? ? nil : current_user.id
 		@left_item, @right_item = @qwyz.item_choice(current_user_id, request.remote_ip)
 		if	@left_item.nil? || @right_item.nil?
-			@qwyz_result = QwyzResult.new(@qwyz)
+			@qwyz_result = QwyzResult.new(@qwyz, current_user_id, request.remote_ip)
 			index
 		else
 			@qwyz_owner = User.find(@qwyz.user_id)
@@ -31,7 +31,7 @@ class VotesController < ApplicationController
 		@qwyz = Qwyz.find(params[:qwyz_id])
 		@remaining_vote_count = @qwyz.remaining_vote_count(current_user_id, request.remote_ip)
 		@author = User.find(@qwyz.user_id)
-		@qwyz_result = QwyzResult.new(@qwyz)
+		@qwyz_result = QwyzResult.new(@qwyz, current_user_id, request.remote_ip)
 		@title = "Qwyz Vote Summary"
 		render :index
 	end

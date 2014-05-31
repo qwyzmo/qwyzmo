@@ -74,6 +74,21 @@ class Vote < ActiveRecord::Base
 		end
 		seen_ids.keys
 	end
+	
+	# build a map of chosen id to list of votes.
+	def self.vote_map(qwyz_id, user_id, ip)
+		votelist = votelist(qwyz_id, user_id, ip)
+		vmap = {}
+		votelist.each do |v|
+			votes = vmap[v.chosen_item_id]
+			if votes.nil?
+				votes = []
+				vmap[v.chosen_item_id] = votes
+			end
+			votes.push(v)
+		end
+		vmap
+	end
 end
 
 

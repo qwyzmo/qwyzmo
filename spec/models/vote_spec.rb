@@ -106,6 +106,19 @@ describe Vote do
 		end
 	end
 	
+	describe "self.vote_map" do
+		
+		it "build correct map" do
+			@vote1 = create_test_vote(@qwyz1.id, @item1a.id, @item1b.id, @item1a.id, @user1.id)
+			@vote2 = create_test_vote(@qwyz1.id, @item1c.id, @item1b.id, @item1c.id, @user1.id)
+			@vote3 = create_test_vote(@qwyz1.id, @item1a.id, @item1c.id, @item1c.id, @user1.id)
+			vmap = Vote.vote_map(@qwyz1.id, @user1.id, nil)
+			expect(vmap.count).to eq 2
+			expect(vmap[@item1a.id]).to eq([@vote1])
+			expect(vmap[@item1c.id].count).to eq 2
+		end
+	end
+	
 ########################## helper methods
 	
 	def newvote(qwyz_id, left_item_id, right_item_id, chosen_item_id)

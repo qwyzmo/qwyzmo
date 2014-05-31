@@ -22,16 +22,17 @@ describe QwyzResult do
 
 	describe "#initialize" do
 		it "fetches the correct results" do
-			qwyz_result = QwyzResult.new(@qwyz)
+			qwyz_result = QwyzResult.new(@qwyz, @user.id, nil)
 			expect(qwyz_result.total_vote_count).to eq 7
 			
 			item_id_list = [2, 1, 4, 3]
 			vote_count_list = [3, 2, 2, 0]
 			expect(qwyz_result.count).to eq 4
 			index = 0
-			qwyz_result.each do |item, vote_count|
-				expect(item.id).to 			eq item_id_list[index]
-				expect(vote_count).to		eq vote_count_list[index]
+			qwyz_result.each do |item, vote_count, user_vote_count|
+				expect(item.id).to 					eq item_id_list[index]
+				expect(vote_count).to				eq vote_count_list[index]
+				expect(user_vote_count).to	eq vote_count_list[index]
 				index += 1
 			end
 		end
