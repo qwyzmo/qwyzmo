@@ -5,7 +5,7 @@
 			<span id="qwyz-name"><%= @qwyz.name%></span>
 			<span id="author">by <%= @qwyz_owner.name %></span>
 			<% if @show_results %>
-				<%= link_to "View qwyz results", qwyz_votes_path(@qwyz.id), 
+				<%= link_to "View Qwyz results", qwyz_votes_path(@qwyz.id), 
 							id: "qwyz-results-link", class: "primary-button" %>
 			<% else %>
 				<span id="vote-status-msg">You may view Qwyz results in 

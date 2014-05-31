@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ChoiceGenerator do
 	
-	describe "#max_choice_count" do
+	describe "self.max_choice_count" do
 		it "calculates the correct number" do
 			expect(ChoiceGenerator.max_choice_count(5)).to eq 10
 			expect(ChoiceGenerator.max_choice_count(3)).to eq 3
@@ -10,7 +10,7 @@ describe ChoiceGenerator do
 		end
 	end
 	
-	describe "#all_choices_map" do
+	describe "self.all_choices_map" do
 		before do
 			@item_id_list = [1,2,3,4,5,6,7]
 			@map = ChoiceGenerator.all_choices_map(@item_id_list)
@@ -32,7 +32,7 @@ describe ChoiceGenerator do
 			end
 		end
 		
-		describe "#remove_votes_from_choices" do
+		describe "self.remove_votes_from_choices" do
 			before do
 				@votelist = [vote(1,2), vote(7,2), vote(4,5)]
 				@full_map_count = choice_map_count(@map)
@@ -50,7 +50,7 @@ describe ChoiceGenerator do
 		end # remove_votes_from_choices
 	end # all_choices_map
 	
-	describe "#choices" do
+	describe "self.choice" do
 		before do
 			
 		end
@@ -123,7 +123,28 @@ describe ChoiceGenerator do
 			expect(right).to_not be_nil
 		end
 	end # choices
+
+	describe "self.unseen_choices" do
+		it "only has unseen choices in returned choice map" do
+			seen_ids = [1,2]
+			choice_map = {	1 => {2=>true,3=>true},
+											2 => {7=>true},
+											3 => {1=>true,2=>true,4=>true},
+											5 => {9=>true,33=>true},
+											4 => {2=>true,3=>true,6=>true},
+											6 => {1=>true,2=>true}}
+			unseen = ChoiceGenerator.unseen_choices(seen_ids, choice_map)
+			expect(unseen).to eq({3=>{4=>true}, 
+														5=>{9=>true, 33=>true}, 
+														4=>{3=>true, 6=>true}})
+			### test for choice_map unchanged.
+			expect(choice_map.count).to eq 6
+			expect(choice_map[4].count).to eq 3
+		end
+	end	
 	
+############################# helper methods
+
 	def vote(left, right)
 		Vote.new(left_item_id: left, right_item_id: right)
 	end

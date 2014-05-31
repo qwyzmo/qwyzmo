@@ -56,7 +56,7 @@ describe Vote do
 		end
 	end
 	
-	describe "Vote.votelist and Vote.vote_count" do
+	describe "self.votelist" do
 		before do
 			@ip = "1.2.3.4"
 			@vote1a = create_test_vote(@qwyz1.id, @item1a.id, @item1b.id, @item1a.id, @user2.id)
@@ -88,6 +88,21 @@ describe Vote do
 			votes = Vote.votelist(7777, 99999, nil)
 			expect(votes).to_not be_nil
 			expect(votes.count).to be 0
+		end
+	end
+	
+	describe "self.seen_ids" do
+		before do
+			@vote1 = create_test_vote(@qwyz1.id, @item1a.id, @item1b.id, @item1a.id, @user1.id)
+			@vote2 = create_test_vote(@qwyz1.id, @item1c.id, @item1b.id, @item1c.id, @user1.id)
+			@vote3 = create_test_vote(@qwyz1.id, @item1a.id, @item1c.id, @item1c.id, @user1.id)
+			@votelist = [@vote1, @vote2, @vote3]
+		end
+		
+		it "creates correct list of seen ids" do
+			seen = Vote.seen_ids(@votelist)
+			seen.sort
+			expect(seen).to eq([@item1a.id,@item1b.id,@item1c.id].sort)
 		end
 	end
 	

@@ -65,6 +65,15 @@ class Vote < ActiveRecord::Base
 		vote.voter_ip_address = ip
 		vote.save
 	end
+	
+	def self.seen_ids(votelist)
+		seen_ids = {}
+		votelist.map do |vote|
+			seen_ids[vote.left_item_id] = true
+			seen_ids[vote.right_item_id] = true
+		end
+		seen_ids.keys
+	end
 end
 
 
