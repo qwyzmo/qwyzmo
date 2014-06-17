@@ -7,6 +7,8 @@ QwyzmoApp::Application.routes.draw do
 	resources :qwyz_items
 	resources :sessions,			:only => [:new, :create, :destroy]
 	
+	get '/db_stats', to: 'pages#db_stats'
+	
 	match '/receive_email',	to: 'mail#receive_email',		via:	[:post, :get]
 
 	post '/feedback', to: 'feedback#send_feedback'
