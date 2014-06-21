@@ -9,6 +9,11 @@
   .vote-stat-msg {
     float: right;
   }
+  #vote-count-msg {
+    @extend .quiet-note;
+    padding: 5px 20px 5px 5px;
+    float: right;
+  }
 }
 
 #top #qwyz-name {

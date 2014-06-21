@@ -11,6 +11,8 @@ class Vote < ActiveRecord::Base
 	
 	validate :chosen_is_valid, :left_right_different, :items_belong_to_qwyz
 
+#####################  validators
+
 	# validates that the chosen item is equal to either the left or right item id.
 	def chosen_is_valid
 		if chosen_item_id != left_item_id && chosen_item_id != right_item_id
@@ -43,6 +45,8 @@ class Vote < ActiveRecord::Base
 			errors.add(:chosen_item_id, "must exist in qwyz")
 		end
 	end
+
+###########################  
 
 	# returns list of all votes belonging to the qwyz and user ( or ip if no user id )
 	# 	includes votes for inactive and active items.
