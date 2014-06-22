@@ -55,8 +55,10 @@ class VotesController < ApplicationController
 	# votes left before results button shows.
 	def set_results_button_info(qwyz, current_user_id, current_user_ip)
 		# get the number of votes cast by this user.
-		@votes_cast = Vote.votelist(qwyz.id, current_user_id, current_user_ip).count
-		@total_possible_votes = qwyz.total_possible_vote_count()
+		@remaining_vote_count = @qwyz.remaining_vote_count(current_user_id, request.remote_ip)
+		@total_possible_votes = @qwyz.total_possible_vote_count()
+		@votes_cast = @total_possible_votes - @remaining_vote_count
+\
 		# pick min of: total number of votes, min_votes_til_results
 		total_votes_needed = [@total_possible_votes, MIN_VOTES_TIL_RESULTS].min
 		@votes_til_results = total_votes_needed - @votes_cast
