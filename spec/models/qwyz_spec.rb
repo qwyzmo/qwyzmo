@@ -95,7 +95,7 @@ describe Qwyz do
 	describe "#total_possible_vote_count" do
 		it "computes the correct total possible vote count" do
 			total_count = @qwyz.total_possible_vote_count
-			expect(total_count).to eq(10)
+			expect(total_count).to eq(6)
 		end
 	end
 

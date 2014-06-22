@@ -96,8 +96,9 @@ class Qwyz < ActiveRecord::Base
 		qwyz_id2user_name
 	end
 	
+	# return the total possible votes on active items
 	def total_possible_vote_count
-		ChoiceGenerator.max_choice_count(qwyz_items.count)
+		ChoiceGenerator.max_choice_count(active_item_ids.count)
 	end
 
 	# returns the remaining votes for active items.
