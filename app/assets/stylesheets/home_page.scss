@@ -1,7 +1,15 @@
 @import "shared";
 
 #home-body {
-  margin-left: 8%
+  margin-left: 8%;
+  h2 {
+    span {
+      padding-left: 15px;
+      font-style: italic;
+      font-size: 0.6em;
+      font-weight: normal;
+    }
+  }
 }
 
 .browse-qwyz-row {
