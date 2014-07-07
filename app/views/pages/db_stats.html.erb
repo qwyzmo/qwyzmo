@@ -37,12 +37,15 @@
 	
 	<table class="results-table">
 		<tr>
+			<th>index</th>
 			<th>vote count</th>
 			<th>user id</th>
 			<th>ip</th>
 		</tr>
+		<% count = 0 %>
 		<%	@votes_per_ip.each do |k, v| %>
 			<tr>
+					<td><%= count += 1%></td>
 					<td><%= v %> </td>
 					<td><%= k[1] %> </td>
 					<td><%= k[0] %> </td>
