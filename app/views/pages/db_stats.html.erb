@@ -41,11 +41,11 @@
 			<th>user id</th>
 			<th>ip</th>
 		</tr>
-		<%	@votes_per_ip.each do |row| %>
+		<%	@votes_per_ip.each do |k, v| %>
 			<tr>
-				<% (row.count / 2).times do |i| %>
-					<td><%= row[i] %> </td>
-				<% end %>
+					<td><%= v %> </td>
+					<td><%= k[1] %> </td>
+					<td><%= k[0] %> </td>
 			</tr>
 		<% end %>
 	</table>
