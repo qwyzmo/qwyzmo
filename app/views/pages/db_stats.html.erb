@@ -1,17 +1,54 @@
 
 <div class="field-page-body">
-	Database Stats:
+	
+	Database Stats for last 24 hours:
 	<br/>
 	<hr/>
 	<br/>
 	
-	User count: <%= @user_count %>
+	<table class="results-table">
+		<tr>
+			<th>vote count</th>
+			<th>user id</th>
+			<th>ip</th>
+		</tr>
+		<%	@recent_votes_per_ip.each do |k, v| %>
+			<tr>
+					<td><%= v %> </td>
+					<td><%= k[1] %> </td>
+					<td><%= k[0] %> </td>
+			</tr>
+		<% end %>
+	</table>
+	
+	Database Stats for all time:
+	<br/>
+	<hr/>
 	<br/>
 	
-	Vote count: <%= @vote_count %>
+	Total User count: <%= @user_count %>
 	<br/>
 	
-	Qwyz count: <%= @qwyz_count %>
+	Total Vote count: <%= @vote_count %>
+	<br/>
+	
+	Total Qwyz count: <%= @qwyz_count %>
+	<br/>
+	
+	<table class="results-table">
+		<tr>
+			<th>vote count</th>
+			<th>user id</th>
+			<th>ip</th>
+		</tr>
+		<%	@votes_per_ip.each do |row| %>
+			<tr>
+				<% (row.count / 2).times do |i| %>
+					<td><%= row[i] %> </td>
+				<% end %>
+			</tr>
+		<% end %>
+	</table>
 </div>
 
 

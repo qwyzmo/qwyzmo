@@ -42,15 +42,13 @@
   float: right;
 }
 
-#results-table {
+.results-table {
   background: #fff;
   margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 30px;
   width: 80%;
-  @include round_corners(10px);
-  box-shadow: 5px 5px 10px #666;
   td {
     padding: 5px;
   }
@@ -70,8 +68,8 @@
     padding: 0 0 0 20px;
   }
   
+  @include round_corners(10px);
+  box-shadow: 5px 5px 10px #666;
   @include table-row-coloring;
-  // tr:nth-child(even) {
-    // background: #efefef;
-  // }
+
 }
